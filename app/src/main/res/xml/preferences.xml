@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:speedreader="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/plan_based_preferences">
+
+        <com.finch.mycalls.widget.NumberPickerPreference
+            android:key="bill_cycle"
+            android:title="@string/title_modify_cycle"
+            android:summary="@string/summary_modify_cycle"
+            android:dialogTitle="@string/dialog_title_modify_cycle"
+            android:defaultValue="5"
+            speedreader:maxValue="31"
+            speedreader:minValue="1"/>
+
+
+        <EditTextPreference
+            android:key="total_local_mins"
+            android:defaultValue="100"
+            android:title="@string/title_local_mins"
+            android:summary="@string/summary_local_mins"
+            android:dialogTitle="@string/dialog_title_local_mins"
+            android:inputType="number" />
+
+        <EditTextPreference
+            android:key="total_std_mins"
+            android:defaultValue="100"
+            android:title="@string/title_std_mins"
+            android:summary="@string/summary_std_mins"
+            android:dialogTitle="@string/dialog_title_std_mins"
+            android:inputType="number" />
+
+        <EditTextPreference
+            android:key="total_roaming_mins"
+            android:defaultValue="0"
+            android:title="@string/title_roaming_mins"
+            android:summary="@string/summary_roaming_mins"
+            android:dialogTitle="@string/dialog_title_roaming_mins"
+            android:inputType="number" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Categorized Numbers">
+        <PreferenceScreen
+            android:title="Excluded Numbers"
+            android:summary="Add your CUG, Customer Care, Toll Free etc. numbers which do not charge call cost.">
+            <intent
+                android:action="com.app.postpaidcallapp.action.EXCLUDED_NUMBERS"/>
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:title="Local Numbers"
+            android:summary="Local numbers which are added automatically after the call if they are not in our Database.">
+            <intent
+                android:action="com.app.postpaidcallapp.action.LOCAL_NUMBERS"/>
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:title="STD Numbers"
+            android:summary="Add your STD landline numbers which charges extra cost.(currently this app can only detect STD mobile numbers)">
+            <intent
+                android:action="com.app.postpaidcallapp.action.STD_NUMBERS"/>
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="User Details">
+        <!--EditTextPreference
+            android:key="user_number"
+            android:title="@string/title_user_number"
+            android:summary="@string/summary_user_number"
+            android:dialogTitle="@string/dialog_title_user_number"
+            android:inputType="number" /-->
+        <ListPreference
+            android:key="user_circle"
+            android:title="@string/title_user_circle"
+            android:dialogTitle="@string/dialog_title_user_circle"
+            android:entries="@array/circle_states"
+            android:entryValues="@array/circle_state_codes"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Notifications">
+        <CheckBoxPreference
+            android:key="enable_limit_notification"
+            android:title="@string/title_limit_notification"
+            android:summary="@string/summary_limit_notification"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Other">
+        <ListPreference
+            android:key="mode_of_calcualation"
+            android:title="@string/title_mode_of_use"
+            android:summary="@string/summary_mode_of_use"
+            android:entries="@array/entries_mode_of_use"
+            android:entryValues="@array/entryvalues_mode_of_use"
+            android:dialogTitle="@string/dialog_title_mode_of_use" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MyCalls</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_modify_list">Modify List</string>
+    <string name="action_add_a_number">Add a Number</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_number_list">Excluded Numbers</string>
+    <string name="title_activity_modify_number_list">Select Numbers to Delete</string>
+
+    <!-- Preference Fragment Strings -->
+    <string name="plan_based_preferences">Plan Details</string>
+    <string name="title_modify_cycle">Modify Your Bill Cycle</string>
+    <string name="summary_modify_cycle">Your minutes will reset on date</string>
+    <string name="dialog_title_modify_cycle">Select Start Date of Your Bill Cycle</string>
+    <string name="title_local_mins">Modify Free Local Minutes</string>
+    <string name="summary_local_mins"></string>
+    <string name="dialog_title_local_mins">Enter Free Local Minutes</string>
+    <string name="title_std_mins">Modify Free STD Minutes</string>
+    <string name="summary_std_mins"></string>
+    <string name="dialog_title_std_mins">Enter Free STD Minutes</string>
+    <string name="title_roaming_mins">Modify Free Roaming Minutes</string>
+    <string name="summary_roaming_mins"></string>
+    <string name="dialog_title_roaming_mins">Enter Free Roaming Minutes</string>
+    <string name="title_user_number">Modify User Circle</string>
+    <string name="summary_user_number"></string>
+    <string name="dialog_title_user_number">Enter First 4 Digits of Your Mobile Number</string>
+    <string name="title_limit_notification">Limit Reached Notification</string>
+    <string name="summary_limit_notification">Notifies you when any of your free minutes are over.</string>
+    <string name="title_mode_of_use">Mode of Use (Min/Sec)</string>
+    <string name="summary_mode_of_use">Select whether to calculate call in Minutes or in Seconds</string>
+    <string name="dialog_title_mode_of_use">Select Mode of Use</string>
+    <string name="title_user_circle">Modify User Circle</string>
+    <string name="dialog_title_user_circle">Select Your Operator Circle</string>
+    <string name="action_delete_items">Delete Selected</string>
+    <string name="title_activity_first_setup">FirstSetupActivity</string>
+
+</resources>
