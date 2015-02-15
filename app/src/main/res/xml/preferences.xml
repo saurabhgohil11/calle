@@ -14,31 +14,19 @@
             android:defaultValue="5"
             speedreader:maxValue="31"
             speedreader:minValue="1"/>
-
-
-        <EditTextPreference
-            android:key="total_local_mins"
-            android:defaultValue="100"
-            android:title="@string/title_local_mins"
-            android:summary="@string/summary_local_mins"
-            android:dialogTitle="@string/dialog_title_local_mins"
-            android:inputType="number" />
-
-        <EditTextPreference
-            android:key="total_std_mins"
-            android:defaultValue="100"
-            android:title="@string/title_std_mins"
-            android:summary="@string/summary_std_mins"
-            android:dialogTitle="@string/dialog_title_std_mins"
-            android:inputType="number" />
-
-        <EditTextPreference
-            android:key="total_roaming_mins"
-            android:defaultValue="0"
-            android:title="@string/title_roaming_mins"
-            android:summary="@string/summary_roaming_mins"
-            android:dialogTitle="@string/dialog_title_roaming_mins"
-            android:inputType="number" />
+        <ListPreference
+            android:key="user_circle"
+            android:title="@string/title_user_circle"
+            android:dialogTitle="@string/dialog_title_user_circle"
+            android:entries="@array/circle_states"
+            android:entryValues="@array/circle_state_codes"/>
+        <ListPreference
+            android:key="mode_of_calcualation"
+            android:title="@string/title_mode_of_use"
+            android:summary="@string/summary_mode_of_use"
+            android:entries="@array/entries_mode_of_use"
+            android:entryValues="@array/entryvalues_mode_of_use"
+            android:dialogTitle="@string/dialog_title_mode_of_use" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Categorized Numbers">
@@ -62,38 +50,28 @@
         </PreferenceScreen>
     </PreferenceCategory>
 
-    <PreferenceCategory
+    <!--PreferenceCategory
         android:title="User Details">
-        <!--EditTextPreference
+        <!EditTextPreference
             android:key="user_number"
             android:title="@string/title_user_number"
             android:summary="@string/summary_user_number"
             android:dialogTitle="@string/dialog_title_user_number"
-            android:inputType="number" /-->
+            android:inputType="number" />
         <ListPreference
             android:key="user_circle"
             android:title="@string/title_user_circle"
             android:dialogTitle="@string/dialog_title_user_circle"
             android:entries="@array/circle_states"
             android:entryValues="@array/circle_state_codes"/>
-    </PreferenceCategory>
+    </PreferenceCategory-->
 
-    <PreferenceCategory
+    <!--PreferenceCategory
         android:title="Notifications">
         <CheckBoxPreference
             android:key="enable_limit_notification"
             android:title="@string/title_limit_notification"
             android:summary="@string/summary_limit_notification"/>
-    </PreferenceCategory>
+    </PreferenceCategory-->
 
-    <PreferenceCategory
-        android:title="Other">
-        <ListPreference
-            android:key="mode_of_calcualation"
-            android:title="@string/title_mode_of_use"
-            android:summary="@string/summary_mode_of_use"
-            android:entries="@array/entries_mode_of_use"
-            android:entryValues="@array/entryvalues_mode_of_use"
-            android:dialogTitle="@string/dialog_title_mode_of_use" />
-    </PreferenceCategory>
 </PreferenceScreen>

@@ -11,7 +11,7 @@
     <string name="title_activity_modify_number_list">Select Numbers to Delete</string>
 
     <!-- Preference Fragment Strings -->
-    <string name="plan_based_preferences">Plan Details</string>
+    <string name="plan_based_preferences">Usage Details</string>
     <string name="title_modify_cycle">Modify Your Bill Cycle</string>
     <string name="summary_modify_cycle">Your minutes will reset on date</string>
     <string name="dialog_title_modify_cycle">Select Start Date of Your Bill Cycle</string>

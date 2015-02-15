@@ -25,15 +25,11 @@ public class AppGlobals {
     public static final String LOG_TAG = "PostPaidCallUsage";
 
     public static final String PKEY_BILL_CYCLE="bill_cycle";
-    public static final String PKEY_TOTAL_LOCAL_MINS="total_local_mins";
-    public static final String PKEY_TOTAL_STD_MINS="total_std_mins";
-    public static final String PKEY_TOTAL_ROAMING_MINS="total_roaming_mins";
     public static final String PKEY_USED_LOCAL_MINS="used_local_mins";
     public static final String PKEY_USED_STD_MINS="used_std_mins";
     public static final String PKEY_USED_ROAMING_IC_MINS="used_roaming_ic_mins";
     public static final String PKEY_USED_ROAMING_OG_MINS="used_roaming_og_mins";
     public static final String PKEY_USER_CIRCLE="user_circle";
-    public static final String PKEY_ENABLE_NOTIFICATION="enable_limit_notification";
     public static final String PKEY_MODE_OF_CALCULATION="mode_of_calcualation";
     public static final String PKEY_FIRST_TIME = "first_time";
     public static final String PKEY_COUNTRY_CODE = "country_code";
