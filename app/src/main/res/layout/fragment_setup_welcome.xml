@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.app.postpaidcallusage.HomeActivity$SetupWizardFragment">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="-37dp">
+    <ImageView
+        android:id="@+id/welcome_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/blue_chart"/>
+    <TextView
+        android:id="@+id/welcome_text1"
+        android:text="Welcome!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_marginBottom="24dp"/>
+    <TextView
+        android:id="@+id/welcome_text2"
+        android:text="Welcome to postpaid call usage app.\n This app will help you to track your call usage.\nThis the first time setup wizard.\nLet's Setup your Plan Details."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17dp"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+    </LinearLayout>
+</RelativeLayout>
