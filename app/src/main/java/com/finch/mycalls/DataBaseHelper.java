@@ -13,12 +13,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 
-/**
- * Created by Saurabh on 20-09-2014.
- */
 public class DataBaseHelper extends SQLiteOpenHelper {
-
-    final String TAG2 = "DataBaseHelper : ";
 
     private final Context mContext;
 
@@ -27,16 +22,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // Database Name
     private static final String DATABASE_NAME = "postpaidapp";
 
-    //table name
+    //table names
     private static final String TABLE_MOBILE_STATES = "MOBILE_STATES";
     private static final String TABLE_LOCAL_NUMBERS = "LOCAL_NUMBERS";
     private static final String TABLE_EXCLUDED_NUMBERS = "EXCLUDED_NUMBERS";
     private static final String TABLE_STD_NUMBERS = "STD_NUMBERS";
     private static final String TABLE_CALL_USAGE_HISTORY = "CALL_USAGE_HISTORY";
-    private static final String TABLE_RECENT_CALLS = "RECENT_CALLS";
+    private static final String TABLE_LOGS_HISTORY = "LOGS_HISTORY";
 
     private static final String KEY_STATE = "state";
 
+    //usage history
     private static final String KEY_START_DATE = "START_DATE";
     private static final String KEY_END_DATE = "END_DATE";
     private static final String KEY_LOCAL_MIN = "LOCAL_MIN";
@@ -52,6 +48,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String KEY_CALL_TYPE = "CALL_TYPE";
     private static final String KEY_CALL_DURATION = "CALL_DURATION";
     private static final String KEY_CALL_ID = "CALL_ID"; //for primary key purpose
+    private static final String KEY_DATE = "DATE";
 
     String userCountryCode="";
 
@@ -70,36 +67,43 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         AppGlobals.log(this,"onCreate()");
-        String CREATE_MOBILE_STATE_TABLE =
-                "CREATE TABLE " + TABLE_MOBILE_STATES + "(" + KEY_STATE + " TEXT" + ")";
+        String CREATE_MOBILE_STATE_TABLE = "CREATE TABLE " + TABLE_MOBILE_STATES + "(" +
+                        KEY_STATE + " TEXT" + ")";
 
-        String CREATE_CALL_USAGE_HISTORY_TABLE =
-                "CREATE TABLE CALL_USAGE_HISTORY (START_DATE TEXT," +
-                        "END_DATE	TEXT,"+
-                        "LOCAL_MIN	INTEGER,"+
-                        "LOCAL_END INTEGER,"+
-                        "STD_MIN INTEGER,"+
-                        "STD_END INTEGER,"+
-                        "ROAMING_IC INTEGER,"+
-                        "ROAMING_OG	INTEGER,"+
-                        "ROAMING_OG_END	INTEGER"+
+        String CREATE_CALL_USAGE_HISTORY_TABLE = "CREATE TABLE "+TABLE_CALL_USAGE_HISTORY+" ("+
+                        KEY_START_DATE+" TEXT," +
+                        KEY_END_DATE+" TEXT,"+
+                        KEY_LOCAL_MIN+"	INTEGER,"+
+                        KEY_LOCAL_END+" INTEGER,"+
+                        KEY_STD_MIN+" INTEGER,"+
+                        KEY_STD_END+" INTEGER,"+
+                        KEY_ROAMING_IC+" INTEGER,"+
+                        KEY_ROAMING_OG+" INTEGER,"+
+                        KEY_ROAMING_OG_END+" INTEGER"+
                         ")";
 
-        String CREATE_EXCLUDED_NUMBERS_TABLE = "CREATE TABLE EXCLUDED_NUMBERS (MOBILE_NUMBER TEXT PRIMARY KEY)";
+        String CREATE_EXCLUDED_NUMBERS_TABLE = "CREATE TABLE "+TABLE_EXCLUDED_NUMBERS+" ("+
+                        KEY_MOBILE_NUMBER+" TEXT PRIMARY KEY)";
 
-        String CREATE_STD_NUMBERS_TABLE = "CREATE TABLE STD_NUMBERS (MOBILE_NUMBER TEXT PRIMARY KEY)";
+        String CREATE_STD_NUMBERS_TABLE = "CREATE TABLE "+TABLE_STD_NUMBERS+" ("+
+                        KEY_MOBILE_NUMBER+" TEXT PRIMARY KEY)";
 
-        String CREATE_LOCAL_NUMBERS_TABLE = "CREATE TABLE LOCAL_NUMBERS (MOBILE_NUMBER TEXT PRIMARY KEY)";
+        String CREATE_LOCAL_NUMBERS_TABLE = "CREATE TABLE "+ TABLE_LOCAL_NUMBERS+" ("+
+                        KEY_MOBILE_NUMBER+" TEXT PRIMARY KEY)";
 
-        String CREATE_RECENT_CALLS_TABLE = "CREATE TABLE RECENT_CALLS (CALL_ID INTEGER PRIMARY KEY, " +
-                "MOBILE_NUMBER TEXT, CALL_TYPE TEXT, CALL_DURATION INTEGER, DATE DATETIME DEFAULT CURRENT_TIMESTAMP )";
+        String CREATE_LOGS_HISTORY_TABLE = "CREATE TABLE "+ TABLE_LOGS_HISTORY +" ("+
+                        KEY_CALL_ID+" INTEGER PRIMARY KEY, " +
+                        KEY_MOBILE_NUMBER+" TEXT, " +
+                        KEY_CALL_TYPE+" TEXT, " +
+                        KEY_CALL_DURATION+" INTEGER, "+
+                        KEY_DATE+" DATETIME DEFAULT CURRENT_TIMESTAMP )";  // default date is saved which means when entry is created that is log time
 
         db.execSQL(CREATE_MOBILE_STATE_TABLE);
         db.execSQL(CREATE_CALL_USAGE_HISTORY_TABLE);
         db.execSQL(CREATE_EXCLUDED_NUMBERS_TABLE);
         db.execSQL(CREATE_STD_NUMBERS_TABLE);
         db.execSQL(CREATE_LOCAL_NUMBERS_TABLE);
-        db.execSQL(CREATE_RECENT_CALLS_TABLE);
+        db.execSQL(CREATE_LOGS_HISTORY_TABLE);
 
         AppGlobals.log(this,"tableS created");
         initStateTable(db);
@@ -110,8 +114,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String[] states = res.getStringArray(R.array.states);
 
         String sql="INSERT INTO "+TABLE_MOBILE_STATES+" VALUES(?)";
-        for(int i=0;i<states.length;i++)
-        {
+        for(int i=0;i<states.length;i++) {
             db.execSQL(sql,new String[]{states[i]});
         }
         AppGlobals.log(this,"DB Created successfully with "+states.length +" entries");
@@ -341,33 +344,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_EXCLUDED_NUMBERS, KEY_MOBILE_NUMBER + " = ?", new String[]{number});
     }
 
-    public void addToRecentCalls(String number, String calltype, int duration){
-        String selectQuery = "SELECT * FROM "+TABLE_RECENT_CALLS;
-        Cursor c = db.rawQuery(selectQuery,null);
+    public void addToLogsHistory(String number, String calltype, int duration){
 
+        /*deleted block for new logic
+        String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY;
+        Cursor c = db.rawQuery(selectQuery,null);
         if(c.getCount()==5000){ //maximum size of recet call list 5000
             int callID;
             if (c.moveToFirst()) {
                 callID=c.getInt(0);
-                db.delete(TABLE_RECENT_CALLS, KEY_CALL_ID + " = ?",new String[]{String.valueOf(callID)});
+                db.delete(TABLE_LOGS_HISTORY, KEY_CALL_ID + " = ?",new String[]{String.valueOf(callID)});
             }
-        }
+        }*/
         ContentValues cv = new ContentValues();
         cv.put(KEY_MOBILE_NUMBER,number);
         cv.put(KEY_CALL_DURATION,duration);
         cv.put(KEY_CALL_TYPE,calltype);
-        db.insert(TABLE_RECENT_CALLS, null, cv);
+        db.insert(TABLE_LOGS_HISTORY, null, cv);
         Toast.makeText(mContext,"Added "+duration/60+" Mins to "+calltype,Toast.LENGTH_LONG).show();
     }
 
-    public ArrayList<CallDetails> getRecentCalls(){
-        //TO DO : return only last 100 entries
-        String selectQuery = "SELECT * FROM "+TABLE_RECENT_CALLS;
+    public ArrayList<CallDetails> getLogsHistory(){
+        String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY;
         Cursor c = db.rawQuery(selectQuery,null);
         ArrayList<CallDetails> list = new ArrayList<CallDetails>();
         if(c.moveToFirst()){
             do{
-                list.add(new CallDetails(c.getInt(0),c.getString(1),c.getString(2),c.getInt(3)));
+                list.add(new CallDetails(c.getInt(0),c.getString(1),c.getString(2),c.getInt(3),c.getLong(4)));
             }while(c.moveToNext());
         }
         Collections.reverse(list);
@@ -375,7 +378,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public CallDetails getLastCall(){
-        String selectQuery = "SELECT * FROM "+TABLE_RECENT_CALLS;
+        String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY;
         Cursor c = db.rawQuery(selectQuery,null);
         if(c.getCount()>0 && c.moveToLast()){
             return new CallDetails(c.getInt(0),c.getString(1),c.getString(2),c.getInt(3));
@@ -384,15 +387,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
     public void deleteLastCall(){
-        String selectQuery = "SELECT * FROM "+TABLE_RECENT_CALLS;
+        String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY;
         Cursor c = db.rawQuery(selectQuery,null);
         if(c.getCount()>0 && c.moveToLast()){
             int callID = c.getInt(0);
-            db.delete(TABLE_RECENT_CALLS, KEY_CALL_ID + " = ?",new String[]{String.valueOf(callID)});
+            db.delete(TABLE_LOGS_HISTORY, KEY_CALL_ID + " = ?",new String[]{String.valueOf(callID)});
         }
     }
 
     public void deleteNumberRecentCalls(long callID) {
-        db.delete(TABLE_RECENT_CALLS, KEY_CALL_ID + " = ?",new String[]{String.valueOf(callID)});
+        db.delete(TABLE_LOGS_HISTORY, KEY_CALL_ID + " = ?",new String[]{String.valueOf(callID)});
     }
 }

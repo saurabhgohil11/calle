@@ -9,19 +9,22 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.provider.CallLog;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
 public class CallStateReceiver extends BroadcastReceiver {
-    private static final int UPDATE_LOGS_DB = 101;
+    private static final int UPDATE_LOGS_DB = 10101;
     public static Context mContext;
     static boolean isOutgoing=false;
     static boolean isIncoming=false;
     static String curState="lol";
     static String phoneNumber;
+    static int callCount; // to keep track of multiple call at a time.
+
     //static int state,prevState;
+
+    //TO DO:add callcount for multiple calls n++ onReceive retrive last n calls onStateIDLE and make n=0;
 
     final String TAG2 = "CallStateReceiver : ";
 
@@ -35,9 +38,9 @@ public class CallStateReceiver extends BroadcastReceiver {
             switch(msg.what){
                 case UPDATE_LOGS_DB:
                     CallDetails lastCallDetails = retriveCallSummary();
-                    if(lastCallDetails==null){
+                    if(lastCallDetails==null) {
                         Log.e(AppGlobals.LOG_TAG, TAG2 +"lastCallDetail is null");
-                    }else {
+                    } else {
                         TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
                         if(isIncoming && !manager.isNetworkRoaming()) break;
                         if(manager.isNetworkRoaming() ){
@@ -47,7 +50,6 @@ public class CallStateReceiver extends BroadcastReceiver {
                         }
                     }
                 break;
-
             }
         }
     };
@@ -96,20 +98,17 @@ public class CallStateReceiver extends BroadcastReceiver {
     }
 
     public void onCallStateChanged(int state, String number) throws InterruptedException {
-        AppGlobals.log(this, "inOnCallStateChanged()");
+        AppGlobals.log(this, "onCallStateChanged() state="+curState);
         if(vsp.getInt("prevstate",-2)==vsp.getInt("state",-1)){
             AppGlobals.log(this, "retrun from onCallStateChanged due to same states");
             return;
         }
         switch(state){
             case TelephonyManager.CALL_STATE_RINGING:
-                AppGlobals.log(this, "state=" + curState);
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
-                AppGlobals.log(this, "state=" + curState);
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
-                AppGlobals.log(this, "state=" + curState);
                 mHandler.sendMessageDelayed(mHandler.obtainMessage(UPDATE_LOGS_DB),3000);  //send message after it is updated in DB
                 break;
         }
@@ -118,55 +117,26 @@ public class CallStateReceiver extends BroadcastReceiver {
     }
 
     private void addToRoaming(CallDetails lastCallDetails) {
-        AppGlobals.log(this, "addToToaming()");
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
-        if(isIncoming){
-            int used_ric = sp.getInt(AppGlobals.PKEY_USED_ROAMING_IC_MINS,-1);
-            if(used_ric!=-1){
-                SharedPreferences.Editor e = sp.edit();
-                e.putInt(AppGlobals.PKEY_USED_ROAMING_IC_MINS,used_ric+lastCallDetails.duration);
-                e.commit();
-            }
-        }else if(isOutgoing){
-            int used_rog = sp.getInt(AppGlobals.PKEY_USED_ROAMING_OG_MINS,-1);
-            if(used_rog!=-1){
-                SharedPreferences.Editor e = sp.edit();
-                e.putInt(AppGlobals.PKEY_USED_ROAMING_OG_MINS,used_rog+lastCallDetails.duration);
-                e.commit();
-            }
-        }
+        AppGlobals.log(this, "addToRoaming(): lastcalldetails {"+lastCallDetails+"}");
         lastCallDetails.calltype = CallDetails.CALL_TYPE_ROAMING +" "+ lastCallDetails.calltype;
-        dbHelper.addToRecentCalls(lastCallDetails.number,lastCallDetails.calltype,lastCallDetails.duration);
+        dbHelper.addToLogsHistory(lastCallDetails.number, lastCallDetails.calltype, lastCallDetails.duration);
     }
 
     private void processNumber(CallDetails lastCallDetails) {
-        AppGlobals.log(this, "processNumber()");
+        AppGlobals.log(this, "processNumber(): lastcalldetails {"+lastCallDetails+"}" );
         if(lastCallDetails.calltype.equals("Incoming")){
             AppGlobals.log(this, "Incoming calls are free dost");
             return;
         }
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
         PhoneNumber n = new PhoneNumber(mContext,dbHelper,lastCallDetails.number);
         switch (n.getType()){
             case PhoneNumber.TYPE_LOCAL:
-                int used_local = sp.getInt(AppGlobals.PKEY_USED_LOCAL_MINS,-1);
-                if(used_local!=-1){
-                    SharedPreferences.Editor e = sp.edit();
-                    e.putInt(AppGlobals.PKEY_USED_LOCAL_MINS,used_local+lastCallDetails.duration);
-                    e.commit();
-                }
                 lastCallDetails.calltype = CallDetails.CALL_TYPE_LOCAL +" "+ lastCallDetails.calltype;
-                dbHelper.addToRecentCalls(lastCallDetails.number,lastCallDetails.calltype,lastCallDetails.duration);
+                dbHelper.addToLogsHistory(lastCallDetails.number, lastCallDetails.calltype, lastCallDetails.duration);
                 break;
             case PhoneNumber.TYPE_STD:
-                int used_std = sp.getInt(AppGlobals.PKEY_USED_STD_MINS,-1);
-                if(used_std!=-1){
-                    SharedPreferences.Editor e = sp.edit();
-                    e.putInt(AppGlobals.PKEY_USED_STD_MINS,used_std+lastCallDetails.duration);
-                    e.commit();
-                }
                 lastCallDetails.calltype = CallDetails.CALL_TYPE_STD +" "+ lastCallDetails.calltype;
-                dbHelper.addToRecentCalls(lastCallDetails.number,lastCallDetails.calltype,lastCallDetails.duration);
+                dbHelper.addToLogsHistory(lastCallDetails.number, lastCallDetails.calltype, lastCallDetails.duration);
                 break;
             case PhoneNumber.TYPE_EXCEPTIONAL:
                 //do not add entry as they are free
@@ -176,11 +146,9 @@ public class CallStateReceiver extends BroadcastReceiver {
                 break;
             case PhoneNumber.TYPE_UNKNOWN:
                 //Change of UI
-                //istead of showing dialog after each unknown call, just ask to review those numbers
+                //instead of showing dialog after each unknown call, just ask to review those numbers
                 //on next startup of app
-                //TODO:*****create a new logic for saving minutes : fetch directly from database save date in database too. ****
                 //showUnknownNumberDialog(lastCallDetails);
-
                 break;
         }
     }
@@ -203,6 +171,8 @@ public class CallStateReceiver extends BroadcastReceiver {
                 Log.e(AppGlobals.LOG_TAG, TAG2 +"duration is null");
                 return null;
             }
+            c.duration = duration;
+            /* store duration in seconds for new logic
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
             int mode = Integer.parseInt(sp.getString(AppGlobals.PKEY_MODE_OF_CALCULATION, String.valueOf(AppGlobals.MODE_UNKNOWN)));
             switch (mode){
@@ -215,7 +185,7 @@ public class CallStateReceiver extends BroadcastReceiver {
                 case AppGlobals.MODE_UNKNOWN:
                     Log.e(AppGlobals.LOG_TAG, TAG2 +"time mode is unknown");
                     return null;
-            }
+            }*/
 
             c.number = managedCursor.getString(numberid);
 
@@ -239,7 +209,7 @@ public class CallStateReceiver extends BroadcastReceiver {
             // long timestamp = convertDateToTimestamp(callDayTime);
         }
         managedCursor.close();
-        AppGlobals.log(this, "---" + c.number + ", " + c.calltype + ", " + String.valueOf(c.duration));
+        //AppGlobals.log(this, "retriveCallSummary()---" + c.number + ", " + c.calltype + ", " + String.valueOf(c.duration));
         return c;
     }
 }

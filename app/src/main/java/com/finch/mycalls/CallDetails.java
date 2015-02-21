@@ -9,6 +9,7 @@ public class CallDetails implements Parcelable{
     public String number;
     public String calltype;
     public int duration;
+    public long date;
     public static final String CALL_TYPE_ROAMING= "Roaming";
     public static final String CALL_TYPE_LOCAL = "Local";
     public static final String CALL_TYPE_STD = "STD";
@@ -27,11 +28,20 @@ public class CallDetails implements Parcelable{
         this.duration = duration;
     }
 
+    public CallDetails(long callID,String number,String calltype, int duration,long date) {
+        this.callID=callID;
+        this.number=number;
+        this.calltype = calltype;
+        this.duration = duration;
+        this.date = date;
+    }
+
     public CallDetails(Parcel source){
         this.callID=source.readLong();
         this.number=source.readString();
         this.calltype = source.readString();
         this.duration = source.readInt();
+        this.date = source.readLong();
     }
 
     public CallDetails() {
@@ -50,6 +60,7 @@ public class CallDetails implements Parcelable{
         dest.writeString(number);
         dest.writeString(calltype);
         dest.writeInt(duration);
+        dest.writeLong(date);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -61,4 +72,9 @@ public class CallDetails implements Parcelable{
             return new CallDetails[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return new String("CallID="+callID+", number="+number+", callType="+calltype+", duration="+duration+", date="+date);
+    }
 }
