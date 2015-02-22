@@ -1,14 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.app.postpaidcallusage.NumberListActivity" >
     <item android:id="@+id/action_modify_list"
         android:title="@string/action_modify_list"
         android:orderInCategory="100"
-        android:showAsAction="always"
+        app:showAsAction="always"
         android:icon="@drawable/ic_action_close"/>
     <item android:id="@+id/action_add_a_number"
         android:title="@string/action_add_a_number"
         android:orderInCategory="100"
-        android:showAsAction="always"
+        app:showAsAction="always"
         android:icon="@drawable/ic_action_close"/>
 </menu>
