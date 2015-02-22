@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="action_bar_primary_color">#83B5D8</color>
+    <color name="action_bar_primary_color">#1D5479</color>
     <color name="action_bar_primary_dark_color">#5389AF</color>
     <color name="transperant">#00000000</color>
-    <color name="divider_color_light">#B3D4E5</color>
+    <color name="divider_color_light">#fafafa</color>
     <color name="divider_color_dark">#89AFDB</color>
     <color name="text_color_white">#fafafa</color>
     <color name="actionbar_transperant">#ccc6c6c6</color>

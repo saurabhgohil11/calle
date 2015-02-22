@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/blue_stroke">
+        android:background="@color/action_bar_primary_color">
 
         <LinearLayout
             android:id="@+id/today_summary"

@@ -4,5 +4,5 @@
         android:drawable="@drawable/ic_usage" />
     <item android:state_selected="true"
         android:drawable="@drawable/ic_usage" />
-    <item android:drawable="@drawable/ic_usage_selected" />
+    <item android:drawable="@drawable/ic_usage_dim" />
 </selector>
