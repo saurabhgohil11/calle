@@ -17,7 +17,11 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class HomeActivity extends ActionBarActivity {
@@ -38,11 +42,13 @@ public class HomeActivity extends ActionBarActivity {
     LinearLayout summaryContainer;
     FrameLayout tabsLayoutContainer;
     RelativeLayout actionBar;
+    TextView actionBarTitleView;
 
     Animation animation;
 
     boolean firstTimeStart; //for hiding option menu
     public static AppGlobals appGlobals;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +139,10 @@ public class HomeActivity extends ActionBarActivity {
         summaryContainer = (LinearLayout) findViewById(R.id.today_summary);
 
         actionBar = (RelativeLayout) findViewById(R.id.actionbar);
+
+        actionBarTitleView = (TextView) findViewById(R.id.toolbar_title);
+
+        actionBarTitleView.setText(new SimpleDateFormat("E, MMM d").format(new Date()));
 
         thisMonthButton.setSelected(true);
     }

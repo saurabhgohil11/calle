@@ -7,6 +7,9 @@
         <!-- Set AppCompat’s color theming attrs -->
         <item name="colorPrimary">@color/action_bar_primary_color</item>
         <item name="colorPrimaryDark">@color/action_bar_primary_dark_color</item>
+
+        <item name="android:windowBackground">@color/app_background</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
     <!-- Base application theme. -->
     <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -16,6 +19,8 @@
         <item name="colorPrimary">@color/action_bar_primary_color</item>
         <item name="colorPrimaryDark">@color/action_bar_primary_dark_color</item>
 
+        <item name="android:windowBackground">@color/app_background</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="Clickable">
@@ -28,7 +33,37 @@
         <item name="android:textSize">15dp</item>
         <item name="android:paddingTop">0dp</item>
         <item name="android:paddingBottom">5dp</item>
-        <item name="android:fontFamily">sec-roboto-light</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+
+    </style>
+
+
+    <!--Preference activity-->
+
+    <style name="AppThemePreference" parent="AppTheme">
+        <item name="android:listSeparatorTextViewStyle">@style/PreferenceListHeader</item>
+        <item name="android:textColor">@color/preference_text_primary_color</item>
+        <item name="android:textColorSecondary">@color/preference_text_secondary_color</item>
+        <item name="android:listSelector">@drawable/button_1</item>
+    </style>
+
+    <style name="Widget.TextView.ListSeparator" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="PreferenceListHeader"
+        parent="Widget.TextView.ListSeparator">
+        <item name="android:textColor">@color/preference_header_color</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
 </resources>

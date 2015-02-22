@@ -7,4 +7,11 @@
     <color name="divider_color_dark">#89AFDB</color>
     <color name="text_color_white">#fafafa</color>
     <color name="actionbar_transperant">#ccc6c6c6</color>
+
+    <color name="app_background">#ffffff</color>
+
+    <!-- preference activity-->
+    <color name="preference_text_primary_color">#111111</color>
+    <color name="preference_text_secondary_color">#222222</color>
+    <color name="preference_header_color">#1C58A7</color>
 </resources>

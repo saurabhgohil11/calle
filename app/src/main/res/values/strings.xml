@@ -10,6 +10,8 @@
     <string name="title_activity_number_list">Excluded Numbers</string>
     <string name="title_activity_modify_number_list">Select Numbers to Delete</string>
 
+    <string name="today">Today</string>
+
     <!-- Preference Fragment Strings -->
     <string name="plan_based_preferences">Usage Details</string>
     <string name="title_modify_cycle">Modify Your Bill Cycle</string>
@@ -36,5 +38,7 @@
     <string name="dialog_title_user_circle">Select Your Operator Circle</string>
     <string name="action_delete_items">Delete Selected</string>
     <string name="title_activity_first_setup">FirstSetupActivity</string>
+    <string name="title_activity_setup">SetupActivity</string>
+
 
 </resources>
