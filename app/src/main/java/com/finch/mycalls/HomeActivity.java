@@ -9,19 +9,23 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class HomeActivity extends ActionBarActivity {
@@ -48,6 +52,10 @@ public class HomeActivity extends ActionBarActivity {
 
     boolean firstTimeStart; //for hiding option menu
     public static AppGlobals appGlobals;
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
+
+    private static List<CallDetails> logsHistoryData;
 
 
     @Override
@@ -112,15 +120,18 @@ public class HomeActivity extends ActionBarActivity {
             e.commit();
         }
 
-
-
         if(!sp.getBoolean(AppGlobals.PKEY_FIRST_TIME,false)){
             firstTimeStart = true;
             startActivity(new Intent(this,SetupActivity.class));
             finish();
         } else {
+            logsHistoryData = AppGlobals.dbHelper.getLogsHistory();
             initUI();
         }
+    }
+
+    public static final List<CallDetails> getLogsHistoryData() {
+        return new ArrayList<CallDetails>(logsHistoryData);
     }
 
     private void initUI() {
@@ -141,8 +152,28 @@ public class HomeActivity extends ActionBarActivity {
         actionBar = (RelativeLayout) findViewById(R.id.actionbar);
 
         actionBarTitleView = (TextView) findViewById(R.id.toolbar_title);
-
         actionBarTitleView.setText(new SimpleDateFormat("E, MMM d").format(new Date()));
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.scrollToPosition(0);
+        recyclerView.setLayoutManager(layoutManager);
+        // allows for optimizations if all item views are of the same size:
+        recyclerView.setHasFixedSize(true);
+
+        /*RecyclerView.ItemDecoration itemDecoration =
+                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
+        recyclerView.addItemDecoration(itemDecoration);*/
+
+        // this is the default;
+        // this call is actually only necessary with custom ItemAnimators
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        List<CallDetails> items = HomeActivity.getLogsHistoryData();
+        adapter = new RecyclerViewAdapter(items);
+        recyclerView.setAdapter(adapter);
 
         thisMonthButton.setSelected(true);
     }
@@ -150,9 +181,6 @@ public class HomeActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        final ListView numberlistView = (ListView) findViewById(R.id.list_logs);
-        SwipeListViewAdapter sw = new SwipeListViewAdapter(this);
-        numberlistView.setAdapter(sw);
 
        /* numberlistView.setOnScrollListener(new PixelScrollDetector(new PixelScrollDetector.PixelScrollListener() {
 
@@ -203,4 +231,7 @@ public class HomeActivity extends ActionBarActivity {
         }
         button.setSelected(true);
     }
+
+    //for RecyclerView
+
 }
