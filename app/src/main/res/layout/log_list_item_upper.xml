@@ -10,8 +10,9 @@
         android:background="@drawable/contact_image_bg"
         android:layout_gravity="center"
         android:text="S"
-        android:textSize="35dp"
-        android:textColor="@color/text_color_white"/>
+        android:textSize="25dp"
+        android:textColor="@color/text_color_white"
+        android:fontFamily="sans-serif-thin"/>
     <TextView
         android:id="@+id/nameItem"
         android:layout_width="wrap_content"

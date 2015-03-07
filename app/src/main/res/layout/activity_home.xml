@@ -140,5 +140,10 @@
             android:id="@+id/this_month_tab"
             layout="@layout/tab_this_month"/>
     </FrameLayout>
-
+    <FrameLayout
+        android:id="@+id/shadow"
+        android:layout_below="@id/tabs_container"
+        android:layout_height="3dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/shadow_stroke"/>
 </RelativeLayout>
