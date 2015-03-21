@@ -232,6 +232,13 @@ public class HomeActivity extends ActionBarActivity {
         button.setSelected(true);
     }
 
+    public void openChartWebView(View listItem) {
+        UsageHistoryItem i = new UsageHistoryItem(12,15,18,40,50,10);
+        Intent intent = new Intent(this, ChartWebViewActivity.class);
+        intent.putExtra("USAGE",i);
+        startActivity(intent);
+    }
+
     //for RecyclerView
 
 }

@@ -59,11 +59,10 @@
         parent="Widget.TextView.ListSeparator">
         <item name="android:textColor">@color/preference_header_color</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">2dp</item>
         <item name="android:paddingLeft">5dp</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
-
 </resources>

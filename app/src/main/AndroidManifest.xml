@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -38,7 +39,7 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/action_settings"
-            android:theme="@style/AppThemePreference">
+            android:theme="@style/AppThemePreference" >
         </activity>
 
         <receiver
@@ -55,6 +56,11 @@
             android:name=".SetupActivity"
             android:label="@string/title_activity_setup"
             android:theme="@style/AppThemeNoActionBar" >
+        </activity>
+        <activity
+            android:name=".ChartWebViewActivity"
+            android:label="@string/title_activity_chart_web_view"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
         </activity>
     </application>
 

@@ -39,6 +39,7 @@
     <string name="action_delete_items">Delete Selected</string>
     <string name="title_activity_first_setup">FirstSetupActivity</string>
     <string name="title_activity_setup">SetupActivity</string>
+    <string name="title_activity_chart_web_view">ChartWebViewActivity</string>
 
 
 </resources>
