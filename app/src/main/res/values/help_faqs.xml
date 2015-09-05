@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="help_questions">
+        <item>What is a Free Number?</item>
+        <item>What is purpose of STD and Local Numbers?</item>
+        <item>What is Mode of Calculation?</item>
+        <item>How to Delete a Log Entry?</item>
+        <item>How to reset app and what will reset app does?</item>
+        <item>Does this app sends my personal data anonymously?</item>
+    </string-array>
+
+    <string-array name="help_answers">
+        <item>A Free Number is not chargeable by your operator. i.e. if you have activated a number to whom you can call for free should be added in to free numbers. One more example is Closed User Group (CUG). Customer Care Numbers are also needs to be added in Free Numbers.\nOne more thing Free Minutes are not summed up in total Outgoing Minutes.</item>
+        <item>If app wrongly detects a number as Local or STD you can manually add these numbers to the right place with one of these method.\nTo add a number in Local Category:\nMethod 1: Open Settings -> Local numbers -> Add a Number\nMethod 2: Open particular Log Detail -> Option Menu -> Add to Local Numbers</item>
+        <item>Mode of Calculation is used to calculate the sum of the Call minutes.\nMinute Mode: Here if a call duration is 1 Min 34 Sec, it is rounded off to 2 Min When summing up total minutes. Like mostly post-paid operators charges on per minute basis.\nSeconds Mode: Here total minutes are summed with actual seconds. Like some pre-paid operator charges on per second basis.</item>
+        <item>Click on a Call Log. Go to Option menu. Select Delete.\nThis will remove it from log also the minutes used by this log entry is also not summed up in total minutes.</item>
+        <item>Go to Settings -> Reset Application -> click Ok.\nThis will delete all your log entries, preferences and resets the app back to beginning like you have freshly installed it.</item>
+        <item>NO. We don’t collect any of your personal information. This is a safest Call Logger and Timer app that you can trust.</item>
+    </string-array>
+</resources>

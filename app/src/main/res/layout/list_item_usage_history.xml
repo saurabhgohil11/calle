@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/log_list_item_padding_side">
+    <TextView
+        android:id="@+id/billCycleItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:text="Name"
+        android:textSize="@dimen/log_list_item_name_text_size"
+        android:textColor="@android:color/black"/>
+    <TextView
+        android:id="@+id/outgoingItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OUTGOING"
+        android:layout_below="@id/billCycleItem"/>
+    <TextView
+        android:id="@+id/incomingItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="INCOMING"
+        android:layout_below="@id/billCycleItem"/>
+
+</RelativeLayout>

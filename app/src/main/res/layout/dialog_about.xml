@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:gravity="center"
+        android:padding="@dimen/activity_vertical_margin"
+        android:textSize="25dp"
+        android:textColor="@color/action_bar_primary_color"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_text_1"
+        android:gravity="center"
+        android:textSize="16dp"
+        android:textColor="@android:color/black"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/credits_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13dp"
+        android:linksClickable="true"
+        android:textColorLink="@color/material_blue_grey_900"
+        android:text="@string/about_text_credits"
+        android:gravity="center"
+        android:textColor="@color/material_blue_grey_800"
+        android:padding="@dimen/activity_vertical_margin"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

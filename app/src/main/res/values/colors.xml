@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="action_bar_primary_color">#1D5479</color>
-    <color name="action_bar_primary_dark_color">#5389AF</color>
-    <color name="transperant">#00000000</color>
+    <color name="action_bar_primary_dark_color">#143952</color>
+    <color name="transparent">#00000000</color>
     <color name="divider_color_light">#fafafa</color>
     <color name="divider_color_dark">#89AFDB</color>
-    <color name="text_color_white">#fafafa</color>
+    <color name="text_color_white">#fefefe</color>
     <color name="actionbar_transperant">#ccc6c6c6</color>
 
     <color name="app_background">#ffffff</color>
@@ -14,4 +14,26 @@
     <color name="preference_text_primary_color">#111111</color>
     <color name="preference_text_secondary_color">#222222</color>
     <color name="preference_header_color">#1C58A7</color>
+
+    <!-- card colors -->
+    <color name="card_background">#224FC3F7</color>
+    <color name="card_shadow_1">#55aaaaaa</color>
+    <color name="card_shadow_2">#55cccccc</color>
+    <color name="card_detailing">#DDACE9FF</color>
+
+    <!-- funcky colors-->
+    <color name="funky_blue">#4FC3F7</color>
+    <color name="funky_green">#57BB8A</color>
+    <color name="funky_grey">#90A4AE</color>
+    <color name="funky_orange">#FF8A65</color>
+    <color name="funky_pink">#F06292</color>
+    <color name="funky_purple">#9575CD</color>
+    <color name="funky_red">#E06055</color>
+    <color name="funky_violet">#9FA8DA</color>
+
+    <!-- setup wizard -->
+    <color name="color1">#aaE9F6FF</color>
+    <color name="color2">#aaFFE8C4</color>
+    <color name="color3">#aaF5FBCC</color>
+
 </resources>

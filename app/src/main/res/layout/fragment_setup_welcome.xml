@@ -14,21 +14,23 @@
         android:layout_marginTop="-37dp">
     <ImageView
         android:id="@+id/welcome_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/blue_chart"/>
+        android:layout_width="92dp"
+        android:layout_height="92dp"
+        android:layout_margin="15dp"
+        android:src="@drawable/app_icon"/>
     <TextView
-        android:id="@+id/welcome_text1"
-        android:text="Welcome!"
+        android:id="@+id/setup_page_1_app_name"
+        android:text="@string/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:layout_marginBottom="24dp"/>
+        android:textSize="30dp"
+        android:fontFamily="sans-sarif"/>
     <TextView
-        android:id="@+id/welcome_text2"
-        android:text="Welcome to postpaid call usage app.\n This app will help you to track your call usage.\nThis the first time setup wizard.\nLet's Setup your Plan Details."
+        android:id="@+id/setup_page_1_text"
+        android:text="@string/setup_page_1_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="25dp"
         android:textSize="17dp"
         android:layout_gravity="center"
         android:gravity="center"/>

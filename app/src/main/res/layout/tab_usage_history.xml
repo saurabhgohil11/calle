@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Open Chart"
-        android:onClick="openChartWebView"/>
+    <ListView
+        android:id="@+id/usage_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".HomeActivity"
+        tools:listitem="@layout/usage_history_list_item"
+        android:scrollbars="vertical"/>
+    <TextView
+        android:id="@+id/no_items_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="No Logs in History"
+        android:textColor="#707070"
+        android:visibility="gone"/>
 </LinearLayout>

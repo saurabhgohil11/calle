@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_delete_log"
+        android:title="@string/action_delete"
+        app:showAsAction="never"/>
+    <!-- temp removal of hide item due to concept as for outgoing and incoming log list it is yet to be
+    decided whether we need to show it there or not-->
+    <!--<item android:id="@+id/action_hide_log"
+        android:title="@string/action_hide"
+        app:showAsAction="never"/> -->
+    <item android:id="@+id/action_add_to_local"
+        android:title="@string/action_add_to_local"
+        app:showAsAction="never"/>
+    <item android:id="@+id/action_add_to_std"
+        android:title="@string/action_add_to_std"
+        app:showAsAction="never"/>
+    <item android:id="@+id/action_add_to_free"
+        android:title="@string/action_add_to_free"
+        app:showAsAction="never"/>
+    <item android:id="@+id/action_copy_number"
+        android:title="@string/action_copy_number"
+        app:showAsAction="never"/>
+</menu>

@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <TextView
+        android:id="@+id/bill_cycle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/cards_padding"
+        android:textColor="@android:color/black"
+        android:textSize="18dp"/>
+    <TextView
+        android:id="@+id/minutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/cards_padding"
+        android:textColor="@android:color/black"
+        android:layout_alignParentRight="true"
+        android:textSize="18dp"/>
+    <View
+        android:layout_below="@id/bill_cycle"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#c6c6c6"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/bill_cycle"
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".HomeActivity"
+        tools:listitem="@layout/log_list_item_upper"
+        android:scrollbars="vertical"/>
+
+    <LinearLayout
+        android:id="@+id/categorize_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#88d6d6d6"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true">
+        <View android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="#99a6a6a6"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/categorize_now"
+            android:textSize="20dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColor="#ee000000"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="onCategorizeClicked"/>
+    </LinearLayout>
+
+</RelativeLayout>
+

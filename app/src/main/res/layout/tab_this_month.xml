@@ -2,6 +2,176 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff0000">
+    android:background="#eaeaea">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/scroll_view_padding"
+        android:paddingRight="@dimen/scroll_view_padding"
+        android:scrollbarStyle="outsideOverlay">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/cards_padding">
+
+            <RelativeLayout
+                android:id="@+id/home_cycle_detail_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/cards_padding_top"
+                android:paddingRight="@dimen/cards_padding_side"
+                android:paddingLeft="@dimen/cards_padding_side"
+                android:paddingBottom="@dimen/cards_padding"
+                android:background="@drawable/cardbg">
+                <TextView
+                    android:id="@+id/bill_cycle_lable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/current_bill_cycle"
+                    android:textSize="@dimen/title_text_size"
+                    android:textColor="@color/funky_purple"
+                    style="@style/CardTitleStyle"/>
+
+                <TextView
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sim_operator"
+                    android:text="AIRTEL IN"/>
+                <TextView
+                    android:layout_below="@id/bill_cycle_lable"
+                    android:id="@+id/bill_cycle_dates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_between_margin"
+                    android:textColor="@android:color/black"
+                    android:text="5 Oct - 4 Sep"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/home_last_call_card"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/cardbg"
+                android:layout_marginTop="@dimen/cards_between_margin"
+                android:paddingTop="@dimen/cards_padding_top"
+                android:paddingLeft="@dimen/cards_padding_side"
+                android:paddingRight="@dimen/cards_padding_side"
+                android:paddingBottom="@dimen/cards_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/last_call_details"
+                    android:textSize="@dimen/title_text_size"
+                    android:textColor="@color/funky_red"
+                    style="@style/CardTitleStyle"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+                <TableLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/cards_padding_top">
+                    <TableRow>
+                        <TextView
+                            android:layout_weight="2"
+                            android:id="@+id/last_number"
+                            android:textColor="@android:color/black"
+                            android:text="+919873540958"/>
+                        <TextView
+                            android:layout_weight="2"
+                            android:id="@+id/last_call_type"
+                            android:textColor="@android:color/black"
+                            android:text="Local Incoming"/>
+                        <TextView
+                            android:layout_weight="1"
+                            android:id="@+id/last_duration"
+                            android:gravity="right"
+                            android:textColor="@android:color/black"
+                            android:text="5 mins"/>
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/funky_grey"
+                android:layout_marginTop="@dimen/cards_between_margin"
+                android:layout_marginLeft="@dimen/cards_between_margin"
+                android:layout_marginBottom="-5dp"
+                android:textSize="13dp"
+                android:text="@string/click_item_for_more_info"/>
+
+            <com.finch.calle.CallMinutesCardView
+                android:id="@+id/home_outgoing_card"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+
+            <com.finch.calle.CallMinutesCardView
+                android:id="@+id/home_incoming_card"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+
+            <!-- For version 2.0 most talked contacts feature -->
+            <!--LinearLayout
+                android:id="@+id/home_frequent_contacts"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/cardbg"
+                android:layout_marginTop="@dimen/cards_between_margin"
+                android:paddingTop="@dimen/cards_padding_top">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/most_talked_contacts"
+                    android:textSize="@dimen/title_text_size"
+                    android:paddingLeft="@dimen/cards_padding_side"
+                    android:paddingRight="@dimen/cards_padding_side"
+                    android:textColor="@color/funky_pink"
+                    style="@style/CardTitleStyle"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/cards_padding"
+                    android:paddingBottom="@dimen/cards_padding">
+                        <include
+                            android:id="@+id/frequent_caller_1"
+                            layout="@layout/circular_caller_item"/>
+                        <include
+                            android:id="@+id/frequent_caller_2"
+                            layout="@layout/circular_caller_item"/>
+                        <include
+                            android:id="@+id/frequent_caller_2"
+                            layout="@layout/circular_caller_item"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#aaaaaa" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:textColor="#777"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:text="@string/more_info"
+                    android:drawableLeft="@drawable/ic_next_arrow"/>
+            </LinearLayout-->
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

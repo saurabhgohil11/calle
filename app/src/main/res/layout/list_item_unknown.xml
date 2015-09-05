@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/log_list_item_padding_side"
+    android:paddingTop="@dimen/log_list_item_padding_top_bottom"
+    android:paddingRight="@dimen/log_list_item_padding_side"
+    android:paddingBottom="2dp"
+    >
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/nameorNumberItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text="Name"
+            android:textSize="@dimen/log_list_item_name_text_size"
+            android:textColor="@android:color/black"/>
+        <TextView
+            android:id="@+id/phoneNumberItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/black"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/unknown_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/unknown"
+            style="@style/UnknownListButtonStyle"
+            android:onClick="onTypeChanged"/>
+        <View
+            android:layout_width="1px"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="#99777777"/>
+        <Button
+            android:id="@+id/free_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/free"
+            style="@style/UnknownListButtonStyle"
+            android:onClick="onTypeChanged"/>
+        <View
+            android:layout_width="1px"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="#99777777"/>
+        <Button
+            android:id="@+id/local_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/local"
+            style="@style/UnknownListButtonStyle"
+            android:onClick="onTypeChanged"/>
+        <View
+            android:layout_width="1px"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="#99777777"/>
+        <Button
+            android:id="@+id/std_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/std"
+            style="@style/UnknownListButtonStyle"
+            android:onClick="onTypeChanged"/>
+
+    </LinearLayout>
+</LinearLayout>

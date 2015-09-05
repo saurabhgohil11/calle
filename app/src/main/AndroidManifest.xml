@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.finch.mycalls" >
+    package="com.finch.calle" >
 
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <!-- only for developer options -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +17,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".HomeActivity"
+            android:clearTaskOnLaunch="true"
             android:theme="@style/AppThemeNoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,23 +25,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".NumberListActivity"
-            android:label="@string/title_activity_number_list" >
+        <activity android:name=".settings.NumberListActivity" >
             <intent-filter>
-                <action android:name="com.app.postpaidcallapp.action.EXCLUDED_NUMBERS" />
-                <action android:name="com.app.postpaidcallapp.action.STD_NUMBERS" />
-                <action android:name="com.app.postpaidcallapp.action.LOCAL_NUMBERS" />
+                <action android:name="com.finch.action.EXCLUDED_NUMBERS" />
+                <action android:name="com.finch.action.STD_NUMBERS" />
+                <action android:name="com.finch.action.LOCAL_NUMBERS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ModifyNumberListActivity"
-            android:label="@string/title_activity_number_list" >
+            android:name=".settings.ModifyNumberListActivity"
+            android:label="@string/title_activity_modify_number_list" >
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".settings.SettingsActivity"
             android:label="@string/action_settings"
             android:theme="@style/AppThemePreference" >
         </activity>
@@ -53,14 +55,42 @@
         </receiver>
 
         <activity
-            android:name=".SetupActivity"
-            android:label="@string/title_activity_setup"
+            android:name=".setupwizard.SetupActivity"
             android:theme="@style/AppThemeNoActionBar" >
         </activity>
         <activity
-            android:name=".ChartWebViewActivity"
-            android:label="@string/title_activity_chart_web_view"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            android:name=".setupwizard.LogAnalyzerActivity"
+            android:theme="@style/AppThemeNoActionBar" >
+        </activity>
+        <activity
+            android:name=".help.HelpActivity"
+            android:label="@string/title_activity_help" >
+            <intent-filter>
+                <action android:name="com.finch.action.HELP" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LogListActivity"
+            android:label="@string/title_activity_log_list" >
+        </activity>
+        <activity
+            android:name=".UsageHistoryItemDetailActivity"
+            android:label="@string/title_activity_usage_history_item_detail" >
+        </activity>
+        <activity
+            android:name=".setupwizard.UnknownNumbersActivity"
+            android:label="@string/title_activity_unknown_numbers" >
+        </activity>
+        <activity
+            android:name=".setupwizard.TermsActivity"
+            android:label="@string/title_activity_terms"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="com.finch.calle.terms" />
+            </intent-filter>
         </activity>
     </application>
 

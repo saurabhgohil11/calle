@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
+    </style>
+
+    <style name="RobotoButtonStyle" parent="android:Widget.DeviceDefault.Light.Button">
+    </style>
+
+    <style name="RobotoSpinnerItemStyle">
+        <item name="android:background">#fafafa</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="RobotoRadioButtonStyle"></style>
+
+</resources>

@@ -5,8 +5,8 @@
         <item>Seconds</item>
     </string-array>
     <string-array name="entryvalues_mode_of_use">
-        <item>1000</item>
-        <item>1001</item>
+        <item>5000</item>
+        <item>5001</item>
     </string-array>
 
     <string-array name="circle_state_codes">
@@ -51,14 +51,69 @@
         <item>Maharashtra</item>
         <item>Madhya Pradesh and Chhattisgarh</item>
         <item>Mumbai Metro</item>
-        <item>North East India (Arunachal Pradesh, Meghalaya, Mizoram, Nagaland, Manipur and Tripura).</item>
+        <item>North East India (Arunachal Pradesh, Meghalaya, Mizoram, Nagaland, Manipur and Tripura)</item>
         <item>Odisha</item>
         <item>Punjab</item>
         <item>Rajasthan</item>
         <item>Tamil Nadu</item>
         <item>Uttar Pradesh</item>
         <item>Uttar Pradesh West and Uttarakhand</item>
+        <item>West Bengal,Andaman and Nicobar,Sikkim</item>
     </string-array>
+
+    <!-- keep below strings in lower case for faster comparision purpose-->
+    <string-array name="included_regions">
+        <item>andhra pradesh,telangana</item>
+        <item>assam</item>
+        <item>bihar,jharkhand</item>
+        <item>chennai,mepz,mahabalipuram</item>
+        <item>delhi,noida,ghaziabad,faridabad,gurgaon</item>
+        <item>gujarat,daman,diu,dadra</item>
+        <item>himachal pradesh</item>
+        <item>haryana</item>
+        <item>jammu,kashmir</item>
+        <item>kerala,lakshadweep,mahe</item>
+        <item>karnataka</item>
+        <item>kolkata,calcutta,howrah,hoogly,nadia,24</item>
+        <item>maharashtra,goa</item>
+        <item>madhya pradesh,chhattisgarh</item>
+        <item>mumbai,kalyan</item>
+        <item>arunachal pradesh,meghalaya,mizoram,nagaland,manipur,tripura</item>
+        <item>odisha</item>
+        <item>punjab,chandigarh,panchkula</item>
+        <item>rajasthan</item>
+        <item>tamil nadu</item>
+        <item>uttar pradesh</item>
+        <item>uttar pradesh,uttarakhand</item>
+        <item>west bengal,andaman,nicobar,sikkim</item>
+    </string-array>
+
+    <string-array name="excluded_regions">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>faridabad,gurgaon,panchkula</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>mumbai,kalyan</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>chennai,mepz,mahabalipuram,minjur,yanam,mahe</item>
+        <item>ghaziabad,noida</item>
+        <item>ghaziabad,noida</item>
+        <item>kolkata,calcutta</item>
+    </string-array>
+
     <string-array name="dates">
         <item>1</item>
         <item>2</item>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_weight="1">
+
+    <Button
+        android:id="@+id/callerImage"
+        android:layout_width="@dimen/log_list_item_contact_image_size"
+        android:layout_height="@dimen/log_list_item_contact_image_size"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/contact_image_bg_purple"
+        android:layout_gravity="center"
+        android:text="S"
+        android:textSize="@dimen/log_list_item_contact_image_text_size"
+        android:textColor="@color/text_color_white"
+        android:fontFamily="sans-serif-thin"/>
+
+    <TextView
+        android:id="@+id/caller_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:text="Dad"/>
+
+    <TextView
+        android:id="@+id/outgoing_minutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:text="Outgoing 22 Mins"/>
+
+    <TextView
+        android:id="@+id/incoming_minutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:text="Incoming 20 Mins"/>
+
+</LinearLayout>

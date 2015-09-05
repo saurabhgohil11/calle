@@ -9,23 +9,30 @@
         android:id="@+id/select_all_check"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Select All"
+        android:text="@string/select_all"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         android:checked="false"
         android:clickable="true"
         android:linksClickable="true"
-        android:padding="8dp"
+        android:paddingLeft="24dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:paddingRight="32dp"
         android:gravity="center_vertical"
-        android:background="@drawable/ic_action_close"
+        android:background="?android:attr/selectableItemBackground"
         android:textSize="19dp"
-        android:textColor="@color/text_color_white"
+        android:textColor="@android:color/black"
         android:onClick="onSelectAllClicked"/>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c6c6c6"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/modifyNumberListView"
         android:layout_centerVertical="true"
         android:choiceMode="multipleChoice"
-        />
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"/>
 </LinearLayout>

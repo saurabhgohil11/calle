@@ -4,6 +4,30 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="home_tab_layout_height">75dp</dimen>
     <dimen name="home_current_usage_height">90dp</dimen>
-    <dimen name="chart_width">250px</dimen>
-    <dimen name="chart_height">250px</dimen>
+
+    <!--log list item-->
+    <dimen name="log_list_item_contact_image_size">42dp</dimen>
+    <dimen name="log_list_item_contact_image_text_size">26dp</dimen>
+    <dimen name="phone_num_type_item_size">18dp</dimen>
+    <dimen name="log_list_item_name_text_size">20dp</dimen>
+    <dimen name="log_list_item_padding_top_bottom">8dp</dimen>
+    <dimen name="log_list_item_padding_side">13dp</dimen>
+
+    <!--log detail dialog-->
+    <dimen name="log_detail_contact_image_size">65dp</dimen>
+    <dimen name="log_detail_contact_image_text_size">32dp</dimen>
+
+    <!--This month tab -->
+    <dimen name="cards_padding">12dp</dimen>
+    <dimen name="cards_padding_side">15dp</dimen>
+    <dimen name="cards_padding_top">6dp</dimen>
+    <dimen name="text_between_margin">4dp</dimen>
+    <dimen name="cards_between_margin">8dp</dimen>
+    <dimen name="title_text_size">19dp</dimen>
+    <dimen name="scroll_view_padding">12dp</dimen>
+
+    <!--setup wizard -->
+    <dimen name="radio_button_size">8dp</dimen>
+    <dimen name="radio_button_padding">5dp</dimen>
+
 </resources>

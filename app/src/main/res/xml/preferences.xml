@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:speedreader="http://schemas.android.com/apk/res-auto"
-    android:fontFamily="">
+    xmlns:speedreader="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:title="@string/plan_based_preferences">
 
-        <com.finch.mycalls.widget.NumberPickerPreference
+        <com.finch.calle.widget.NumberPickerPreference
             android:key="bill_cycle"
             android:title="@string/title_modify_cycle"
-            android:summary="@string/summary_modify_cycle"
             android:dialogTitle="@string/dialog_title_modify_cycle"
             android:defaultValue="5"
             speedreader:maxValue="31"
@@ -30,49 +28,71 @@
             android:dialogTitle="@string/dialog_title_mode_of_use" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Categorized Numbers">
+    <PreferenceCategory android:title="@string/user_added_numbers">
         <PreferenceScreen
-            android:title="Excluded Numbers"
-            android:summary="Add your CUG, Customer Care, Toll Free etc. numbers which do not charge call cost.">
+            android:title="@string/title_excluded_numbers"
+            android:summary="@string/summary_excluded_numbers">
             <intent
-                android:action="com.app.postpaidcallapp.action.EXCLUDED_NUMBERS"/>
+                android:action="com.finch.action.EXCLUDED_NUMBERS"/>
         </PreferenceScreen>
         <PreferenceScreen
-            android:title="Local Numbers"
-            android:summary="Local numbers which are added automatically after the call if they are not in our Database.">
+            android:title="@string/title_local_numbers"
+            android:summary="@string/summary_local_numbers">
             <intent
-                android:action="com.app.postpaidcallapp.action.LOCAL_NUMBERS"/>
+                android:action="com.finch.action.LOCAL_NUMBERS"/>
         </PreferenceScreen>
         <PreferenceScreen
-            android:title="STD Numbers"
-            android:summary="Add your STD landline numbers which charges extra cost.(currently this app can only detect STD mobile numbers)">
+            android:title="@string/title_std_numbers"
+            android:summary="@string/summary_std_numbers">
             <intent
-                android:action="com.app.postpaidcallapp.action.STD_NUMBERS"/>
+                android:action="com.finch.action.STD_NUMBERS"/>
         </PreferenceScreen>
     </PreferenceCategory>
 
-    <!--PreferenceCategory
-        android:title="User Details">
-        <!EditTextPreference
-            android:key="user_number"
-            android:title="@string/title_user_number"
-            android:summary="@string/summary_user_number"
-            android:dialogTitle="@string/dialog_title_user_number"
-            android:inputType="number" />
-        <ListPreference
-            android:key="user_circle"
-            android:title="@string/title_user_circle"
-            android:dialogTitle="@string/dialog_title_user_circle"
-            android:entries="@array/circle_states"
-            android:entryValues="@array/circle_state_codes"/>
-    </PreferenceCategory-->
-
-    <!--PreferenceCategory
-        android:title="Notifications">
+    <PreferenceCategory
+        android:title="@string/notifications">
         <CheckBoxPreference
-            android:key="enable_limit_notification"
-            android:title="@string/title_limit_notification"
-            android:summary="@string/summary_limit_notification"/>
-    </PreferenceCategory-->
+            android:key="enable_mins_toast"
+            android:title="@string/title_notification_toast"
+            android:summary="@string/summary_notification_toast"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/other">
+
+        <Preference
+            android:id="@+id/reset_app"
+            android:key="reset_app"
+            android:title="@string/title_reset_application"
+            android:summary="@string/summary_reset_application" />
+        <PreferenceScreen
+            android:id="@+id/help"
+            android:key="help"
+            android:title="@string/title_help"
+            android:summary="@string/summary_help">
+            <intent
+                android:action="com.finch.action.HELP"/>
+        </PreferenceScreen>
+        <Preference
+            android:id="@+id/about"
+            android:key="about"
+            android:title="@string/title_about"
+            android:summary="@string/summary_about" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Developer Options">
+
+        <Preference
+            android:id="@+id/extract_database"
+            android:key="extract_database"
+            android:title="Extract Database" />
+
+        <Preference
+            android:id="@+id/number_test"
+            android:key="number_test"
+            android:title="Number Test" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

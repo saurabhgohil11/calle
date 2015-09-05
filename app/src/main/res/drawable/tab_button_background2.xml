@@ -23,6 +23,6 @@
         </layer-list>
     </item>
     <item android:state_pressed="true">
-        <color android:color="#88ffffff"/>
+        <color android:color="#aafafafa"/>
     </item>
 </selector>

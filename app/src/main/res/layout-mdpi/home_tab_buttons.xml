@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tabs"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/home_tab_layout_height">
+
+    <Button
+        android:id="@+id/this_month_tab_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="@string/this_month"
+        style="@style/TabButtonStyle"
+        android:onClick="onTabChanged"/>
+    <Button
+        android:id="@+id/logs_tab_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="@string/logs_history"
+        style="@style/TabButtonStyle"
+        android:onClick="onTabChanged"/>
+    <Button
+        android:id="@+id/usage_history_tab_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="@string/usage_history"
+        style="@style/TabButtonStyle"
+        android:onClick="onTabChanged"/>
+
+</LinearLayout>

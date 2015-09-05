@@ -1,0 +1,192 @@
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/colors.xml	(date 1424595492000)
++++ app/src/main/res/values/colors.xml	(revision )
+@@ -1,9 +1,9 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+-    <color name="action_bar_primary_color">#83B5D8</color>
++    <color name="action_bar_primary_color">#1D5479</color>
+     <color name="action_bar_primary_dark_color">#5389AF</color>
+     <color name="transperant">#00000000</color>
+-    <color name="divider_color_light">#B3D4E5</color>
++    <color name="divider_color_light">#fafafa</color>
+     <color name="divider_color_dark">#89AFDB</color>
+     <color name="text_color_white">#fafafa</color>
+     <color name="actionbar_transperant">#ccc6c6c6</color>
+\ No newline at end of file
+Index: app/src/main/res/drawable/usage2.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/usage2.xml	(date 1424595492000)
++++ app/src/main/res/drawable/usage2.xml	(revision )
+@@ -4,5 +4,5 @@
+         android:drawable="@drawable/ic_usage" />
+     <item android:state_selected="true"
+         android:drawable="@drawable/ic_usage" />
+-    <item android:drawable="@drawable/ic_usage_selected" />
++    <item android:drawable="@drawable/ic_usage_dim" />
+ </selector>
+\ No newline at end of file
+Index: app/src/main/res/color/tab_button_text_color2.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/color/tab_button_text_color2.xml	(date 1424595492000)
++++ app/src/main/res/color/tab_button_text_color2.xml	(revision )
+@@ -4,5 +4,5 @@
+         android:color="#fafafa" /> <!-- pressed -->
+     <item android:state_selected="true"
+         android:color="#fafafa" /> <!-- focused -->
+-    <item android:color="#333333" /> <!-- default -->
++    <item android:color="#eeb6b6b6" /> <!-- default -->
+ </selector>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_home.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_home.xml	(date 1424595492000)
++++ app/src/main/res/layout/activity_home.xml	(revision )
+@@ -10,7 +10,7 @@
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+-        android:background="@drawable/blue_stroke">
++        android:background="@color/action_bar_primary_color">
+ 
+         <LinearLayout
+             android:id="@+id/today_summary"
+Index: app/src/main/res/drawable/tab_button_background2.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/tab_button_background2.xml	(date 1424595492000)
++++ app/src/main/res/drawable/tab_button_background2.xml	(revision )
+@@ -10,7 +10,7 @@
+                 <shape android:shape="rectangle" >
+                     <stroke
+                         android:width="3dp"
+-                        android:color="#FFF0FAFA" />
++                        android:color="#aaFAFAFA" />
+ 
+                     <solid android:color="#00FFFFFF" />
+ 
+\ No newline at end of file
+Index: app/src/main/res/drawable/calendar2.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/calendar2.xml	(date 1424595492000)
++++ app/src/main/res/drawable/calendar2.xml	(revision )
+@@ -4,5 +4,5 @@
+         android:drawable="@drawable/ic_calendar" />
+     <item android:state_selected="true"
+         android:drawable="@drawable/ic_calendar" />
+-    <item android:drawable="@drawable/ic_calendar_selected" />
++    <item android:drawable="@drawable/ic_calendar_dim" />
+ </selector>
+\ No newline at end of file
+Index: app/src/main/res/drawable/logs2.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/logs2.xml	(date 1424595492000)
++++ app/src/main/res/drawable/logs2.xml	(revision )
+@@ -4,5 +4,5 @@
+         android:drawable="@drawable/ic_logs" />
+     <item android:state_selected="true"
+         android:drawable="@drawable/ic_logs" />
+-    <item android:drawable="@drawable/ic_logs_selected" />
++    <item android:drawable="@drawable/ic_logs_dim" />
+ </selector>
+\ No newline at end of file
+Index: app/src/main/java/com/finch/mycalls/PixelScrollDetector.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/finch/mycalls/PixelScrollDetector.java	(revision )
++++ app/src/main/java/com/finch/mycalls/PixelScrollDetector.java	(revision )
+@@ -0,0 +1,70 @@
++package com.finch.mycalls;
++
++import android.view.View;
++import android.widget.AbsListView;
++
++/**
++ * Created by budius on 16.05.14.
++ * This improves on Zsolt Safrany answer on stack-overflow (see link)
++ * by making it a detector that can be attached to any AbsListView.
++ * http://stackoverflow.com/questions/8471075/android-listview-find-the-amount-of-pixels-scrolled
++ */
++public class PixelScrollDetector implements AbsListView.OnScrollListener {
++    private final PixelScrollListener listener;
++    private View mTrackedChild;
++    private int mTrackedChildPrevPosition;
++    private int mTrackedChildPrevTop;
++
++    public PixelScrollDetector(PixelScrollListener pixelScrollListener) {
++        this.listener = pixelScrollListener;
++    }
++
++    @Override
++    public void onScrollStateChanged(AbsListView view, int scrollState) {
++        // init the values every time the list is moving
++        if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL ||
++                scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
++            if (mTrackedChild == null) {
++                syncState(view);
++            }
++        }
++    }
++
++    @Override
++    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
++        if (mTrackedChild == null) {
++            // case we don't have any reference yet, try again here
++            syncState(view);
++        } else {
++            boolean childIsSafeToTrack = (mTrackedChild.getParent() == view) && (view.getPositionForView(mTrackedChild) == mTrackedChildPrevPosition);
++            if (childIsSafeToTrack) {
++                int top = mTrackedChild.getTop();
++                if (listener != null) {
++                    float deltaY = top - mTrackedChildPrevTop;
++                    listener.onScroll(view, deltaY);
++                }
++                // re-syncing the state make the tracked child change as the list scrolls,
++                // and that gives a much higher true state for `childIsSafeToTrack`
++                syncState(view);
++            } else {
++                mTrackedChild = null;
++            }
++        }
++    }
++
++    private void syncState(AbsListView view) {
++        if (view.getChildCount() > 0) {
++            mTrackedChild = getChildInTheMiddle(view);
++            mTrackedChildPrevTop = mTrackedChild.getTop();
++            mTrackedChildPrevPosition = view.getPositionForView(mTrackedChild);
++        }
++    }
++
++    private View getChildInTheMiddle(AbsListView view) {
++        return view.getChildAt(view.getChildCount() / 2);
++    }
++
++    public static interface PixelScrollListener {
++        public void onScroll(AbsListView view, float deltaY);
++    }
++}
+\ No newline at end of file

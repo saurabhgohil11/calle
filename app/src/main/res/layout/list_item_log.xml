@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/log_upper_item_container"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:paddingTop="@dimen/log_list_item_padding_top_bottom"
+    android:paddingBottom="@dimen/log_list_item_padding_top_bottom"
+    android:paddingLeft="@dimen/log_list_item_padding_side"
+    android:paddingRight="@dimen/log_list_item_padding_side"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical">
+    <Button
+        android:id="@+id/contactImageButton"
+        android:layout_width="@dimen/log_list_item_contact_image_size"
+        android:layout_height="@dimen/log_list_item_contact_image_size"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/contact_image_bg_purple"
+        android:layout_gravity="center"
+        android:text="S"
+        android:textSize="@dimen/log_list_item_contact_image_text_size"
+        android:textColor="@color/text_color_white"
+        android:fontFamily="sans-serif-thin"
+        android:clickable="false"/>
+    <TextView
+        android:id="@+id/nameorNumberItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/contactImageButton"
+        android:layout_toRightOf="@+id/contactImageButton"
+        android:layout_marginBottom="1dp"
+        android:text="Name"
+        android:textSize="@dimen/log_list_item_name_text_size"
+        android:textColor="@android:color/black"/>
+    <TextView
+        android:id="@+id/phoneNumberItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/phoneNumeberTypeItem"
+        android:layout_toRightOf="@+id/phoneNumeberTypeItem"
+        android:layout_below="@id/nameorNumberItem"
+        android:textColor="@android:color/black"/>
+    <ImageView
+        android:id="@+id/phoneNumeberTypeItem"
+        android:layout_width="@dimen/phone_num_type_item_size"
+        android:layout_height="@dimen/phone_num_type_item_size"
+        android:layout_below="@id/nameorNumberItem"
+        android:layout_toEndOf="@+id/contactImageButton"
+        android:layout_toRightOf="@+id/contactImageButton"
+        android:paddingRight="2dp"
+        android:src="@drawable/ic_type_mobile"/>
+    <TextView
+        android:id="@+id/typeItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/phoneNumeberTypeItem"
+        android:layout_toRightOf="@+id/phoneNumeberTypeItem"
+        android:layout_below="@id/nameorNumberItem"
+        android:text="Free Incoming"
+        android:textColor="@android:color/black"/>
+    <TextView
+        android:id="@+id/timeItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="4dp"
+        android:text="2:43 PM"/>
+    <TextView
+        android:id="@+id/durationItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timeItem"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="1 Min 2 Sec"/>
+
+</RelativeLayout>
