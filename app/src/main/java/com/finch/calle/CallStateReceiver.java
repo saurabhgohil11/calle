@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.provider.CallLog;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -68,10 +69,16 @@ public class CallStateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         mContext=context;
-        dbHelper = AppGlobals.getInstance(mContext).dbHelper;
-        vsp = mContext.getSharedPreferences("CallStateReceive",Context.MODE_PRIVATE);
+        dbHelper = AppGlobals.dbHelper;
+        vsp = mContext.getSharedPreferences("CallStateReceive", Context.MODE_PRIVATE);
         ve=vsp.edit();
         AppGlobals.log(this, "onReceive()");
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        if(!sp.getBoolean(AppGlobals.PKEY_FIRST_TIME,false)) {
+            AppGlobals.log(this, "App Not started yet returning");
+            return;
+        }
 
         if(intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)){
             isOutgoing=true;

@@ -70,10 +70,7 @@
                     android:text="@string/last_call_details"
                     android:textSize="@dimen/title_text_size"
                     android:textColor="@color/funky_red"
-                    style="@style/CardTitleStyle"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    style="@style/CardTitleStyle" />
                 <TableLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

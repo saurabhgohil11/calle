@@ -166,17 +166,6 @@ public class NumberListActivity extends ActionBarActivity {
                         if (number == null || number.isEmpty()) {
                             Toast.makeText(context, "Number can't be empty", Toast.LENGTH_SHORT).show();
                         } else {
-                                    /*switch (activityType){
-                                        case TYPE_EXCLUDED_LIST:
-                                            AppGlobals.dbHelper.addExcludedNumber(number);
-                                            break;
-                                        case TYPE_STD_LIST:
-                                            AppGlobals.dbHelper.addSTDNumber(number);
-                                            break;
-                                        case TYPE_LOCAL_LIST:
-                                            AppGlobals.dbHelper.addLocalNumber(number);
-                                            break;
-                                    }*/
                             AppGlobals.dbHelper.addUserSpecifiedNumber(number, costType);
                             updateListView();
                         }
@@ -233,23 +222,6 @@ public class NumberListActivity extends ActionBarActivity {
     }
 
     public void updateListView(){
-        /*switch (activityType){
-            case TYPE_EXCLUDED_LIST:
-                numberList.clear();
-                numberList.addAll(AppGlobals.dbHelper.getExcludedNumbers());
-                adapter.notifyDataSetChanged();
-                break;
-            case TYPE_STD_LIST:
-                numberList.clear();
-                numberList.addAll(AppGlobals.dbHelper.getSTDNumbers());
-                adapter.notifyDataSetChanged();
-                break;
-            case TYPE_LOCAL_LIST:
-                numberList.clear();
-                numberList.addAll(AppGlobals.dbHelper.getLocalNumbers());
-                adapter.notifyDataSetChanged();
-                break;
-        }*/
         numberList.clear();
         numberList.addAll(AppGlobals.dbHelper.getUserSpecifiedNumbers(costType));
         adapter.notifyDataSetChanged();

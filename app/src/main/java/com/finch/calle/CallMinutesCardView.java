@@ -24,7 +24,7 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
     private LinearLayout mFreeLayout;
     private LinearLayout mUnknownLayout;
     private LinearLayout mLocalSubMinutesLayout;
-    private LinearLayout mSTDSubMinutesLayout;;
+    private LinearLayout mSTDSubMinutesLayout;
 
     private TextView mTitleLabel;
 
@@ -66,7 +66,6 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
 	public void setCycleAndType(Date cycleDates[],CallType callType) {
 		this.mCallType = callType;
 		this.cycleDates = cycleDates;
-		
 	}
 	
 	private void initView(View rootView) {

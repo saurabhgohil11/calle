@@ -30,25 +30,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     //table names
     private static final String TABLE_MOBILE_STATES = "MOBILE_STATES";
-    //private static final String TABLE_LOCAL_NUMBERS = "LOCAL_NUMBERS";
-    //private static final String TABLE_EXCLUDED_NUMBERS = "EXCLUDED_NUMBERS";
-    //private static final String TABLE_STD_NUMBERS = "STD_NUMBERS";
-    //private static final String TABLE_CALL_USAGE_HISTORY = "CALL_USAGE_HISTORY";
     private static final String TABLE_LOGS_HISTORY = "LOGS_HISTORY";
     private static final String TABLE_USER_SPECIFIED_NUMBERS = "USER_SPECIFIED_NUMBERS";
 
     private static final String KEY_STATE = "state";
-
-    /*temp block as we will generate it dynamically//usage history
-    private static final String KEY_START_DATE = "START_DATE";
-    private static final String KEY_END_DATE = "END_DATE";
-    private static final String KEY_LOCAL_MIN = "LOCAL_MIN";
-    private static final String KEY_STD_MIN = "STD_MIN";
-    private static final String KEY_STD_END = "STD_END";
-    private static final String KEY_LOCAL_END = "LOCAL_END";
-    private static final String KEY_ROAMING_IC = "ROAMING_IC";
-    private static final String KEY_ROAMING_OG = "ROAMING_OG";
-    private static final String KEY_ROAMING_OG_END = "ROAMING_OG_END";*/
 
     private static final String KEY_PHONE_NUMBER = "PHONE_NUMBER";
     private static final String KEY_NATIONAL_NUMBER = "NATIONAL_NUMBER";
@@ -65,7 +50,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     SQLiteDatabase db;
 
-
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.mContext = context;
@@ -78,28 +62,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         AppGlobals.log(this,"onCreate()");
         String CREATE_MOBILE_STATE_TABLE = "CREATE TABLE " + TABLE_MOBILE_STATES + "(" +
                         KEY_STATE + " TEXT" + ")";
-
-        /* Temp block as we are going to generate reprot dynamically
-        String CREATE_CALL_USAGE_HISTORY_TABLE = "CREATE TABLE "+TABLE_CALL_USAGE_HISTORY+" ("+
-                        KEY_START_DATE+" TEXT," +
-                        KEY_END_DATE+" TEXT,"+
-                        KEY_LOCAL_MIN+"	INTEGER,"+
-                        KEY_LOCAL_END+" INTEGER,"+
-                        KEY_STD_MIN+" INTEGER,"+
-                        KEY_STD_END+" INTEGER,"+
-                        KEY_ROAMING_IC+" INTEGER,"+
-                        KEY_ROAMING_OG+" INTEGER,"+
-                        KEY_ROAMING_OG_END+" INTEGER"+
-                        ")";
-
-        String CREATE_EXCLUDED_NUMBERS_TABLE = "CREATE TABLE "+TABLE_EXCLUDED_NUMBERS+" ("+
-                        KEY_PHONE_NUMBER +" TEXT PRIMARY KEY)";
-
-        String CREATE_STD_NUMBERS_TABLE = "CREATE TABLE "+TABLE_STD_NUMBERS+" ("+
-                        KEY_PHONE_NUMBER +" TEXT PRIMARY KEY)";
-
-        String CREATE_LOCAL_NUMBERS_TABLE = "CREATE TABLE "+ TABLE_LOCAL_NUMBERS+" ("+
-                        KEY_PHONE_NUMBER +" TEXT PRIMARY KEY)";*/
 
         String CREATE_LOGS_HISTORY_TABLE = "CREATE TABLE "+ TABLE_LOGS_HISTORY +" ("+
                         KEY_CALL_ID+" INTEGER PRIMARY KEY, " +
@@ -120,10 +82,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 KEY_COST_TYPE + " INTEGER )";
 
         db.execSQL(CREATE_MOBILE_STATE_TABLE);
-        //db.execSQL(CREATE_CALL_USAGE_HISTORY_TABLE);
-        //db.execSQL(CREATE_EXCLUDED_NUMBERS_TABLE);
-        //db.execSQL(CREATE_STD_NUMBERS_TABLE);
-        //db.execSQL(CREATE_LOCAL_NUMBERS_TABLE);
         db.execSQL(CREATE_LOGS_HISTORY_TABLE);
         db.execSQL(CREATE_USER_SPECIFIED_NUMBERS_TABLE);
 
@@ -148,11 +106,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MOBILE_STATES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGS_HISTORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER_SPECIFIED_NUMBERS);
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_CALL_USAGE_HISTORY);
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXCLUDED_NUMBERS);
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_STD_NUMBERS);
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOCAL_NUMBERS);
-
         onCreate(db);
     }
 
@@ -175,185 +128,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return state;
     }
 
-    /*
-    public boolean isExceptional(String number) {  // TO-DO implement using phonenumber matcher
-        String trimmedNumber=number;
-        if(number.startsWith("0") || number.startsWith(AppGlobals.userCountryCodeNumberString)) {
-            if(number.startsWith("0")) {
-                trimmedNumber = number.substring(1);
-            }
-            if(number.startsWith(AppGlobals.userCountryCodeNumberString)) {
-                trimmedNumber = number.substring(AppGlobals.userCountryCodeNumberString.length());
-            }
-        }
-        //SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT * FROM "+TABLE_EXCLUDED_NUMBERS+" WHERE "+ KEY_PHONE_NUMBER +" IN(?,?,?) ";
-        Cursor c = db.rawQuery(selectQuery, new String[] { trimmedNumber,"0"+trimmedNumber,AppGlobals.userCountryCodeNumberString+trimmedNumber });
-        if(c.getCount()>0) {
-            //db.close();
-            return true;
-        }else {
-            //db.close();
-            return false;
-        }
-    }
-
-    public boolean isSTD(String number) {
-        String trimmedNumber=number;
-        String numberState=null;
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String userState = sp.getString(AppGlobals.PKEY_USER_CIRCLE,null);
-        if(number.startsWith("0") || number.startsWith(AppGlobals.userCountryCodeNumberString)) {
-            if(number.startsWith("0")) {
-                trimmedNumber = number.substring(1);
-            }
-            if(number.startsWith(AppGlobals.userCountryCodeNumberString)) {
-                trimmedNumber = number.substring(AppGlobals.userCountryCodeNumberString.length());
-            }
-        }
-        //SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT * FROM "+TABLE_STD_NUMBERS+" WHERE "+ KEY_PHONE_NUMBER +" IN(?,?,?) ";
-        Cursor c = db.rawQuery(selectQuery, new String[] { trimmedNumber,"0"+trimmedNumber,AppGlobals.userCountryCodeNumberString+trimmedNumber });
-        if(c.getCount()>0) {
-            //db.close();
-            return true;
-        }else if((numberState= getMobileNumberState(number))!=null && userState!=null && !userState.equals(numberState)){
-            //db.close();
-            return true;
-        }else {
-            //db.close();
-            return false;
-        }
-    }
-
-    public boolean isLocal(String number) {
-        String trimmedNumber=number;
-        String numberState=null;
-
-        if(number.startsWith("0") || number.startsWith(AppGlobals.userCountryCodeNumberString)) {
-            if(number.startsWith("0")) {
-                trimmedNumber = number.substring(1);
-            }
-            if(number.startsWith(AppGlobals.userCountryCodeNumberString)) {
-                trimmedNumber = number.substring(AppGlobals.userCountryCodeNumberString.length());
-            }
-        }else if(number.length()<=10 && (number.startsWith("9")||number.startsWith("8")||number.startsWith("7"))){ //call without prefix std code so it is local as call duration is non zero
-            AppGlobals.log(this,"call without prefix std code  & it's start with 9|8|7 so it is local as call duration is non zero");
-            return true;
-        }
-/
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String userState = sp.getString(AppGlobals.PKEY_USER_CIRCLE,null);
-        //AppGlobals.log(this,"phoneNumber = "+phoneNumber+",trimmed Local:" + trimmedNumber+"userCountryCodeNumber="+userCountryCodeNumber);
-        //SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT * FROM "+TABLE_LOCAL_NUMBERS+" WHERE "+ KEY_PHONE_NUMBER +" IN(?,?,?) ";
-        Cursor c = db.rawQuery(selectQuery, new String[] { trimmedNumber,"0"+trimmedNumber,AppGlobals.userCountryCodeNumberString+trimmedNumber });
-        if(c.getCount()>0) {
-            //db.close();
-            return true;
-        }
-        else if((numberState= getMobileNumberState(number))!=null && userState!=null && userState.equals(numberState)) {
-            //db.close();
-            return true;
-        }else {
-            //db.close();
-            return false;
-        }
-    }
-    */
-    /*
-    public ArrayList<String> getLocalNumbers() {
-        String selectQuery = "SELECT * FROM "+TABLE_LOCAL_NUMBERS;
-        Cursor c = db.rawQuery(selectQuery,null);
-        ArrayList<String> list=new ArrayList<String>(c.getCount());
-        if(c.getCount()>0){
-            if (c.moveToFirst()) {
-                do {
-                    list.add(c.getString(0));
-                } while (c.moveToNext());
-            }
-        }
-        //db.close();
-        c.close();
-        return list;
-    }
-
-    public ArrayList<String> getExcludedNumbers(){
-        //SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT * FROM "+TABLE_EXCLUDED_NUMBERS;
-        Cursor c = db.rawQuery(selectQuery,null);
-        ArrayList<String> list=new ArrayList<String>(c.getCount());
-        if(c.getCount()>0){
-            if (c.moveToFirst()) {
-                do {
-                    list.add(c.getString(0));
-                } while (c.moveToNext());
-            }
-        }
-        //db.close();
-        c.close();
-        return list;
-    }
-
-    public ArrayList<String> getSTDNumbers(){
-        //SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT * FROM "+TABLE_STD_NUMBERS;
-        Cursor c = db.rawQuery(selectQuery,null);
-        ArrayList<String> list = new ArrayList<String>(c.getCount());
-        if(c.getCount()>0){
-            if (c.moveToFirst()) {
-                do {
-                    list.add(c.getString(0));
-                } while (c.moveToNext());
-            }
-        }
-        //db.close();
-        c.close();
-        return list;
-    }
-
-
-    public boolean addLocalNumber(String number){
-        //SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(KEY_PHONE_NUMBER, number);
-        db.insert(TABLE_LOCAL_NUMBERS, null, values);
-        //database.close();
-        return true;
-    }
-
-
-    public boolean addSTDNumber(String number){
-        //SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(KEY_PHONE_NUMBER, number);
-        db.insert(TABLE_STD_NUMBERS, null, values);
-        //database.close();
-        return true;
-    }
-
-    public boolean addExcludedNumber(String number){
-        //SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(KEY_PHONE_NUMBER, number);
-        db.insert(TABLE_EXCLUDED_NUMBERS, null, values);
-        //database.close();
-        return true;
-    }
-
-    public void deleteNumberFromSTD(String number) {
-        db.delete(TABLE_STD_NUMBERS, KEY_PHONE_NUMBER + " = ?", new String[]{number});
-    }
-
-    public void deleteNumberFromLocal(String number) {
-        db.delete(TABLE_LOCAL_NUMBERS, KEY_PHONE_NUMBER + " = ?", new String[]{number});
-    }
-
-    public void deleteNumberFromExcluded(String number) {
-        db.delete(TABLE_EXCLUDED_NUMBERS, KEY_PHONE_NUMBER + " = ?", new String[]{number});
-    }*/
-
-    public boolean addUserSpecifiedNumber(String number,CostType costType){
+    public void addUserSpecifiedNumber(String number,CostType costType){
         ContentValues values = new ContentValues();
         values.put(KEY_PHONE_NUMBER, number);
         values.put(KEY_COST_TYPE,costType.ordinal());
@@ -368,7 +143,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             db.insert(TABLE_USER_SPECIFIED_NUMBERS, null, values);
         }
         updateLogsHistory(number,costType);
-        return true;
     }
 
     private void updateLogsHistory(String numberStr, CostType costType) {
@@ -483,7 +257,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public ArrayList<CallDetails> getLogsHistory(){
         String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY + " WHERE " + KEY_IS_HIDDEN + "=0"+" ORDER BY "+KEY_DATE+" DESC";
         Cursor c = db.rawQuery(selectQuery,null);
-        ArrayList<CallDetails> list = new ArrayList<CallDetails>();
+        ArrayList<CallDetails> list = new ArrayList<>();
         if(c.moveToFirst()){
             do {
                 CallDetails cd = new CallDetails();
@@ -511,7 +285,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                              " WHERE "+ KEY_COST_TYPE +" = "+CostType.UNKNOWN.ordinal();
         Cursor c = db.rawQuery(selectQuery,null);
 
-        ArrayList<CallDetails> list = new ArrayList<CallDetails>();
+        ArrayList<CallDetails> list = new ArrayList<>();
         if(c.moveToFirst()) {
             do {
                 CallDetails cd = new CallDetails();
@@ -563,87 +337,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void deleteNumberFromLogs(long callID) {
         db.delete(TABLE_LOGS_HISTORY, KEY_CALL_ID + " = ?", new String[]{String.valueOf(callID)});
     }
-
-    /*public boolean isExceptional(Phonenumber.PhoneNumber phoneNumber) {
-        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
-
-        String nationalNumber = String.valueOf(phoneNumber.getNationalNumber());
-        String withCountryCode = phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164);
-
-        String selectQuery = "SELECT * FROM "+TABLE_USER_SPECIFIED_NUMBERS+" WHERE "+ KEY_PHONE_NUMBER +" IN(?,?,?) AND "
-                             + KEY_COST_TYPE +" = "+CostType.FREE.ordinal();
-        Cursor c = db.rawQuery(selectQuery, new String[] { nationalNumber,"0"+nationalNumber, withCountryCode });
-        if(c.getCount()>0) {
-            //db.close();
-            c.close();
-            return true;
-        }else {
-            //db.close();
-            c.close();
-            return false;
-        }
-    }
-
-    public boolean isMobileLocal(Phonenumber.PhoneNumber phoneNumber) {
-
-        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
-        boolean isValid = phoneUtil.isValidNumber(phoneNumber);
-
-        if(!isValid) {
-            AppGlobals.log(this,"isMobileLocal() phoneNumber is not valid");
-        }
-
-        String nationalNumber = String.valueOf(phoneNumber.getNationalNumber());
-        String withCountryCode = phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164);
-
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String userState = sp.getString(AppGlobals.PKEY_USER_CIRCLE,null);
-        String numberState = getMobileNumberState(phoneNumber.getNationalNumber());
-
-        String selectQuery = "SELECT * FROM "+TABLE_USER_SPECIFIED_NUMBERS+" WHERE "+ KEY_PHONE_NUMBER +" IN(?,?,?) AND "
-                            + KEY_COST_TYPE +" = "+CostType.LOCAL.ordinal();
-        Cursor c = db.rawQuery(selectQuery, new String[] { nationalNumber,"0"+nationalNumber,withCountryCode });
-        if(c.getCount()>0) {
-            c.close();
-            return true;
-        } else if((numberState != null && !numberState.isEmpty() && userState!=null && userState.equals(numberState))) {
-            c.close();
-            return true;
-        }else {
-            c.close();
-            return false;
-        }
-    }
-
-    public boolean isMobileSTD(Phonenumber.PhoneNumber phoneNumber) {
-        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
-        boolean isValid = phoneUtil.isValidNumber(phoneNumber);
-
-        if(!isValid) {
-            AppGlobals.log(this,"isMobileLocal() phoneNumber is not valid");
-        }
-
-        String nationalNumber = String.valueOf(phoneNumber.getNationalNumber());
-        String withCountryCode = phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164);
-
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String userState = sp.getString(AppGlobals.PKEY_USER_CIRCLE,null);
-        String numberState = getMobileNumberState(phoneNumber.getNationalNumber());
-
-        String selectQuery = "SELECT * FROM "+TABLE_USER_SPECIFIED_NUMBERS+" WHERE "+ KEY_PHONE_NUMBER +" IN(?,?,?) AND "
-                             + KEY_COST_TYPE +" = "+CostType.STD.ordinal();
-        Cursor c = db.rawQuery(selectQuery, new String[] { nationalNumber,"0"+nationalNumber,withCountryCode });
-        if(c.getCount()>0) {
-            c.close();
-            return true;
-        } else if((numberState != null && !numberState.isEmpty() && userState!=null && !userState.equals(numberState))) {
-            c.close();
-            return true;
-        }else {
-            c.close();
-            return false;
-        }
-    }*/  //old logic xx
 
     public CostType getMobileCostType(Phonenumber.PhoneNumber phoneNumber) {
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
@@ -722,7 +415,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         query.append(" ORDER BY "+KEY_DATE+" DESC");
 
         Cursor c = db.rawQuery(query.toString(),null);
-        ArrayList<CallDetails> list = new ArrayList<CallDetails>();
+        ArrayList<CallDetails> list = new ArrayList<>();
         if(c.moveToFirst()){
             do {
                 CallDetails cd = new CallDetails();

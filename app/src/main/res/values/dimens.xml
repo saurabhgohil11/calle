@@ -3,7 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="home_tab_layout_height">75dp</dimen>
-    <dimen name="home_current_usage_height">90dp</dimen>
 
     <!--log list item-->
     <dimen name="log_list_item_contact_image_size">42dp</dimen>
@@ -12,10 +11,6 @@
     <dimen name="log_list_item_name_text_size">20dp</dimen>
     <dimen name="log_list_item_padding_top_bottom">8dp</dimen>
     <dimen name="log_list_item_padding_side">13dp</dimen>
-
-    <!--log detail dialog-->
-    <dimen name="log_detail_contact_image_size">65dp</dimen>
-    <dimen name="log_detail_contact_image_text_size">32dp</dimen>
 
     <!--This month tab -->
     <dimen name="cards_padding">12dp</dimen>

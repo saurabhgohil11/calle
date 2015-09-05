@@ -38,8 +38,7 @@ import java.util.Date;
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static SettingsFragment newInstance() {
-        SettingsFragment fragment = new SettingsFragment();
-        return fragment;
+        return new SettingsFragment();
     }
 
     public SettingsFragment() {
@@ -141,8 +140,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 case "extract_database":
                     File sd = Environment.getExternalStorageDirectory();
                     File data = Environment.getDataDirectory();
-                    FileChannel source = null;
-                    FileChannel destination = null;
+                    FileChannel source;
+                    FileChannel destination;
                     String currentDBPath = "/data/" + "com.finch.mycalls" + "/databases/" + "calleapp";
                     String backupDBPath = "calleapp";
                     File currentDB = new File(data, currentDBPath);

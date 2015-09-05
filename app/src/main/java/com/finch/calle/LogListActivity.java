@@ -130,7 +130,7 @@ public class LogListActivity extends ActionBarActivity {
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getResources()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        logListData = new ArrayList<CallDetails>();
+        logListData = new ArrayList<>();
 
         initListData();
 
@@ -155,10 +155,9 @@ public class LogListActivity extends ActionBarActivity {
             AppGlobals.log(this,"returning from initListData due to dbHelper null");
             return;
         }
-        Date cycleDates[] = AppGlobals.getCurrentBillCycleDates();
         logListData.clear();
-        logListData.addAll(dbHelper.getLogList(cycleDates[0].getTime(), cycleDates[1].getTime(), callType, costType));
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(),cycleDates[1].getTime(),callType,costType);
+        logListData.addAll(dbHelper.getLogList(billCycleDates[0].getTime(), billCycleDates[1].getTime(), callType, costType));
+        minutes = dbHelper.getTotalMinutes(billCycleDates[0].getTime(),billCycleDates[1].getTime(),callType,costType);
     }
 
     public void onCategorizeClicked(View v) {

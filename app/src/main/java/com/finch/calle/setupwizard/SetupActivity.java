@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -210,6 +211,9 @@ public class SetupActivity extends ActionBarActivity {
 
                     final EditText mobileNumber = (EditText) rootView.findViewById(R.id.mobile_number_edit_text);
                     final Spinner stateSpinner = (Spinner) rootView.findViewById(R.id.spinner_state);
+                    final TextView tncTextView = (TextView) rootView.findViewById(R.id.tnc_text_view);
+                    tncTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
                     mobileNumber.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) { }

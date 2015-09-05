@@ -84,12 +84,13 @@
         </activity>
         <activity
             android:name=".setupwizard.TermsActivity"
-            android:label="@string/title_activity_terms"
+            android:label="@string/terms_and_conditions"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.VIEW" />
-                <data android:scheme="com.finch.calle.terms" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="com.finch.calle.terms"/>
             </intent-filter>
         </activity>
     </application>

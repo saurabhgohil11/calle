@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="No Logs in History"
+        android:text="@string/no_items_in_list"
         android:textColor="#707070"
         android:visibility="gone"/>
 </LinearLayout>

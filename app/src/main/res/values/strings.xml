@@ -10,15 +10,14 @@
     <string name="title_activity_modify_number_list">Select Numbers to Delete</string>
     <string name="bill_cycle">Bill Cycle</string>
     <string name="title_activity_help">Help</string>
-    <string name="title_activity_terms">TermsActivity</string>
-
+    <string name="no_items_in_list">No Items In The List</string>
 
     <!--setup Wizard -->
     <string name="setup_page_1_text">Advanced Call Timer and Logger\n\nEasy, Smart, Elegant\n\nKeep Track of your chargeable minutes and save your bills</string>
     <string name="setup_page_2_title">Automatic Categorization</string>
     <string name="setup_page_2_text">Categorize your Local, STD, Roaming, ISD, and Free Minutes automagically\nNo manual entry needed</string>
     <string name="setup_page_3_text">This is first time setup wizard.\nLet\'s setup your usage/plan details</string>
-    <string name="analyzing_logs">Analyzing Your Call Logs...</string>
+    <string name="analyzing_logs">Analyzing Your Call Logs…</string>
     <string name="please_wait_logs_analysing">Please wait till we complete Log Analysis.</string>
     <string name="analyzing_complete">Call Logs analysis completed.</string>
     <string name="unknown_logs_detected">Application has detected some numbers which are ambiguous to categorize.\nDo you want to categorize them now?\n(This will improve local and std calls categorization.)</string>
@@ -64,7 +63,6 @@
 
     <string name="action_delete_items">Delete Selected</string>
 
-    <string name="dialog_title_user_number">Enter First 4 Digits of Your Mobile Number</string>
     <string name="notifications">Notifications</string>
 
     <string name="user_added_numbers">Categorized Numbers</string>
@@ -91,9 +89,6 @@
 
 
     <!--Log list item -->
-    <string name="button_delete">Delete</string>
-    <string name="button_edit">Edit</string>
-    <string name="button_hide">Hide</string>
     <string name="message_button">Message</string>
     <string name="call_button">Call</string>
 
@@ -143,7 +138,6 @@
     <string name="action_remove_from_std">Remove from STD Numbers</string>
     <string name="action_remove_from_free">Remove from Free Numbers</string>
     <string name="action_remove_from_local">Remove from Local Numbers</string>
-    <string name="action_hide">Hide</string>
     <string name="action_delete">Delete</string>
     <string name="action_copy_number">Copy Number</string>
     <string name="copy_successful">Copied to Clipboard</string>
@@ -165,7 +159,6 @@
     <string name="done">DONE</string>
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
-    <string name="next">NEXT</string>
     <string name="add_now">ADD NOW</string>
     <string name="add_later">ADD LATER</string>
 

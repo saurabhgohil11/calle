@@ -96,31 +96,6 @@ public class AppGlobals {
         log(this,userState+", "+ userCountryCodeNumber +", "+simOperator+", "+ userCountryCode);
     }
 
-    /*public static void updateUserState(long phoneNumber){
-        userState = dbHelper.getMobileNumberState(phoneNumber);
-        if(userState == null || userState.isEmpty()){
-            Toast.makeText(mContext,"Can't find your operator circle",Toast.LENGTH_LONG).show();
-            showUserCircleSelectionDialog();
-        }
-    }
-
-    public static void showUserCircleSelectionDialog(){
-        Resources res = mContext.getResources();
-        final String[] operator_states = res.getStringArray(R.array.circle_states);
-        final String[] operator_state_codes = res.getStringArray(R.array.circle_state_codes);
-
-        AlertDialog.Builder builder2=new AlertDialog.Builder(mContext).setTitle("Select you Operator Circle")
-                .setSingleChoiceItems(operator_states, -1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(mContext, "The selected operator circle is " + operator_states[which], Toast.LENGTH_LONG).show();
-                        userState = operator_state_codes[which];
-                        dialog.dismiss();
-                    }
-                });
-        builder2.create().show();
-    }*/
-
     public void initUserCountryCode() {
         SharedPreferences.Editor e = preferences.edit();
         AppGlobals.userCountryCode = preferences.getString(AppGlobals.PKEY_COUNTRY_CODE, "XX");
@@ -272,11 +247,10 @@ public class AppGlobals {
         float yInches= metrics.heightPixels/metrics.ydpi;
         float xInches= metrics.widthPixels/metrics.xdpi;
         double diagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
-        if (diagonalInches >= 6.5){
-            return true;
-        }else{
+        if (diagonalInches < 6.5){
             return false;
         }
+        return true;
     }
 
     public static void reset() {

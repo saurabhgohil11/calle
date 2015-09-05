@@ -3,10 +3,7 @@
     <color name="action_bar_primary_color">#1D5479</color>
     <color name="action_bar_primary_dark_color">#143952</color>
     <color name="transparent">#00000000</color>
-    <color name="divider_color_light">#fafafa</color>
-    <color name="divider_color_dark">#89AFDB</color>
     <color name="text_color_white">#fefefe</color>
-    <color name="actionbar_transperant">#ccc6c6c6</color>
 
     <color name="app_background">#ffffff</color>
 
@@ -19,7 +16,6 @@
     <color name="card_background">#224FC3F7</color>
     <color name="card_shadow_1">#55aaaaaa</color>
     <color name="card_shadow_2">#55cccccc</color>
-    <color name="card_detailing">#DDACE9FF</color>
 
     <!-- funcky colors-->
     <color name="funky_blue">#4FC3F7</color>

@@ -2,7 +2,6 @@ package com.finch.calle.settings;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -64,7 +63,7 @@ public class ModifyNumberListActivity extends ActionBarActivity implements ListV
         super.onResume();
         ActionBar actionbar = getSupportActionBar ();
         actionbar.setDisplayHomeAsUpEnabled ( true );
-        ArrayList<String> list = null;
+        ArrayList<String> list;
 
         list = AppGlobals.dbHelper.getUserSpecifiedNumbers(costType);
         if (list == null || list.isEmpty()) {
@@ -74,16 +73,6 @@ public class ModifyNumberListActivity extends ActionBarActivity implements ListV
             numberListView.setAdapter(adapter);
             numberListView.setOnItemClickListener(this);
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public Intent getIntent() {
-        return super.getIntent();
     }
 
     @Override
@@ -142,18 +131,7 @@ public class ModifyNumberListActivity extends ActionBarActivity implements ListV
         int count = numberListView.getCount();
         SparseBooleanArray sparseBooleanArray = numberListView.getCheckedItemPositions();
         for(int i=0;i<count ; i++){
-            if(sparseBooleanArray.get(i) == true){
-                /*switch(activityType){
-                    case TYPE_EXCLUDED_LIST:
-                        AppGlobals.dbHelper.deleteNumberFromExcluded(numberListView.getItemAtPosition(i).toString());
-                        break;
-                    case TYPE_STD_LIST:
-                        AppGlobals.dbHelper.deleteNumberFromSTD(numberListView.getItemAtPosition(i).toString());
-                        break;
-                    case TYPE_LOCAL_LIST:
-                        AppGlobals.dbHelper.deleteNumberFromLocal(numberListView.getItemAtPosition(i).toString());
-                        break;
-                }*/
+            if(sparseBooleanArray.get(i)){
                 AppGlobals.dbHelper.deleteUserSpecifiedNumber(numberListView.getItemAtPosition(i).toString());
             }
         }
