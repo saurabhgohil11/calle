@@ -36,14 +36,14 @@
         android:gravity="center"
         android:layout_marginTop="-40dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="5dp">
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="4dp"
             android:gravity="center"
+            android:textColor="@color/almost_black"
             android:text="@string/setup_page_3_text"/>
 
         <android.support.design.widget.TextInputLayout
@@ -66,6 +66,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/your_operator"
+            android:textColor="@color/almost_black"
             android:paddingTop="@dimen/activity_vertical_margin"/>
 
         <Spinner
@@ -79,6 +80,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/start_date_of_cycle"
+            android:textColor="@color/almost_black"
             android:paddingTop="@dimen/activity_vertical_margin"/>
 
         <Spinner
@@ -93,11 +95,15 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/mode_of_calculation"
-
+            android:linksClickable="true"
+            android:clickable="true"
+            android:textColor="@color/almost_black"
+            android:onClick="onShowMinutesHelp"
             android:paddingTop="@dimen/activity_vertical_margin"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/almost_black"
             android:text="@string/mode_of_calculation_msg"/>
 
         <RadioGroup
@@ -109,7 +115,7 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/minutes"
+                android:text="@string/minutes_info"
                 android:layout_weight="1"
                 android:id="@+id/min"
                 android:checked="true"/>
@@ -118,12 +124,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/seconds"
+                android:text="@string/seconds_info"
                 android:id="@+id/sec" />
         </RadioGroup>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
             <CheckBox
                 android:id="@+id/tnc_checkbox"

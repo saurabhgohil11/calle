@@ -49,7 +49,7 @@ public class CallStateReceiver extends BroadcastReceiver {
                         if(AppGlobals.isEnableToast) {
                             String minStr;
                             if(AppGlobals.isMinuteMode) {
-                                minStr = DateTimeUtils.timeToString(lastCallDetails.getDuration()/60+1);
+                                minStr = DateTimeUtils.timeToRoundedString(lastCallDetails.getDuration());
                             } else {
                                 minStr = DateTimeUtils.timeToString(lastCallDetails.getDuration());
                             }

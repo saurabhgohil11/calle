@@ -5,22 +5,23 @@ import java.util.Date;
 
 public class UsageDetail {
     Date cycleDates[];
-    int outgoingMinutes;
-    int incomingMinutes;
+    int outgoingSeconds;
+    int incomingSeconds;
 
     public String getCycleString() {
         SimpleDateFormat sdf = new SimpleDateFormat("d MMM yy");
         return sdf.format(cycleDates[0]) + " - " + sdf.format(cycleDates[1]);
     }
-    public int getOutgoingMinutes() {
-        return outgoingMinutes;
+
+    public int getOutgoingSeconds() {
+        return outgoingSeconds;
     }
-    public int getIncomingMinutes() {
-        return incomingMinutes;
+    public int getIncomingSeconds() {
+        return incomingSeconds;
     }
 
     @Override
     public String toString() {
-        return "Cycle:"+getCycleString()+", ogMins:"+getOutgoingMinutes()+", inMins:"+getIncomingMinutes();
+        return "Cycle:"+getCycleString()+", ogSecs:"+getOutgoingSeconds()+", inSecs:"+getIncomingSeconds();
     }
 }

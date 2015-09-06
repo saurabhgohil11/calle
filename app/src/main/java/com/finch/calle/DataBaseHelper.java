@@ -85,7 +85,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_LOGS_HISTORY_TABLE);
         db.execSQL(CREATE_USER_SPECIFIED_NUMBERS_TABLE);
 
-        AppGlobals.log(this,"tableS created");
+        AppGlobals.log(this, "tableS created");
         initStateTable(db);
     }
 
@@ -133,7 +133,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         values.put(KEY_PHONE_NUMBER, number);
         values.put(KEY_COST_TYPE,costType.ordinal());
         String existingNumber = isUserSpecifiedNumberExists(number);
-        AppGlobals.log(this,existingNumber);
+        AppGlobals.log(this, existingNumber);
         if(existingNumber!=null){
             ContentValues newValues = new ContentValues();
             newValues.put(KEY_PHONE_NUMBER, number);
@@ -142,7 +142,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         } else {
             db.insert(TABLE_USER_SPECIFIED_NUMBERS, null, values);
         }
-        updateLogsHistory(number,costType);
+        updateLogsHistory(number, costType);
     }
 
     private void updateLogsHistory(String numberStr, CostType costType) {
@@ -172,7 +172,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public ArrayList<String> getUserSpecifiedNumbers(CostType costType) {
         String selectQuery = "SELECT * FROM "+TABLE_USER_SPECIFIED_NUMBERS+
                              " WHERE "+KEY_COST_TYPE+" = "+costType.ordinal();
-        Cursor c = db.rawQuery(selectQuery,null);
+        Cursor c = db.rawQuery(selectQuery, null);
         ArrayList<String> list=new ArrayList<>(c.getCount());
         if(c.getCount()>0){
             if (c.moveToFirst()) {
@@ -247,7 +247,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_COST_TYPE,callDetails.getCostType().ordinal());
         cv.put(KEY_CALL_TYPE,callDetails.getCallType().ordinal());
         cv.put(KEY_IS_ROAMING,callDetails.isRoaming());
-        cv.put(KEY_CACHED_CONTACT_NAME,callDetails.getCachedContactName());
+        cv.put(KEY_CACHED_CONTACT_NAME, callDetails.getCachedContactName());
         cv.put(KEY_DATE,callDetails.getDate());
         cv.put(KEY_IS_HIDDEN,callDetails.isHidden());
         cv.put(KEY_GEO_LOCATION,callDetails.getNumberLocation());
@@ -326,7 +326,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void deleteLastCall(){
         String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY;
-        Cursor c = db.rawQuery(selectQuery,null);
+        Cursor c = db.rawQuery(selectQuery, null);
         if (c.getCount()>0 && c.moveToLast()) {
             int callID = c.getInt(0);
             db.delete(TABLE_LOGS_HISTORY, KEY_CALL_ID + " = ?", new String[]{String.valueOf(callID)});
@@ -358,43 +358,60 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public int getTotalMinutes(long startDate,long endDate,CallType callType,CostType costType) { //if costtype is null give total
+    public int getTotalSeconds(long startDate,long endDate,CallType callType,CostType costType) { //if costtype is null give total
         boolean isMinuteMode = AppGlobals.isMinuteMode;
 
-        int isAskedRoaming = costType == CostType.ROAMING?1:0;
-
         StringBuffer query = new StringBuffer();
-        if(isMinuteMode) {
+        /*if(isMinuteMode) {
             query.append("SELECT sum("+KEY_CALL_DURATION+"/60+1) FROM "+TABLE_LOGS_HISTORY);
         } else {
             query.append("SELECT sum(" + KEY_CALL_DURATION + ")/60+1 FROM " + TABLE_LOGS_HISTORY);
-        }
+        }*/
+
+        query.append("SELECT "+KEY_CALL_DURATION+" FROM "+TABLE_LOGS_HISTORY);
 
         query.append(" WHERE "+KEY_DATE+" BETWEEN "
-                +startDate+" AND "+endDate+" AND "+KEY_IS_ROAMING+"="+isAskedRoaming+" AND "+KEY_CALL_TYPE+"="+callType.ordinal());
+                +startDate+" AND "+endDate+" AND "+KEY_CALL_TYPE+"="+callType.ordinal());
 
-        if(costType == null) { //get specific costtype
-            query.append(" AND " + KEY_COST_TYPE + "<>" + CostType.FREE.ordinal());  //get total except free
-
-        } else if(isAskedRoaming==0){
-            query.append(" AND "+KEY_COST_TYPE+"="+costType.ordinal());
+        if(costType == null) { //total except free for outgoing
+            if(callType == CallType.OUTGOING)
+                query.append(" AND " + KEY_COST_TYPE + "<>" + CostType.FREE.ordinal());
+        } else if(costType == CostType.ROAMING){
+            query.append(" AND "+KEY_IS_ROAMING+"="+1);
+        } else {
+            query.append(" AND "+KEY_COST_TYPE+"="+costType.ordinal()+" AND "+KEY_IS_ROAMING+"="+0);
         }
 
         Cursor c = db.rawQuery(query.toString(), null);
         if(c.getCount()>0) {
             c.moveToFirst();
-            int minutes = c.getInt(0);
-            c.close();
-            return minutes;
+            if(isMinuteMode) {
+                int minutes=0;
+                do {
+                    minutes += c.getInt(0)/60;
+                    if(c.getInt(0)%60!=0) minutes++;
+                }while (c.moveToNext());
+                c.close();
+                return minutes*60;
+            } else {
+                int seconds=0;
+                do {
+                    seconds += c.getInt(0);
+                }while (c.moveToNext());
+                c.close();
+                return seconds;
+                /*if(seconds%60==0)
+                    return seconds/60;
+                else
+                    return seconds/60+1;*/
+            }
         } else {
-            return -1;
+            return 0;
         }
     }
 
     public ArrayList<CallDetails>  getLogList(long startDate,long endDate,CallType callType,CostType costType) { //if costtype is null give total
         boolean isMinuteMode = AppGlobals.isMinuteMode;
-
-        int isAskedRoaming = costType == CostType.ROAMING?1:0;
 
         StringBuffer query = new StringBuffer();
         if(isMinuteMode) {
@@ -404,13 +421,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
         query.append(" WHERE "+ KEY_IS_HIDDEN + "=0 AND "+KEY_DATE+" BETWEEN "
-                +startDate+" AND "+endDate+" AND "+KEY_IS_ROAMING+"="+isAskedRoaming+" AND "+KEY_CALL_TYPE+"="+callType.ordinal());
+                +startDate+" AND "+endDate+" AND "+KEY_CALL_TYPE+"="+callType.ordinal());
 
-        if(costType == null) { //get specific costtype
-            query.append(" AND " + KEY_COST_TYPE + "<>" + CostType.FREE.ordinal());  //get total except free
-
-        } else if(isAskedRoaming==0){
-            query.append(" AND "+KEY_COST_TYPE+"="+costType.ordinal());
+        if(costType == null) { //total except free for outgoing
+            if(callType == CallType.OUTGOING)
+                query.append(" AND " + KEY_COST_TYPE + "<>" + CostType.FREE.ordinal());
+        } else if(costType == CostType.ROAMING){
+            query.append(" AND "+KEY_IS_ROAMING+"="+1);
+        } else {
+            query.append(" AND "+KEY_COST_TYPE+"="+costType.ordinal()+" AND "+KEY_IS_ROAMING+"="+0);
         }
         query.append(" ORDER BY "+KEY_DATE+" DESC");
 
@@ -439,11 +458,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public int getTotalMinutes(long startDate,long endDate,CallType callType,CostType costType,PhoneNumberUtil.PhoneNumberType phoneNumberType) {
+    public int getTotalSeconds(long startDate,long endDate,CallType callType,CostType costType,PhoneNumberUtil.PhoneNumberType phoneNumberType) {
         boolean isMinuteMode = AppGlobals.isMinuteMode;
 
         StringBuffer query = new StringBuffer();
-        if(isMinuteMode) {
+        /*if(isMinuteMode) {
             query.append("SELECT sum("+KEY_CALL_DURATION+"/60+1) FROM "+TABLE_LOGS_HISTORY+" WHERE "+KEY_DATE+" BETWEEN "
                     +startDate+" AND "+endDate+" AND "+KEY_IS_ROAMING+"=0 AND "+KEY_COST_TYPE+"="+costType.ordinal()+
                     " AND "+KEY_CALL_TYPE+"="+callType.ordinal());
@@ -452,7 +471,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             query.append("SELECT sum("+KEY_CALL_DURATION+")/60+1 FROM "+TABLE_LOGS_HISTORY+" WHERE "+KEY_DATE+" BETWEEN "
                     +startDate+" AND "+endDate+" AND "+KEY_IS_ROAMING+"=0 AND "+KEY_COST_TYPE+"="+costType.ordinal()+
                     " AND "+KEY_CALL_TYPE+"="+callType.ordinal());
-        }
+        }*/
+        query.append("SELECT "+KEY_CALL_DURATION+" FROM "+TABLE_LOGS_HISTORY+" WHERE "+KEY_DATE+" BETWEEN "
+                +startDate+" AND "+endDate+" AND "+KEY_IS_ROAMING+"=0 AND "+KEY_COST_TYPE+"="+costType.ordinal()+
+                " AND "+KEY_CALL_TYPE+"="+callType.ordinal());
+
         if(phoneNumberType == null) { //get other not mobile not fixed
             query.append(" AND " + KEY_PHONE_NUMBER_TYPE + "<>" + PhoneNumberUtil.PhoneNumberType.MOBILE.ordinal() +
                     " AND " + KEY_PHONE_NUMBER_TYPE + "<>" + PhoneNumberUtil.PhoneNumberType.FIXED_LINE.ordinal());
@@ -460,12 +483,41 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         } else { //for mobile or fixed line
             query.append(" AND "+KEY_PHONE_NUMBER_TYPE+"="+phoneNumberType.ordinal());
         }
-        Cursor c = db.rawQuery(query.toString(),null);
+
+        Cursor c = db.rawQuery(query.toString(), null);
         if(c.getCount()>0) {
             c.moveToFirst();
-            int minutes = c.getInt(0);
-            c.close();
-            return minutes;
+            if(isMinuteMode) {
+                int minutes=0;
+                do {
+                    minutes += c.getInt(0)/60;
+                    if(c.getInt(0)%60!=0) minutes++;
+                }while (c.moveToNext());
+                c.close();
+                return minutes*60;
+            } else {
+                int seconds=0;
+                do {
+                    seconds += c.getInt(0);
+                }while (c.moveToNext());
+                c.close();
+                return seconds;
+                /*if(seconds%60==0)
+                    return seconds/60;
+                else
+                    return seconds/60+1;*/
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    public long getOldestLogDate() {
+        String query = "SELECT "+KEY_DATE+" FROM "+TABLE_LOGS_HISTORY+" ORDER BY "+KEY_DATE+" LIMIT 1";
+        Cursor c = db.rawQuery(query, null);
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            return c.getLong(0);
         } else {
             return -1;
         }
@@ -477,8 +529,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         for(Date dates[] :cycleList) {
             UsageDetail u = new UsageDetail();
             u.cycleDates = dates;
-            u.outgoingMinutes = getTotalMinutes(dates[0].getTime(),dates[1].getTime(),CallType.OUTGOING,null);
-            u.incomingMinutes = getTotalMinutes(dates[0].getTime(),dates[1].getTime(),CallType.INCOMING,null);
+            u.outgoingSeconds = getTotalSeconds(dates[0].getTime(),dates[1].getTime(),CallType.OUTGOING,null);
+            u.incomingSeconds = getTotalSeconds(dates[0].getTime(),dates[1].getTime(),CallType.INCOMING,null);
             list.add(u);
         }
         return list;

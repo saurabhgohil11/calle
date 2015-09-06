@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.finch.calle.setupwizard.UnknownNumbersActivity;
+import com.finch.calle.utils.DateTimeUtils;
 import com.finch.calle.widget.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class LogListActivity extends ActionBarActivity {
     private TextView totalMinutes;
 
     private static List<CallDetails> logListData;
-    int minutes;
+    int seconds;
 
     CallType callType;
     CostType costType;
@@ -137,7 +138,11 @@ public class LogListActivity extends ActionBarActivity {
         simpleAdapter = new SimpleRecyclerViewAdapter(this,logListData,showCostType);
         recyclerView.setAdapter(simpleAdapter);
         billCycle.setText(getResources().getString(R.string.bill_cycle) + " : " + AppGlobals.getBillCycleString(billCycleDates));
-        totalMinutes.setText(minutes+" "+res.getString(R.string.mins));
+        if (AppGlobals.isMinuteMode) {
+            totalMinutes.setText(DateTimeUtils.timeToRoundedString(seconds));
+        } else {
+            totalMinutes.setText(DateTimeUtils.timeToString(seconds));
+        }
     }
 
     private void updateViews() {
@@ -146,7 +151,11 @@ public class LogListActivity extends ActionBarActivity {
         simpleAdapter.notifyDataSetChanged();
         recyclerView.invalidate();
         billCycle.setText(getResources().getString(R.string.bill_cycle) + " : " + AppGlobals.getBillCycleString(billCycleDates));
-        totalMinutes.setText(minutes + " " + getResources().getString(R.string.mins));
+        if (AppGlobals.isMinuteMode) {
+            totalMinutes.setText(DateTimeUtils.timeToRoundedString(seconds));
+        } else {
+            totalMinutes.setText(DateTimeUtils.timeToString(seconds));
+        }
     }
 
     private void initListData(){
@@ -157,7 +166,7 @@ public class LogListActivity extends ActionBarActivity {
         }
         logListData.clear();
         logListData.addAll(dbHelper.getLogList(billCycleDates[0].getTime(), billCycleDates[1].getTime(), callType, costType));
-        minutes = dbHelper.getTotalMinutes(billCycleDates[0].getTime(),billCycleDates[1].getTime(),callType,costType);
+        seconds = dbHelper.getTotalSeconds(billCycleDates[0].getTime(), billCycleDates[1].getTime(), callType, costType);
     }
 
     public void onCategorizeClicked(View v) {

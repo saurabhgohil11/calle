@@ -10,8 +10,8 @@
             android:key="bill_cycle"
             android:title="@string/title_modify_cycle"
             android:dialogTitle="@string/dialog_title_modify_cycle"
-            android:defaultValue="5"
-            speedreader:maxValue="31"
+            android:defaultValue="1"
+            speedreader:maxValue="28"
             speedreader:minValue="1"/>
         <ListPreference
             android:key="user_circle"

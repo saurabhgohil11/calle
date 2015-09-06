@@ -12,5 +12,5 @@
         android:id="@+id/ic_og_edit_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="incoming/outgoing"/>
+        android:hint="i/o r"/>
 </LinearLayout>

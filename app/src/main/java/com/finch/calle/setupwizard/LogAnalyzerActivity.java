@@ -81,7 +81,7 @@ class LogsWorker extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onPreExecute() {
         appGlobals = AppGlobals.getInstance(parent);
-        dbHelper = AppGlobals.dbHelper;
+        dbHelper = new DataBaseHelper(parent);
     }
 
     @Override
@@ -140,6 +140,7 @@ class LogsWorker extends AsyncTask<Void, Integer, Void> {
             progressBar.setProgress(i);
         }
         managedCursor.close();
+        dbHelper.close();
         return null;
     }
 

@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/cards_padding"
         android:textColor="@android:color/black"
-        android:textSize="18dp"/>
+        android:textSize="@dimen/log_list_subtitle_text_size"/>
     <TextView
         android:id="@+id/minutes"
         android:layout_width="wrap_content"
@@ -17,7 +17,7 @@
         android:padding="@dimen/cards_padding"
         android:textColor="@android:color/black"
         android:layout_alignParentRight="true"
-        android:textSize="18dp"/>
+        android:textSize="@dimen/log_list_subtitle_text_size"/>
     <View
         android:layout_below="@id/bill_cycle"
         android:layout_width="match_parent"

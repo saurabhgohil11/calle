@@ -4,6 +4,7 @@
     <color name="action_bar_primary_dark_color">#143952</color>
     <color name="transparent">#00000000</color>
     <color name="text_color_white">#fefefe</color>
+    <color name="almost_black">#111</color>
 
     <color name="app_background">#ffffff</color>
 
@@ -27,9 +28,12 @@
     <color name="funky_red">#E06055</color>
     <color name="funky_violet">#9FA8DA</color>
 
+    <color name="switch_minute">#906066</color>
+    <color name="switch_second">#4270B8</color>
+
     <!-- setup wizard -->
-    <color name="color1">#aaE9F6FF</color>
-    <color name="color2">#aaFFE8C4</color>
-    <color name="color3">#aaF5FBCC</color>
+    <color name="color1">#ccD9F6FF</color>
+    <color name="color2">#aa74c8C4</color>
+    <color name="color3">#cfF5FBCC</color>
 
 </resources>

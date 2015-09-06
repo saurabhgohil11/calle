@@ -1,5 +1,6 @@
 package com.finch.calle;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -18,6 +19,11 @@ public class UsageHistoryItemDetailActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usage_history_item_detail);
+
+        if(!AppGlobals.isTablet(this)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         billCycleDates = new Date[2];
         billCycleDates[0] = new Date(getIntent().getExtras().getLong("startdate"));
         billCycleDates[1] = new Date(getIntent().getExtras().getLong("enddate"));

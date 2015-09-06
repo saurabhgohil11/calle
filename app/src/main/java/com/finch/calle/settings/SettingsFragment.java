@@ -181,17 +181,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                                         cd.date = new Date().getTime();
                                         cd.cachedContactName = "Misa Misa";
                                         cd.phoneNumber = number;
-                                        cd.isRoaming = false;
+                                        cd.isRoaming = numbertype.contains("r");
                                         cd.isHidden = false;
-                                        switch (numbertype){
-                                            case "incoming":
+                                        if(numbertype.contains("i"))
                                                 cd.callType = CallType.INCOMING;
-                                                break;
-                                            case "outgoing":
+                                        if(numbertype.contains("o"))
                                                 cd.callType = CallType.OUTGOING;
-                                                break;
 
-                                        }
                                         PhoneNumber n = new PhoneNumber(getActivity(),AppGlobals.dbHelper,cd.phoneNumber);
                                         cd.costType = n.getCostType();
                                         cd.nationalNumber = n.getNationalNumber();

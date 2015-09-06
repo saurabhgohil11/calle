@@ -1,9 +1,12 @@
 package com.finch.calle.setupwizard;
 
 import android.animation.ArgbEvaluator;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -167,6 +170,23 @@ public class SetupActivity extends ActionBarActivity {
             mPager.setCurrentItem(i+1);
     }
 
+    public void onShowMinutesHelp(View v) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        AlertDialog alertDialog;
+        Resources res = getResources();
+        alertDialogBuilder.setTitle(res.getString(R.string.dialog_title_mode_of_calculation));
+        alertDialogBuilder.setMessage(res.getString(R.string.help_mode_of_calculation));
+
+        alertDialogBuilder.setPositiveButton(res.getString(R.string.ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+
+        alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
 
     public static class SetupWizardFragment extends Fragment {
         private static final String FRAGNO = "frag_no";
@@ -206,7 +226,7 @@ public class SetupActivity extends ActionBarActivity {
                     rootView = inflater.inflate(R.layout.fragment_setup_info_1, container, false);
                     break;
                 case FRAG_CIRCLE_CYCLE_MODE:
-                    rootView = inflater.inflate(R.layout.fragment_setup_circle, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_setup_plan, container, false);
                     if(rootView == null) break;
 
                     final EditText mobileNumber = (EditText) rootView.findViewById(R.id.mobile_number_edit_text);
@@ -291,20 +311,19 @@ public class SetupActivity extends ActionBarActivity {
                 TextView w1=(TextView)view.findViewById(R.id.setup_page_1_app_name);
                 TextView w2=(TextView)view.findViewById(R.id.setup_page_1_text);
                 ImageView v1 = (ImageView) view.findViewById(R.id.welcome_image);
-                if(v1!=null)
-                {
-                    v1.setAlpha(1-Math.abs(position));
-                }
+                if(v1!=null) v1.setAlpha(1-Math.abs(position));
                 if(w1!=null) w1.setTranslationX((position) * (pageWidth / 1));
                 if(w2!=null) w2.setTranslationX((position) * (pageWidth / 0.4f));
 
                 //page 2
-
-
+                TextView page2title=(TextView)view.findViewById(R.id.info_title_page2);
+                TextView page2text=(TextView)view.findViewById(R.id.info_text_page2);
+                ImageView page2Image = (ImageView) view.findViewById(R.id.info_image_page2);
+                if(page2Image!=null) page2Image.setAlpha(0.8f-Math.abs(position));
+                if(page2title!=null) page2title.setTranslationX((position) * (pageWidth / 0.5f));
+                if(page2text!=null) page2text.setTranslationX((position) * (pageWidth / 0.4f));
 
                 //page 3
-
-
                 LinearLayout finish = (LinearLayout) view.findViewById(R.id.finish_button);
                 if(finish!=null) {
                     finish.setAlpha(1-Math.abs(position));

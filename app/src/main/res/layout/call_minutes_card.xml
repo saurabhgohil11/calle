@@ -238,15 +238,29 @@
         android:id="@+id/free_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:background="?android:attr/selectableItemBackground">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/free_total_label"
+                style="@style/CardHeaderStyle"
+                android:text="@string/free"/>
+            <TextView
+                android:id="@+id/free_total_mins"
+                style="@style/CardHeaderMinStyle"/>
+        </LinearLayout>
         <TextView
-            android:id="@+id/free_total_label"
-            style="@style/CardHeaderStyle"
-            android:text="@string/free"/>
-        <TextView
-            android:id="@+id/free_total_mins"
-            style="@style/CardHeaderMinStyle"/>
+            android:id="@+id/free_mins_not_added_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-10dp"
+            android:paddingBottom="8dp"
+            android:text="@string/free_mins_not_added"
+            android:visibility="visible"/>
     </LinearLayout>
+
 
 </LinearLayout>

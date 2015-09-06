@@ -10,15 +10,13 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.finch.calle.utils.DateTimeUtils;
+
 import java.util.ArrayList;
 
 public class UsageListViewAdapter extends BaseAdapter implements AdapterView.OnItemClickListener{
     private final Context context;
-
-
-
     private final ArrayList<UsageDetail> data;
-    String minStr;
     String outgoingStr;
     String incomingStr;
 
@@ -27,10 +25,8 @@ public class UsageListViewAdapter extends BaseAdapter implements AdapterView.OnI
         this.context = context;
         this.data = usageDetailList;
         Resources res = context.getResources();
-        minStr = res.getString(R.string.mins);
         outgoingStr = res.getString(R.string.outgoing);
         incomingStr = res.getString(R.string.incoming);
-
     }
 
     @Override
@@ -47,9 +43,13 @@ public class UsageListViewAdapter extends BaseAdapter implements AdapterView.OnI
         TextView incomingMins = (TextView) rowView.findViewById(R.id.incomingItem);
 
         billCycle.setText(data.get(position).getCycleString());
-        outgoingMins.setText(outgoingStr+" "+data.get(position).getOutgoingMinutes()+" "+minStr);
-        incomingMins.setText(incomingStr+" "+data.get(position).getIncomingMinutes()+" "+minStr);
-
+        if (AppGlobals.isMinuteMode) {
+            outgoingMins.setText(outgoingStr + "\n" + DateTimeUtils.timeToRoundedString(data.get(position).getOutgoingSeconds()));
+            incomingMins.setText(incomingStr + "\n" + DateTimeUtils.timeToRoundedString(data.get(position).getIncomingSeconds()));
+        } else {
+            outgoingMins.setText(outgoingStr + "\n" + DateTimeUtils.timeToString(data.get(position).getOutgoingSeconds()));
+            incomingMins.setText(incomingStr + "\n" + DateTimeUtils.timeToString(data.get(position).getIncomingSeconds()));
+        }
         return rowView;
     }
 

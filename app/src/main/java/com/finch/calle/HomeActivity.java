@@ -20,9 +20,11 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.finch.calle.settings.NumberListActivity;
@@ -88,6 +90,12 @@ public class HomeActivity extends ActionBarActivity {
 
     CallMinutesCardView mIncomingCard;
     CallMinutesCardView mOutgoingCard;
+
+    //calculation mode views
+    private Switch calculationModeSwitch;
+    private TextView minuteModeText;
+    private TextView secondModeText;
+
     //most contacted persons
 
     //----this month tab ends-----
@@ -204,6 +212,38 @@ public class HomeActivity extends ActionBarActivity {
         mIncomingCard = (CallMinutesCardView) findViewById(R.id.home_incoming_card);
         mOutgoingCard = (CallMinutesCardView) findViewById(R.id.home_outgoing_card);
 
+        minuteModeText = (TextView) findViewById(R.id.mode_minutes_text);
+        secondModeText = (TextView) findViewById(R.id.mode_seconds_text);
+        calculationModeSwitch = (Switch) findViewById(R.id.calculation_mode_switch);
+        calculationModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences.Editor e = sp.edit();
+                Resources res = getResources();
+                if(isChecked) {
+                    minuteModeText.setTextColor(res.getColor(R.color.funky_grey));
+                    secondModeText.setTextColor(res.getColor(R.color.switch_second));
+                    e.putString(AppGlobals.PKEY_MODE_OF_CALCULATION, AppGlobals.MODE_SECONDS);
+                    AppGlobals.isMinuteMode = false;
+                } else {
+                    secondModeText.setTextColor(res.getColor(R.color.funky_grey));
+                    minuteModeText.setTextColor(res.getColor(R.color.switch_minute));
+                    e.putString(AppGlobals.PKEY_MODE_OF_CALCULATION, AppGlobals.MODE_MINUTES);
+                    AppGlobals.isMinuteMode = true;
+                }
+                e.commit();
+                AppGlobals.sendUpdateMessage();
+            }
+        });
+
+        if(AppGlobals.isMinuteMode) {
+            secondModeText.setTextColor(getResources().getColor(R.color.funky_grey));
+            minuteModeText.setTextColor(getResources().getColor(R.color.switch_minute));
+        } else {
+            minuteModeText.setTextColor(getResources().getColor(R.color.funky_grey));
+            secondModeText.setTextColor(getResources().getColor(R.color.switch_second));
+        }
+
         //logs historytab
         mLogHistoryRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -246,6 +286,12 @@ public class HomeActivity extends ActionBarActivity {
         if(!sp.getBoolean(AppGlobals.PKEY_FIRST_TIME,false)){  //for app reset
             startActivity(new Intent(this,SetupActivity.class));
             finish();
+        }
+
+        if(AppGlobals.isMinuteMode) {
+            calculationModeSwitch.setChecked(false);
+        } else {
+            calculationModeSwitch.setChecked(true);
         }
 
         simOperator.setText(AppGlobals.simOperator);
@@ -369,7 +415,11 @@ public class HomeActivity extends ActionBarActivity {
                 lastCallNumber.setText(call.getPhoneNumber());
             }
             lastCallType.setText(call.getCostTypeToDisplay());
-            lastCallDuration.setText(DateTimeUtils.timeToString(call.getDuration()));
+            if(AppGlobals.isMinuteMode) {
+                lastCallDuration.setText(DateTimeUtils.timeToRoundedString(call.getDuration()));
+            } else {
+                lastCallDuration.setText(DateTimeUtils.timeToString(call.getDuration()));
+            }
             lastCallNumber.startAnimation(fadein);
             lastCallType.startAnimation(fadein);
             lastCallDuration.startAnimation(fadein);
@@ -413,6 +463,23 @@ public class HomeActivity extends ActionBarActivity {
                         e.commit();
                     }
                 });
+        alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public void onShowMinutesHelp(View v) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        AlertDialog alertDialog;
+        Resources res = getResources();
+        alertDialogBuilder.setTitle(res.getString(R.string.dialog_title_mode_of_calculation));
+        alertDialogBuilder.setMessage(res.getString(R.string.help_mode_of_calculation));
+
+        alertDialogBuilder.setPositiveButton(res.getString(R.string.ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+
         alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }

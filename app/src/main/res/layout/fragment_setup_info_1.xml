@@ -4,22 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="35dp"
-    android:paddingRight="35dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="35dp"
     android:gravity="center_vertical"
     tools:context="com.app.postpaidcallusage.HomeActivity$SetupWizardFragment">
     <ImageView
+        android:id="@+id/info_image_page2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="320dp"
+        android:src="@drawable/info_image"
+        android:layout_marginBottom="8dp"/>
     <TextView
+        android:id="@+id/info_title_page2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="17dp"
+        android:textSize="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:fontFamily="sans-sarif"
+        android:textStyle="bold"
+        android:textColor="@color/almost_black"
         android:text="@string/setup_page_2_title"/>
     <TextView
+        android:id="@+id/info_text_page2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="6dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColor="@color/almost_black"
         android:text="@string/setup_page_2_text"/>
 </LinearLayout>

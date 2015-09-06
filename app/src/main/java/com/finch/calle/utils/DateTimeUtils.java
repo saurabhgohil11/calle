@@ -39,10 +39,23 @@ public class DateTimeUtils {
         if(timeInSecs < 0) {
             throw new IllegalArgumentException("Duration must be greater than zero!");
         }
-        return timeToString((long)timeInSecs*1000);
+        return timeToString((long) timeInSecs * 1000);
     }
 
-    public static String timeToString(long timeInMillis) {  //returns 0 mins 1 secs
+    public static String timeToRoundedString(long timeInSecs) {  //returns 1 mins
+        if(timeInSecs < 0) {
+            throw new IllegalArgumentException("Duration must be greater than zero!");
+        }
+        if(timeInSecs==0)
+            return "0 Mins";
+        return timeToString((timeInSecs/60+1)*60*1000,false);
+    }
+
+    public static String timeToString(long timeInMillis) {
+        return timeToString(timeInMillis,true);
+    }
+
+    public static String timeToString(long timeInMillis,boolean showSeconds) {  //returns 0 mins 1 secs
         if(timeInMillis < 0) {
             throw new IllegalArgumentException("Duration must be greater than zero!");
         }
@@ -67,8 +80,10 @@ public class DateTimeUtils {
             sb.append(minutes);
             sb.append(" Mins ");
         }
-        sb.append(seconds);
-        sb.append(" Secs");
+        if(showSeconds) {
+            sb.append(seconds);
+            sb.append(" Secs");
+        }
 
         return(sb.toString());
     }

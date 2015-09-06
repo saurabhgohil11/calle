@@ -15,7 +15,8 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/cards_padding">
+            android:paddingTop="@dimen/cards_padding"
+            android:paddingBottom="@dimen/cards_padding">
 
             <RelativeLayout
                 android:id="@+id/home_cycle_detail_card"
@@ -94,6 +95,47 @@
                             android:text="5 mins"/>
                     </TableRow>
                 </TableLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/cards_between_margin"
+                android:layout_marginLeft="@dimen/cards_between_margin"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/mode_minutes_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-sarif"
+                    android:text="@string/minutes"/>
+                <Switch
+                    android:id="@+id/calculation_mode_switch"
+                    android:layout_width="42dp"
+                    android:layout_height="18dp"
+                    android:textOff=""
+                    android:textOn=""
+                    android:layout_marginLeft="@dimen/cards_between_margin"
+                    android:thumbTextPadding="9dp"
+                    android:switchMinWidth="38dp"
+                    android:track="@drawable/shape_track"
+                    android:thumb="@drawable/shape_thumb"/>
+                <TextView
+                    android:id="@+id/mode_seconds_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-sarif"
+                    android:layout_marginLeft="@dimen/cards_between_margin"
+                    android:text="@string/seconds"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:layout_marginLeft="@dimen/cards_between_margin"
+                    android:linksClickable="true"
+                    android:onClick="onShowMinutesHelp"
+                    android:text="@string/quetion_mark"/>
             </LinearLayout>
 
             <TextView

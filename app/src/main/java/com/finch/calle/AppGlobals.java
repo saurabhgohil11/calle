@@ -194,7 +194,7 @@ public class AppGlobals {
         c.set(Calendar.HOUR_OF_DAY, 23);  //HOUR is stricly 12 Hours
         c.set(Calendar.MINUTE,59);
         c.set(Calendar.SECOND,59);
-        c.set(Calendar.MILLISECOND,999);
+        c.set(Calendar.MILLISECOND, 999);
         dates[1] = new Date(c.getTimeInMillis());
         return dates;
     }
@@ -202,6 +202,10 @@ public class AppGlobals {
     public static ArrayList<Date []> getUsageCycleArray() {
         ArrayList<Date []> cycles = new ArrayList<>();
         long installationDate  = preferences.getLong(PKEY_INSTALLATION_DATE, -1);
+        long temp;
+        if((temp=dbHelper.getOldestLogDate())!=-1) {
+            installationDate = temp;
+        }
         //installationDate = 1262344139000L;  //Fri, 01 Jan 2010 11:08:59 GMT
         if(installationDate == -1) {
             return cycles;
@@ -210,11 +214,11 @@ public class AppGlobals {
         int startDay=preferences.getInt(PKEY_BILL_CYCLE, -1);
         Calendar c = Calendar.getInstance();
         boolean firstloop=true;
-        android.util.Log.d("AppGlobals","saurabh installationdate:" +installationDate+"currentDate="+c.getTimeInMillis());
+        //android.util.Log.d("AppGlobals","saurabh installationdate:" +installationDate+"currentDate="+c.getTimeInMillis());
         while (c.getTimeInMillis()>installationDate) {
-            if(c.get(Calendar.DATE)<startDay && firstloop) {
+            if (c.get(Calendar.DATE)<startDay && firstloop) {
                 c.add(Calendar.MONTH, -1);
-                firstloop = false;
+                firstloop=false;
             }
             c.set(Calendar.DATE, startDay);
             c.set(Calendar.HOUR_OF_DAY, 0);  //HOUR is stricly 12 Hours
@@ -233,8 +237,32 @@ public class AppGlobals {
             c.set(Calendar.MILLISECOND, 999);
             dates[1] = new Date(c.getTimeInMillis());
             cycles.add(dates);
-            Log.d("Saurabh","cycle:"+getBillCycleString(dates));
+            //Log.d("Saurabh","cycle:"+getBillCycleString(dates));
             c.add(Calendar.MONTH, -1);
+            if (c.get(Calendar.DATE)<startDay) {
+                c.add(Calendar.MONTH, -1);
+            }
+        }
+
+        if (c.get(Calendar.DATE)<startDay) { //add one more last cycle if list is more that 1
+            c.set(Calendar.DATE, startDay);
+            c.set(Calendar.HOUR_OF_DAY, 0);  //HOUR is stricly 12 Hours
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MILLISECOND, 0);
+
+            Date dates[] = new Date[2];
+            dates[0] = new Date(c.getTimeInMillis());
+
+            c.add(Calendar.MONTH, 1);
+            c.add(Calendar.DATE, -1);
+            c.set(Calendar.HOUR_OF_DAY, 23);  //HOUR is stricly 12 Hours
+            c.set(Calendar.MINUTE, 59);
+            c.set(Calendar.SECOND, 59);
+            c.set(Calendar.MILLISECOND, 999);
+            dates[1] = new Date(c.getTimeInMillis());
+            cycles.add(dates);
+            Log.d("Saurabh", "cycle:" + getBillCycleString(dates));
         }
 
         return cycles;

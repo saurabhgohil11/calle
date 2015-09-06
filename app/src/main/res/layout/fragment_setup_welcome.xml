@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30dp"
+        android:textColor="@color/almost_black"
         android:fontFamily="sans-sarif"/>
     <TextView
         android:id="@+id/setup_page_1_text"
@@ -32,6 +33,7 @@
         android:layout_height="wrap_content"
         android:padding="25dp"
         android:textSize="17dp"
+        android:textColor="@color/almost_black"
         android:layout_gravity="center"
         android:gravity="center"/>
     </LinearLayout>

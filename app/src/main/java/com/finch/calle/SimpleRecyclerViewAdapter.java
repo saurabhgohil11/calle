@@ -98,7 +98,12 @@ public class SimpleRecyclerViewAdapter extends
         else
             viewHolder.time.setText("");
 
-        String duration = DateTimeUtils.timeToString(call.getDuration());
+        String duration;
+        if(AppGlobals.isMinuteMode) {
+            duration = DateTimeUtils.timeToRoundedString(call.getDuration());
+        } else {
+            duration = DateTimeUtils.timeToString(call.getDuration());
+        }
         if(duration != null)
             viewHolder.duration.setText(duration);
         else

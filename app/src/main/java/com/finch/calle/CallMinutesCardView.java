@@ -3,6 +3,7 @@ package com.finch.calle;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.finch.calle.utils.DateTimeUtils;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
 import java.util.Date;
@@ -41,12 +43,13 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
     private TextView mSTDMobileMins;
     private TextView mSTDFixedLineMins;
     private TextView mSTDOtherMins;
-	
+
+    private TextView mFreeMinsNoteAdded;
+
 	private Context mContext;
 	private CallType mCallType;
 	private Date cycleDates[];
-	
-	String minsStr;
+
 	
 	public CallMinutesCardView(Context context) {
 		this(context, null);
@@ -55,7 +58,6 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
 	public CallMinutesCardView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.mContext = context;
-		minsStr = context.getResources().getString(R.string.mins);
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rootView = inflater.inflate(R.layout.call_minutes_card, this, true);
 		initView(rootView);
@@ -96,6 +98,8 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
         mSTDFixedLineMins = (TextView) rootView.findViewById(R.id.std_fixedline_mins);
         mSTDOtherMins = (TextView) rootView.findViewById(R.id.std_other_mins);
 
+        mFreeMinsNoteAdded = (TextView) rootView.findViewById(R.id.free_mins_not_added_text);
+
         mTitleLayout.setOnClickListener(this);
         mLocalLayout.setOnClickListener(this);
         mStdLayout.setOnClickListener(this);
@@ -125,76 +129,99 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
 			AppGlobals.log(this,"returning from updateCallMinutesCard due to null dbHelper");
             return;
 		}
-        int minutes;
+        int seconds;
 
-        //total minutes
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, null);
+        //total seconds
+        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, null);
+        //mTitleMins.setText(seconds + " " + minsStr);
+        setText(mTitleMins,seconds);
 
-        mTitleMins.setText(minutes + " " + minsStr);
         //local Minutes
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL);
-        setVisibleAndSetText(mLocalLayout, mLocalMins, minutes);
+        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL);
+        setVisibleAndSetText(mLocalLayout, mLocalMins, seconds);
 
-        if(minutes>0 && mCallType == CallType.OUTGOING) {
+        if(seconds>0 && mCallType == CallType.OUTGOING) {
             mLocalSubMinutesLayout.setVisibility(View.VISIBLE);
         } else {
             mLocalSubMinutesLayout.setVisibility(View.GONE);
         }
 
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL, PhoneNumberUtil.PhoneNumberType.MOBILE);
-        mLocalMobileMins.setText(minutes + " " + minsStr);
+        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL, PhoneNumberUtil.PhoneNumberType.MOBILE);
+        //mLocalMobileMins.setText(seconds + " " + minsStr);
+        setText(mLocalMobileMins, seconds);
 
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL, PhoneNumberUtil.PhoneNumberType.FIXED_LINE);
-        mLocalFixedLineMins.setText(minutes + " " + minsStr);
+        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL, PhoneNumberUtil.PhoneNumberType.FIXED_LINE);
+        //mLocalFixedLineMins.setText(seconds + " " + minsStr);
+        setText(mLocalFixedLineMins, seconds);
 
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL, null);
-        mLocalOtherMins.setText(minutes + " " + minsStr);
+        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL, null);
+        //mLocalOtherMins.setText(seconds + " " + minsStr);
+        setText(mLocalOtherMins, seconds);
 
-        //std minutes
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD);
-        setVisibleAndSetText(mStdLayout, mStdMins, minutes);
+        //std seconds
+        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD);
+        setVisibleAndSetText(mStdLayout, mStdMins, seconds);
 
-        if(minutes>0 && mCallType == CallType.OUTGOING) {
+        if(seconds>0 && mCallType == CallType.OUTGOING) {
             mSTDSubMinutesLayout.setVisibility(View.VISIBLE);
         } else {
             mSTDSubMinutesLayout.setVisibility(View.GONE);
         }
 
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD, PhoneNumberUtil.PhoneNumberType.MOBILE);
-        mSTDMobileMins.setText(minutes + " " + minsStr);
+        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD, PhoneNumberUtil.PhoneNumberType.MOBILE);
+        //mSTDMobileMins.setText(seconds + " " + minsStr);
+        setText(mSTDMobileMins, seconds);
 
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD, PhoneNumberUtil.PhoneNumberType.FIXED_LINE);
-        mSTDFixedLineMins.setText(minutes + " " + minsStr);
+        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD, PhoneNumberUtil.PhoneNumberType.FIXED_LINE);
+        //mSTDFixedLineMins.setText(seconds + " " + minsStr);
+        setText(mSTDFixedLineMins, seconds);
 
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD, null);
-        mSTDOtherMins.setText(minutes + " " + minsStr);
+        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD, null);
+        //mSTDOtherMins.setText(seconds + " " + minsStr);
+        setText(mSTDOtherMins, seconds);
 
-        //isd minutes
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.ISD);
-        setVisibleAndSetText(mISDLayout, mISDMins, minutes);
+        //isd seconds
+        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.ISD);
+        setVisibleAndSetText(mISDLayout, mISDMins, seconds);
 
-        //Unknown minutes
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.UNKNOWN);
-        setVisibleAndSetText(mUnknownLayout, mUnknownMins, minutes);
+        //Unknown seconds
+        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.UNKNOWN);
+        setVisibleAndSetText(mUnknownLayout, mUnknownMins, seconds);
 
-        //Roaming minutes
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType,CostType.ROAMING);
-        setVisibleAndSetText(mRoamingLayout, mRoamingMins, minutes);
+        //Roaming seconds
+        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.ROAMING);
+        setVisibleAndSetText(mRoamingLayout, mRoamingMins, seconds);
 
-        //free minutes
-        minutes = dbHelper.getTotalMinutes(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.FREE);
-        setVisibleAndSetText(mFreeLayout, mFreeMins, minutes);
-        mFreeMins.setText("- "+minutes + " " + minsStr);
+        //free seconds
+        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.FREE);
+        setVisibleAndSetText(mFreeLayout, mFreeMins, seconds);
+
+        if(seconds>0 && mCallType == CallType.OUTGOING) {
+            mFreeMinsNoteAdded.setVisibility(View.VISIBLE);
+            mFreeMins.setTextColor(Color.GRAY);
+        } else {
+            mFreeMinsNoteAdded.setVisibility(View.GONE);
+        }
 	}
+
+    private void setText(TextView minuteView,int seconds) {
+        if(AppGlobals.isMinuteMode)
+            minuteView.setText(DateTimeUtils.timeToRoundedString(seconds));
+        else
+            minuteView.setText(DateTimeUtils.timeToString(seconds));
+    }
 	
-	private void setVisibleAndSetText(View layout, TextView minuteView, int minutes) {
+	private void setVisibleAndSetText(View layout, TextView minuteView, int seconds) {
         if(layout==null || minuteView == null) return;
-        if(minutes > 0) {
+        if(seconds > 0) {
             layout.setVisibility(View.VISIBLE);
         } else {
             layout.setVisibility(View.GONE);
         }
-        minuteView.setText(minutes + " " + minsStr);
+        if(AppGlobals.isMinuteMode)
+            minuteView.setText(DateTimeUtils.timeToRoundedString(seconds));
+        else
+            minuteView.setText(DateTimeUtils.timeToString(seconds));
     }
 
 	public void onClick(View v) {

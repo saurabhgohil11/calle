@@ -10,4 +10,5 @@
     <dimen name="cards_between_margin">8dp</dimen>
     <dimen name="title_text_size">19dp</dimen>
     <dimen name="scroll_view_padding">12dp</dimen>
+    <dimen name="log_list_subtitle_text_size">18dp</dimen>
 </resources>
