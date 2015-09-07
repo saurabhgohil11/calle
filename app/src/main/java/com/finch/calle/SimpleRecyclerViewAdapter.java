@@ -285,6 +285,7 @@ public class SimpleRecyclerViewAdapter extends
                                 dismissDialog();
                                 break;
                             case R.id.action_delete_log:
+                                AppGlobals.dbHelper.deleteNumberFromLogs(callDetails.callID);
                                 AppGlobals.sendUpdateMessage();
                                 dismissDialog();
                                 break;

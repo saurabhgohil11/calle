@@ -81,7 +81,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
+    <!--PreferenceCategory
         android:title="Developer Options">
 
         <Preference
@@ -93,6 +93,6 @@
             android:id="@+id/number_test"
             android:key="number_test"
             android:title="Number Test" />
-    </PreferenceCategory>
+    </PreferenceCategory-->
 
 </PreferenceScreen>

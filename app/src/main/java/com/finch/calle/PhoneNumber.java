@@ -27,7 +27,7 @@ public class PhoneNumber {
         phoneNumberType = PhoneNumberUtil.PhoneNumberType.UNKNOWN;
 
         if (AppGlobals.userCountryCode.equals("null")) {
-            AppGlobals.getInstance().initUserCountryCode();
+            AppGlobals.getInstance(c).initUserCountryCode();
         }
         AppGlobals.log(this,"-----------------PhoneNumber is:"+numberStr);
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();

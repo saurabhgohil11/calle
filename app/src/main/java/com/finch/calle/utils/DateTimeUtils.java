@@ -59,24 +59,24 @@ public class DateTimeUtils {
         if(timeInMillis < 0) {
             throw new IllegalArgumentException("Duration must be greater than zero!");
         }
-        long days = TimeUnit.MILLISECONDS.toDays(timeInMillis);
+        /*long days = TimeUnit.MILLISECONDS.toDays(timeInMillis);
         timeInMillis -= TimeUnit.DAYS.toMillis(days);
         long hours = TimeUnit.MILLISECONDS.toHours(timeInMillis);
-        timeInMillis -= TimeUnit.HOURS.toMillis(hours);
+        timeInMillis -= TimeUnit.HOURS.toMillis(hours);*/
         long minutes = TimeUnit.MILLISECONDS.toMinutes(timeInMillis);
         timeInMillis -= TimeUnit.MINUTES.toMillis(minutes);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(timeInMillis);
 
         StringBuilder sb = new StringBuilder(64);
-        if(days > 0) {
+        /*if(days > 0) {
             sb.append(days);
             sb.append("Days");
         }
         if(days > 0 || hours > 0) {
             sb.append(hours);
             sb.append(" Hours ");
-        }
-        if(days > 0 || hours > 0 || minutes > 0) {
+        }*/
+        if(/*days > 0 || hours > 0 ||*/ minutes > 0) {
             sb.append(minutes);
             sb.append(" Mins ");
         }

@@ -424,7 +424,6 @@ public class HomeActivity extends ActionBarActivity {
             lastCallType.startAnimation(fadein);
             lastCallDuration.startAnimation(fadein);
         }else{
-            lastCallCard.startAnimation(fadeout);
             lastCallCard.setVisibility(View.GONE);
         }
     }

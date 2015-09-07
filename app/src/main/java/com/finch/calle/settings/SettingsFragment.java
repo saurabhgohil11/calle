@@ -7,33 +7,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.text.method.LinkMovementMethod;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.finch.calle.AppGlobals;
-import com.finch.calle.CallDetails;
-import com.finch.calle.CallType;
 import com.finch.calle.DataBaseHelper;
 import com.finch.calle.HomeActivity;
-import com.finch.calle.PhoneNumber;
 import com.finch.calle.R;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.util.Date;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -137,7 +125,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 case "about":
                     showAboutDialog();
                     break;
-                case "extract_database":
+                /*case "extract_database":
                     File sd = Environment.getExternalStorageDirectory();
                     File data = Environment.getDataDirectory();
                     FileChannel source;
@@ -201,7 +189,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                             });
                     alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
-                    break;
+                    break;*/
             }
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
