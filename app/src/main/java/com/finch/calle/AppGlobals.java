@@ -68,9 +68,7 @@ public class AppGlobals {
         mContext = c; //update context when ever your homeactivity is relaunched else the context will be dead and
                         //we can't create new dialogs with dead activity context
         if(dbHelper != null)
-                dbHelper.close();
-
-        dbHelper = new DataBaseHelper(c);
+            dbHelper = new DataBaseHelper(c);
         return instance;
     }
 

@@ -73,12 +73,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         if (key.equals("user_circle")) {
             final ProgressDialog progressDialog;
-            final DataBaseHelper dbHelper = AppGlobals.getDataBaseHelper(getContext());
+            final DataBaseHelper dbHelper = AppGlobals.getDataBaseHelper(getActivity());
             if (dbHelper == null ) {
                 new DataBaseHelper(getActivity()).updateLogsOnCircleChange();
             } else {
                 progressDialog = ProgressDialog.show(getActivity(), "Please wait!","Updating...",true);
-                getActivity().runOnUiThread(new Thread() {
+                new Thread() {
                     public void run() {
                         try {
                             dbHelper.updateLogsOnCircleChange();
@@ -90,7 +90,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                         if(HomeActivity.mHandler!=null)
                             HomeActivity.mHandler.sendEmptyMessage(HomeActivity.UPDATE_VIEWS);
                     }
-                });
+                }.start();
             }
         } else if (key.equals("mode_of_calcualation")) {
             AppGlobals.isMinuteMode = AppGlobals.MODE_MINUTES.equals(sharedPreferences.getString(AppGlobals.PKEY_MODE_OF_CALCULATION, AppGlobals.MODE_MINUTES));
