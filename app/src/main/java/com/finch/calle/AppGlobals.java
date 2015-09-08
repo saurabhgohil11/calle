@@ -21,7 +21,7 @@ public class AppGlobals {
     public static volatile AppGlobals instance;
 
     public static Context mContext;
-    public static DataBaseHelper dbHelper;
+    private static DataBaseHelper dbHelper;
     public static String userState = "";
     public static boolean isDualSim;
     public static int userCountryCodeNumber = -1;
@@ -84,6 +84,27 @@ public class AppGlobals {
         return instance;
     }
 
+    public static DataBaseHelper getDataBaseHelper(Context c) {
+        if(dbHelper != null) {
+            return dbHelper;
+        }
+        dbHelper = new DataBaseHelper(c);
+        return dbHelper;
+    }
+
+    public static DataBaseHelper getDataBaseHelper() {
+        if(dbHelper != null) {
+            return dbHelper;
+        }
+        if(mContext != null) {
+            dbHelper = new DataBaseHelper(mContext);
+            return dbHelper;
+        } else {
+            Log.d(LOG_TAG, "AppGlobals :  mContext is null and dbhHelper is null");
+            return dbHelper;
+        }
+    }
+
     AppGlobals(Context context){
         mContext = context;
         dbHelper = new DataBaseHelper(context);
@@ -97,7 +118,7 @@ public class AppGlobals {
         initUserCountryCode();
         initMaps();
 
-        log(this,userState+", "+ userCountryCodeNumber +", "+simOperator+", "+ userCountryCode);
+        log(this, userState + ", " + userCountryCodeNumber + ", " + simOperator + ", " + userCountryCode);
     }
 
     public void initUserCountryCode() {
@@ -144,7 +165,7 @@ public class AppGlobals {
 
     public static void initMaps() {
         Resources res = mContext.getResources();
-        final String[] operator_states = res.getStringArray(R.array.circle_states);
+        final String[] operator_states = res.getStringArray(R.array.circle_states_short_forms);
         final String[] operator_state_codes = res.getStringArray(R.array.circle_state_codes);
         final String[] included_list = res.getStringArray(R.array.included_regions);
         final String[] excluded_list = res.getStringArray(R.array.excluded_regions);

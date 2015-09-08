@@ -124,7 +124,7 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
 			mTitleMins.setTextColor(getResources().getColor(R.color.funky_orange));
 		}
 
-        DataBaseHelper dbHelper = AppGlobals.dbHelper;
+        DataBaseHelper dbHelper = AppGlobals.getDataBaseHelper(getContext());
 		if(dbHelper == null) {
 			AppGlobals.log(this,"returning from updateCallMinutesCard due to null dbHelper");
             return;

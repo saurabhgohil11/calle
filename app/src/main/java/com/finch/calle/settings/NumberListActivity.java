@@ -166,7 +166,7 @@ public class NumberListActivity extends ActionBarActivity {
                         if (number == null || number.isEmpty()) {
                             Toast.makeText(context, "Number can't be empty", Toast.LENGTH_SHORT).show();
                         } else {
-                            AppGlobals.dbHelper.addUserSpecifiedNumber(number, costType);
+                            AppGlobals.getDataBaseHelper().addUserSpecifiedNumber(number, costType);
                             updateListView();
                         }
 
@@ -223,7 +223,7 @@ public class NumberListActivity extends ActionBarActivity {
 
     public void updateListView(){
         numberList.clear();
-        numberList.addAll(AppGlobals.dbHelper.getUserSpecifiedNumbers(costType));
+        numberList.addAll(AppGlobals.getDataBaseHelper().getUserSpecifiedNumbers(costType));
         adapter.notifyDataSetChanged();
         numbersListView.invalidate();
 

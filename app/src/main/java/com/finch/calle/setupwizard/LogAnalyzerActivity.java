@@ -81,7 +81,7 @@ class LogsWorker extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onPreExecute() {
         appGlobals = AppGlobals.getInstance(parent);
-        dbHelper = AppGlobals.dbHelper;
+        dbHelper = AppGlobals.getDataBaseHelper(parent);
     }
 
     @Override

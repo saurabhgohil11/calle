@@ -37,18 +37,29 @@
                     style="@style/CardTitleStyle"/>
 
                 <TextView
+                    android:id="@+id/sim_operator"
+                    android:paddingTop="@dimen/cards_padding_top"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AIRTEL"/>
+
+                <TextView
+                    android:id="@+id/sim_circle"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/sim_operator"
-                    android:text="AIRTEL IN"/>
+                    android:textSize="12dp"
+                    android:text="Uttar Pradesh West &amp; Uttarakhand"/>
+
                 <TextView
                     android:layout_below="@id/bill_cycle_lable"
                     android:id="@+id/bill_cycle_dates"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/text_between_margin"
+                    android:textSize="@dimen/card_subtitle_text_size"
                     android:textColor="@android:color/black"
                     android:text="5 Oct - 4 Sep"/>
             </RelativeLayout>

@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
@@ -220,7 +219,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
             return null;
         }
-        Log.d("SAURABH",""+phoneNumber.getNationalNumber());
+        //Log.d("SAURABH",""+phoneNumber.getNationalNumber());
         String nationalNumber = String.valueOf(phoneNumber.getNationalNumber());
         String withCountryCode = phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164);
 
@@ -406,6 +405,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     return seconds/60+1;*/
             }
         } else {
+            c.close();
             return 0;
         }
     }
@@ -508,6 +508,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     return seconds/60+1;*/
             }
         } else {
+            c.close();
             return 0;
         }
     }
@@ -517,8 +518,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(query, null);
         if(c.getCount()>0) {
             c.moveToFirst();
-            return c.getLong(0);
+            long date = c.getLong(0);
+            c.close();
+            return date;
         } else {
+            c.close();
             return -1;
         }
     }

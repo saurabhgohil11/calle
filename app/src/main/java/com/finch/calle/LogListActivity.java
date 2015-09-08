@@ -159,7 +159,7 @@ public class LogListActivity extends ActionBarActivity {
     }
 
     private void initListData(){
-        DataBaseHelper dbHelper = AppGlobals.dbHelper;
+        DataBaseHelper dbHelper = AppGlobals.getDataBaseHelper(this);
         if(dbHelper == null){
             AppGlobals.log(this,"returning from initListData due to dbHelper null");
             return;

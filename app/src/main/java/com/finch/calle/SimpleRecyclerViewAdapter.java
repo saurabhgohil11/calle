@@ -140,7 +140,7 @@ public class SimpleRecyclerViewAdapter extends
     }
 
     public void showLogDetailDialog(final CallDetails callDetails,int bgIndex) {
-        final CostType userSpecifiedCostType = AppGlobals.dbHelper.getUserSpecifiedNumberType(callDetails.getPhoneNumber());
+        final CostType userSpecifiedCostType = AppGlobals.getDataBaseHelper().getUserSpecifiedNumberType(callDetails.getPhoneNumber());
 
         AppGlobals.log(this, "showLogDetailDialog: " + callDetails.toString());
         logDetailDialog = new Dialog(mContext);
@@ -242,14 +242,14 @@ public class SimpleRecyclerViewAdapter extends
 
                     private void onOptionsItemSelected(MenuItem item) {
                         String msg;
-                        String userSpecifiedNumber = AppGlobals.dbHelper.isUserSpecifiedNumberExists(callDetails.getPhoneNumber());
+                        String userSpecifiedNumber = AppGlobals.getDataBaseHelper().isUserSpecifiedNumberExists(callDetails.getPhoneNumber());
                         switch (item.getItemId()) {
                             case R.id.action_add_to_free:
                                 if (userSpecifiedCostType == CostType.FREE) {
-                                    AppGlobals.dbHelper.deleteUserSpecifiedNumber(userSpecifiedNumber);
+                                    AppGlobals.getDataBaseHelper().deleteUserSpecifiedNumber(userSpecifiedNumber);
                                     msg = String.format(mContext.getResources().getString(R.string.removed_from_free), callDetails.getPhoneNumber());
                                 } else {
-                                    AppGlobals.dbHelper.addUserSpecifiedNumber(callDetails.getPhoneNumber(), CostType.FREE);
+                                    AppGlobals.getDataBaseHelper().addUserSpecifiedNumber(callDetails.getPhoneNumber(), CostType.FREE);
                                     msg = String.format(mContext.getResources().getString(R.string.added_to_free), callDetails.getPhoneNumber());
                                     mCostType.setText(mContext.getResources().getString(R.string.user_specified) + " " + mContext.getResources().getString(R.string.free));
                                 }
@@ -260,10 +260,10 @@ public class SimpleRecyclerViewAdapter extends
                                 break;
                             case R.id.action_add_to_local:
                                 if (userSpecifiedCostType == CostType.LOCAL) {
-                                    AppGlobals.dbHelper.deleteUserSpecifiedNumber(userSpecifiedNumber);
+                                    AppGlobals.getDataBaseHelper().deleteUserSpecifiedNumber(userSpecifiedNumber);
                                     msg = String.format(mContext.getResources().getString(R.string.removed_from_local), callDetails.getPhoneNumber());
                                 } else {
-                                    AppGlobals.dbHelper.addUserSpecifiedNumber(callDetails.getPhoneNumber(), CostType.LOCAL);
+                                    AppGlobals.getDataBaseHelper().addUserSpecifiedNumber(callDetails.getPhoneNumber(), CostType.LOCAL);
                                     msg = String.format(mContext.getResources().getString(R.string.added_to_local), callDetails.getPhoneNumber());
                                     mCostType.setText(mContext.getResources().getString(R.string.user_specified) + " " + mContext.getResources().getString(R.string.local));
                                 }
@@ -273,10 +273,10 @@ public class SimpleRecyclerViewAdapter extends
                                 break;
                             case R.id.action_add_to_std:
                                 if (userSpecifiedCostType == CostType.STD) {
-                                    AppGlobals.dbHelper.deleteUserSpecifiedNumber(userSpecifiedNumber);
+                                    AppGlobals.getDataBaseHelper().deleteUserSpecifiedNumber(userSpecifiedNumber);
                                     msg = String.format(mContext.getResources().getString(R.string.removed_from_std), callDetails.getPhoneNumber());
                                 } else {
-                                    AppGlobals.dbHelper.addUserSpecifiedNumber(callDetails.getPhoneNumber(), CostType.STD);
+                                    AppGlobals.getDataBaseHelper().addUserSpecifiedNumber(callDetails.getPhoneNumber(), CostType.STD);
                                     msg = String.format(mContext.getResources().getString(R.string.added_to_std), callDetails.getPhoneNumber());
                                     mCostType.setText(mContext.getResources().getString(R.string.user_specified) + " " + AppGlobals.mContext.getResources().getString(R.string.std));
                                 }
@@ -285,7 +285,7 @@ public class SimpleRecyclerViewAdapter extends
                                 dismissDialog();
                                 break;
                             case R.id.action_delete_log:
-                                AppGlobals.dbHelper.deleteNumberFromLogs(callDetails.callID);
+                                AppGlobals.getDataBaseHelper().deleteNumberFromLogs(callDetails.callID);
                                 AppGlobals.sendUpdateMessage();
                                 dismissDialog();
                                 break;

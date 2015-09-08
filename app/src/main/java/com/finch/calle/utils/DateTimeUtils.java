@@ -48,6 +48,8 @@ public class DateTimeUtils {
         }
         if(timeInSecs==0)
             return "0 Mins";
+        if(timeInSecs%60==0)
+            return timeToString(timeInSecs*1000,false);  //for exact 60 sec it should show 1 min
         return timeToString((timeInSecs/60+1)*60*1000,false);
     }
 

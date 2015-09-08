@@ -24,7 +24,7 @@ public class UnknownNumbersActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unknown_numbers);
-        dbHelper = AppGlobals.dbHelper;
+        dbHelper = AppGlobals.getDataBaseHelper(this);
         if (dbHelper == null) {
             dbHelper = new DataBaseHelper(this);
         }

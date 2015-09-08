@@ -24,7 +24,8 @@ public class CallStateReceiver extends BroadcastReceiver {
     static boolean isIncoming=false;
     static String curState="lol";
     static String phoneNumber;
-    static int callCount; // to keep track of multiple call at a time.
+    static int callCount; // to keep track of multiple call at a time. use preference to save same as call state
+    //return calldetaillist in retive call summurry
 
     //static int state,prevState;
 
@@ -69,7 +70,7 @@ public class CallStateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         mContext=context;
-        dbHelper = AppGlobals.dbHelper;
+        dbHelper = AppGlobals.getInstance(context).getDataBaseHelper();  //init both appglobalinstance and dbhelper if they are null
         vsp = mContext.getSharedPreferences("CallStateReceive", Context.MODE_PRIVATE);
         ve=vsp.edit();
         AppGlobals.log(this, "onReceive()");
@@ -143,48 +144,49 @@ public class CallStateReceiver extends BroadcastReceiver {
         int durationid = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
 
         if (managedCursor.moveToFirst()) {
+            //do {
+                int duration = managedCursor.getInt(durationid);
+                //int duration = Integer.parseInt(callDuration);
+                if (duration <= 0) {
+                    Log.e(AppGlobals.LOG_TAG, TAG2 + "duration is null");
+                    return null;
+                }
+                callDetails.duration = duration;
+                callDetails.cachedContactName = managedCursor.getString(cachedNameid);
+                callDetails.phoneNumber = managedCursor.getString(numberid);
+                callDetails.date = managedCursor.getLong(date);
 
-            int duration = managedCursor.getInt(durationid);
-            //int duration = Integer.parseInt(callDuration);
-            if(duration<=0){
-                Log.e(AppGlobals.LOG_TAG, TAG2 +"duration is null");
-                return null;
-            }
-            callDetails.duration = duration;
-            callDetails.cachedContactName = managedCursor.getString(cachedNameid);
-            callDetails.phoneNumber = managedCursor.getString(numberid);
-            callDetails.date = managedCursor.getLong(date);
+                String callType = managedCursor.getString(typeid);
+                int dircode = Integer.parseInt(callType);
+                switch (dircode) {
+                    case CallLog.Calls.OUTGOING_TYPE:
+                        callDetails.callType = CallType.OUTGOING;
+                        break;
 
-            String callType = managedCursor.getString(typeid);
-            int dircode = Integer.parseInt(callType);
-            switch (dircode) {
-                case CallLog.Calls.OUTGOING_TYPE:
-                    callDetails.callType = CallType.OUTGOING;
-                    break;
+                    case CallLog.Calls.INCOMING_TYPE:
+                        callDetails.callType = CallType.INCOMING;
+                        break;
+                    /*
+                    case CallLog.Calls.MISSED_TYPE:
+                        c.callCostType = "Missed";
+                        break;*/
+                }
 
-                case CallLog.Calls.INCOMING_TYPE:
-                    callDetails.callType = CallType.INCOMING;
-                    break;
-                /*
-                case CallLog.Calls.MISSED_TYPE:
-                    c.callCostType = "Missed";
-                    break;*/
-            }
+                TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+                callDetails.isRoaming = manager.isNetworkRoaming();
+
+                PhoneNumber n = new PhoneNumber(mContext,dbHelper,callDetails.phoneNumber);
+                callDetails.costType = n.getCostType();
+                callDetails.nationalNumber = n.getNationalNumber();
+                callDetails.phoneNumberType = n.getPhoneNumberType();
+                callDetails.numberLocation = n.getPhoneNumberLocation();
+                AppGlobals.log(this,"saurabh "+n);
+                callDetails.isHidden = false;
+                //callCount --;
+                managedCursor.moveToNext();
+            //} while (callCount>0);
         }
-
-        TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-        callDetails.isRoaming = manager.isNetworkRoaming();
-
-        PhoneNumber n = new PhoneNumber(mContext,dbHelper,callDetails.phoneNumber);
-        callDetails.costType = n.getCostType();
-        callDetails.nationalNumber = n.getNationalNumber();
-        callDetails.phoneNumberType = n.getPhoneNumberType();
-        callDetails.numberLocation = n.getPhoneNumberLocation();
-
-        callDetails.isHidden = false;
-
         managedCursor.close();
-
         return callDetails;
     }
 }

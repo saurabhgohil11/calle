@@ -245,7 +245,7 @@ public class SetupActivity extends ActionBarActivity {
                         public void afterTextChanged(Editable s) {
                             String number = mobileNumber.getText().toString();
                             if(number!=null && number.length()>=4) {
-                                DataBaseHelper dbHelper = AppGlobals.dbHelper;
+                                DataBaseHelper dbHelper = AppGlobals.getDataBaseHelper(getActivity());
                                 if(dbHelper == null) {
                                     dbHelper = new DataBaseHelper(getActivity());
                                 }

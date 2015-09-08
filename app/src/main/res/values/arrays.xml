@@ -35,6 +35,32 @@
         <item>WB</item>
     </string-array>
 
+    <string-array name="circle_states_short_forms">
+        <item>Andhra Pradesh</item>
+        <item>Assam</item>
+        <item>Bihar &amp; Jharkhand </item>
+        <item>Chennai</item>
+        <item>Delhi NCR</item>
+        <item>Gujarat </item>
+        <item>Himachal Pradesh</item>
+        <item>Haryana Telecom </item>
+        <item>Jammu and Kashmir </item>
+        <item>Kerala</item>
+        <item>Karnataka</item>
+        <item>Kolkata Metro</item>
+        <item>Maharashtra</item>
+        <item>Madhya Pradesh &amp; Chhattisgarh</item>
+        <item>Mumbai Metro</item>
+        <item>North East India</item>
+        <item>Odisha</item>
+        <item>Punjab</item>
+        <item>Rajasthan</item>
+        <item>Tamil Nadu</item>
+        <item>Uttar Pradesh</item>
+        <item>Uttar Pradesh West &amp; Uttarakhand</item>
+        <item>West Bengal,Andaman-Nicobar,Sikkim</item>
+    </string-array>
+
     <string-array name="circle_states">
         <item>Andhra Pradesh</item>
         <item>Assam</item>

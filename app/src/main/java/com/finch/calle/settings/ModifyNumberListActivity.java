@@ -65,7 +65,7 @@ public class ModifyNumberListActivity extends ActionBarActivity implements ListV
         actionbar.setDisplayHomeAsUpEnabled ( true );
         ArrayList<String> list;
 
-        list = AppGlobals.dbHelper.getUserSpecifiedNumbers(costType);
+        list = AppGlobals.getDataBaseHelper(this).getUserSpecifiedNumbers(costType);
         if (list == null || list.isEmpty()) {
 
         } else {
@@ -132,7 +132,7 @@ public class ModifyNumberListActivity extends ActionBarActivity implements ListV
         SparseBooleanArray sparseBooleanArray = numberListView.getCheckedItemPositions();
         for(int i=0;i<count ; i++){
             if(sparseBooleanArray.get(i)){
-                AppGlobals.dbHelper.deleteUserSpecifiedNumber(numberListView.getItemAtPosition(i).toString());
+                AppGlobals.getDataBaseHelper(this).deleteUserSpecifiedNumber(numberListView.getItemAtPosition(i).toString());
             }
         }
         this.finish();

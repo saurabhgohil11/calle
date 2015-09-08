@@ -77,6 +77,7 @@ public class HomeActivity extends ActionBarActivity {
 
     //----this month tab starts------
     private TextView simOperator;
+    private TextView simCircle;
     private TextView currentBillCycle;
 
     //Last call Log card
@@ -154,16 +155,13 @@ public class HomeActivity extends ActionBarActivity {
                 mHandler.sendEmptyMessageDelayed(SHOW_CUG_DIALOG,5000);
             }
 
-
-            mLogsHistoryData = AppGlobals.dbHelper.getLogsHistory();
+            mLogsHistoryData = AppGlobals.getDataBaseHelper(this).getLogsHistory();
             initUI();
             updateLastCall();
             updateCallCards();
 
-
             fadein.setDuration(900);
             fadeout.setDuration(900);
-
 
             if (!AppGlobals.isTablet(this)) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -203,6 +201,7 @@ public class HomeActivity extends ActionBarActivity {
         //this month tab
         currentBillCycle = (TextView) findViewById(R.id.bill_cycle_dates);
         simOperator = (TextView) findViewById(R.id.sim_operator);
+        simCircle = (TextView) findViewById(R.id.sim_circle);
 
         lastCallCard = (LinearLayout) findViewById(R.id.home_last_call_card);
         lastCallNumber = (TextView) findViewById(R.id.last_number);
@@ -272,7 +271,7 @@ public class HomeActivity extends ActionBarActivity {
 
         //usage history tab
         mUsageHistoryListView = (ListView) findViewById(R.id.usage_list_view);
-        mUsageHistoryData = AppGlobals.dbHelper.getUsageHistoryList();
+        mUsageHistoryData = AppGlobals.getDataBaseHelper(this).getUsageHistoryList();
         mUsageHistoryAdapter = new UsageListViewAdapter(this,mUsageHistoryData);
         mUsageHistoryListView.setAdapter(mUsageHistoryAdapter);
         mUsageHistoryListView.setOnItemClickListener(mUsageHistoryAdapter);
@@ -295,6 +294,7 @@ public class HomeActivity extends ActionBarActivity {
         }
 
         simOperator.setText(AppGlobals.simOperator);
+        simCircle.setText(AppGlobals.circleNameMap.get(AppGlobals.userState));
         currentBillCycle.setText(AppGlobals.getCurrentBillCycleString());
 
         if(tabLogsHistory.getVisibility() == View.VISIBLE) {
@@ -372,7 +372,7 @@ public class HomeActivity extends ActionBarActivity {
 
     private void updateUsageHistory() {
         mUsageHistoryData.clear();
-        mUsageHistoryData.addAll(AppGlobals.dbHelper.getUsageHistoryList());
+        mUsageHistoryData.addAll(AppGlobals.getDataBaseHelper(this).getUsageHistoryList());
         mUsageHistoryAdapter.notifyDataSetChanged();
         mUsageHistoryListView.invalidate();
         if(tabUsageHistory.getVisibility() == View.VISIBLE) {
@@ -388,7 +388,7 @@ public class HomeActivity extends ActionBarActivity {
 
     private void updateLogHistoryList() {
         mLogsHistoryData.clear();
-        mLogsHistoryData.addAll(AppGlobals.dbHelper.getLogsHistory());
+        mLogsHistoryData.addAll(AppGlobals.getDataBaseHelper(this).getLogsHistory());
         mLogHistorySimpleAdapter.notifyDataSetChanged();
         mLogHistoryRecyclerView.invalidate();
         if (getLogsHistoryData() == null || getLogsHistoryData().isEmpty()) {
@@ -406,7 +406,7 @@ public class HomeActivity extends ActionBarActivity {
             AppGlobals.log(this,"returning from updateLastCall");
             return;
         }
-        CallDetails call = AppGlobals.dbHelper.getLastCall();
+        CallDetails call = AppGlobals.getDataBaseHelper(this).getLastCall();
         if(call!=null){
             lastCallCard.setVisibility(View.VISIBLE);
             if(call.getCachedContactName() != null && !call.getCachedContactName().isEmpty()) {
@@ -486,7 +486,10 @@ public class HomeActivity extends ActionBarActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mHandler = null;
+        if (mHandler != null) {
+            mHandler.removeMessages(SHOW_CUG_DIALOG);
+            mHandler = null;
+        }
         if(mLogHistorySimpleAdapter != null)
             mLogHistorySimpleAdapter.dismissDialog();
     }
