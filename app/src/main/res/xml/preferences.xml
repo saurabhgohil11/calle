@@ -28,7 +28,7 @@
             android:dialogTitle="@string/dialog_title_mode_of_use" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/user_added_numbers">
+    <PreferenceCategory android:title="@string/user_specified_numbers">
         <PreferenceScreen
             android:title="@string/title_excluded_numbers"
             android:summary="@string/summary_excluded_numbers">

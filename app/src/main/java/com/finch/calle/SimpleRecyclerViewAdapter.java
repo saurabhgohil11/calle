@@ -285,9 +285,15 @@ public class SimpleRecyclerViewAdapter extends
                                 dismissDialog();
                                 break;
                             case R.id.action_delete_log:
-                                AppGlobals.getDataBaseHelper().deleteNumberFromLogs(callDetails.callID);
-                                AppGlobals.sendUpdateMessage();
-                                dismissDialog();
+                                int rowsDeleted = AppGlobals.getDataBaseHelper().deleteNumberFromLogs(callDetails.callID);
+                                if(rowsDeleted > 0) {
+                                    Toast.makeText(mContext,R.string.delete_success,Toast.LENGTH_SHORT).show();
+                                    AppGlobals.sendUpdateMessage();
+                                    dismissDialog();
+                                } else {
+                                    Toast.makeText(mContext,R.string.delete_failed,Toast.LENGTH_SHORT).show();
+                                }
+
                                 break;
                             /*case R.id.action_hide_log:
 

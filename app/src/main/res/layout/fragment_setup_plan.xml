@@ -48,6 +48,7 @@
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/mobile_number_text_input_layout"
+            android:layout_marginTop="@dimen/setup_screen_between_margin"
             android:layout_width="250dp"
             android:layout_height="wrap_content">
             <EditText
@@ -66,8 +67,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/your_operator"
-            android:textColor="@color/almost_black"
-            android:paddingTop="@dimen/activity_vertical_margin"/>
+            android:textColor="@color/title_green"
+            android:paddingTop="@dimen/setup_screen_between_margin"/>
 
         <Spinner
             android:layout_width="200dp"
@@ -80,8 +81,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/start_date_of_cycle"
-            android:textColor="@color/almost_black"
-            android:paddingTop="@dimen/activity_vertical_margin"/>
+            android:textColor="@color/title_green"
+            android:paddingTop="@dimen/setup_screen_between_margin"/>
 
         <Spinner
             android:layout_width="wrap_content"
@@ -97,9 +98,9 @@
             android:text="@string/mode_of_calculation"
             android:linksClickable="true"
             android:clickable="true"
-            android:textColor="@color/almost_black"
+            android:textColor="@color/title_green"
             android:onClick="onShowMinutesHelp"
-            android:paddingTop="@dimen/activity_vertical_margin"/>
+            android:paddingTop="@dimen/setup_screen_between_margin"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -130,7 +131,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="13dp"
             android:orientation="horizontal">
             <CheckBox
                 android:id="@+id/tnc_checkbox"

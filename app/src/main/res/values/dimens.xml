@@ -26,6 +26,7 @@
     <!--setup wizard -->
     <dimen name="radio_button_size">8dp</dimen>
     <dimen name="radio_button_padding">5dp</dimen>
+    <dimen name="setup_screen_between_margin">21dp</dimen>
 
 
 </resources>

@@ -12,5 +12,5 @@
     <dimen name="scroll_view_padding">12dp</dimen>
     <dimen name="log_list_subtitle_text_size">18dp</dimen>
 
-    <dimen name="setup_screen_between_margin">18dp</dimen>
+    <dimen name="setup_screen_between_margin">21dp</dimen>
 </resources>

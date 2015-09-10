@@ -333,8 +333,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         c.close();
     }
 
-    public void deleteNumberFromLogs(long callID) {
-        db.delete(TABLE_LOGS_HISTORY, KEY_CALL_ID + " = ?", new String[]{String.valueOf(callID)});
+    public int deleteNumberFromLogs(long callID) {
+        return db.delete(TABLE_LOGS_HISTORY, KEY_CALL_ID + " = ?", new String[]{String.valueOf(callID)});
     }
 
     public CostType getMobileCostType(Phonenumber.PhoneNumber phoneNumber) {

@@ -67,7 +67,7 @@
 
     <string name="notifications">Notifications</string>
 
-    <string name="user_added_numbers">Categorized Numbers</string>
+    <string name="user_specified_numbers">User Specified Numbers</string>
     <string name="title_excluded_numbers">Free Call Numbers</string>
     <string name="title_delete_excluded_numbers">Delete Free Call Numbers</string>
     <string name="summary_excluded_numbers">Add your CUG, Customer Care, Toll Free phone numbers which do not charge call cost</string>
@@ -154,6 +154,8 @@
     <string name="user_specified">User Specified</string>
     <string name="title_activity_log_list">LogListActivity</string>
     <string name="title_activity_usage_history_item_detail">UsageHistoryItemDetailActivity</string>
+    <string name="delete_success">Log deleted successfully</string>
+    <string name="delete_failed">Log deletion failed :(</string>
 
 
     <!--other-->
@@ -165,6 +167,6 @@
     <string name="cancel">CANCEL</string>
     <string name="add_now">ADD NOW</string>
     <string name="add_later">ADD LATER</string>
-    <string name="quetion_mark"><div><a href="">(?)</a></div></string>
+    <string name="quetion_mark"><div><a href=""> (?) </a></div></string>
 
 </resources>
