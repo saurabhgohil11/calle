@@ -54,7 +54,7 @@ public class CallStateReceiver extends BroadcastReceiver {
                             } else {
                                 minStr = DateTimeUtils.timeToString(lastCallDetails.getDuration());
                             }
-                            String toastMsg = String.format(mContext.getResources().getString(R.string.added_toast),minStr)+ " "+ lastCallDetails.getCostTypeString();
+                            String toastMsg = String.format(mContext.getResources().getString(R.string.added_toast),minStr)+ " "+ lastCallDetails.getCostTypeString()+" "+lastCallDetails.getCallType().toString().toLowerCase();
                             Toast.makeText(mContext, toastMsg, Toast.LENGTH_LONG).show();
                         }
 

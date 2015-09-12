@@ -28,6 +28,8 @@ import com.finch.calle.AppGlobals;
 import com.finch.calle.CallDetails;
 import com.finch.calle.CostType;
 import com.finch.calle.R;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
 import java.util.ArrayList;
 
@@ -164,12 +166,19 @@ public class NumberListActivity extends ActionBarActivity {
                         imm.hideSoftInputFromWindow(userInput.getWindowToken(), 0);
                         String number = userInput.getText().toString();
                         if (number == null || number.isEmpty()) {
-                            Toast.makeText(context, "Number can't be empty", Toast.LENGTH_SHORT).show();
-                        } else {
-                            AppGlobals.getDataBaseHelper().addUserSpecifiedNumber(number, costType);
-                            updateListView();
+                            Toast.makeText(context, R.string.number_too_short, Toast.LENGTH_SHORT).show();
+                            return;
                         }
 
+                        try {
+                            PhoneNumberUtil.getInstance().parse(number, AppGlobals.userCountryCode);
+                        } catch (NumberParseException e) {
+                            Toast.makeText(context, R.string.enter_a_valid_number, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        AppGlobals.getDataBaseHelper().addUserSpecifiedNumber(number, costType);
+                        updateListView();
                     }
                 });
         alertDialogBuilder.setNegativeButton(res.getString(R.string.cancel),

@@ -138,7 +138,7 @@ public class SetupActivity extends ActionBarActivity {
         CheckBox tncCheckBox = (CheckBox) findViewById(R.id.tnc_checkbox);
 
         if(mobileNumber.getText().toString().length()<10) {
-            Toast.makeText(this, R.string.enter_a_mobile_number, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.enter_a_valid_mobile_number, Toast.LENGTH_LONG).show();
             return;
         }
 

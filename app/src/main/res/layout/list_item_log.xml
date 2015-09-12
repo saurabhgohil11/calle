@@ -31,7 +31,10 @@
         android:layout_toEndOf="@+id/contactImageButton"
         android:layout_toRightOf="@+id/contactImageButton"
         android:layout_marginBottom="1dp"
-        android:text="Name"
+        android:text="Name bjdskldsjlfkjdsljdslkjlfdsklkfsl"
+        android:singleLine="true"
+        android:maxWidth="@dimen/log_item_name_max_width"
+        android:ellipsize="end"
         android:textSize="@dimen/log_list_item_name_text_size"
         android:textColor="@android:color/black"/>
     <TextView

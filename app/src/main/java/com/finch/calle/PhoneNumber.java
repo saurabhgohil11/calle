@@ -48,6 +48,10 @@ public class PhoneNumber {
         costType = mdbHelper.getUserSpecifiedNumberType(String.valueOf(phoneNumber.getNationalNumber()));
         if (costType!=null) { // it is user specified no.
             nationalNumber = String.valueOf(phoneNumber.getNationalNumber());
+            if (phoneNumberType == PhoneNumberUtil.PhoneNumberType.MOBILE) {
+                String locationStateCode = mdbHelper.getMobileNumberState(phoneNumber.getNationalNumber());
+                phoneNumberLocation = AppGlobals.circleNameMap.get(locationStateCode);
+            }
             if(showLogs)
                 AppGlobals.log(this, "costType is "+costType.toString());
         } else if (phoneNumber.getCountryCode() != AppGlobals.userCountryCodeNumber) {
@@ -133,8 +137,8 @@ public class PhoneNumber {
         if(costType==CostType.UNKNOWN) {
             return false;
         } else {
-            String stateCode = mdbHelper.getMobileNumberState(phoneNumber.getNationalNumber());
-            phoneNumberLocation = AppGlobals.circleNameMap.get(stateCode);
+            String locationstateCode = mdbHelper.getMobileNumberState(phoneNumber.getNationalNumber());
+            phoneNumberLocation = AppGlobals.circleNameMap.get(locationstateCode);
             return true;
         }
     }

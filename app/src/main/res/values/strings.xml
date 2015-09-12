@@ -80,6 +80,8 @@
 
     <string name="reset_confirmation_msg">Resetting app will delete all Logs, all saved settings. Do you want to continue?</string>
     <string name="reset_complete">Application Reset Completed.</string>
+    <string name="number_too_short">Number is too short</string>
+    <string name="enter_a_valid_number">Please enter a Valid Mobile Number</string>
 
 
     <!--Home Activity-->
@@ -160,7 +162,7 @@
 
     <!--other-->
     <string name="added_toast">Added %s to </string>
-    <string name="enter_a_mobile_number">Please Enter a Valid Mobile Number</string>
+    <string name="enter_a_valid_mobile_number">Please Enter a Valid Mobile Number</string>
     <string name="finish">FINISH</string>
     <string name="done">DONE</string>
     <string name="ok">OK</string>

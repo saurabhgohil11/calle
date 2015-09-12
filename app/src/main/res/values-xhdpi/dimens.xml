@@ -13,4 +13,6 @@
     <dimen name="log_list_subtitle_text_size">18dp</dimen>
 
     <dimen name="setup_screen_between_margin">21dp</dimen>
+    <dimen name="sim_circle_max_width">190dp</dimen>
+    <dimen name="log_item_name_max_width">220dp</dimen>
 </resources>

@@ -151,6 +151,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             phoneNumber = phoneUtil.parse(numberStr, AppGlobals.userCountryCode);
         } catch (NumberParseException e) {
             e.printStackTrace();
+            return;
         }
 
         String nationalNumber = String.valueOf(phoneNumber.getNationalNumber());
