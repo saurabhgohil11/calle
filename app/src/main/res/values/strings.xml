@@ -83,6 +83,9 @@
     <string name="number_too_short">Number is too short</string>
     <string name="enter_a_valid_number">Please enter a Valid Mobile Number</string>
 
+    <string name="dialog_title_user_circle_changed">User Circle Changed</string>
+    <string name="body_user_circle_changed">You have changed your local operator circle. It is recommended to review your user specified local and STD numbers for correct categorization.</string>
+
 
     <!--Home Activity-->
     <string name="this_month">This Month</string>
