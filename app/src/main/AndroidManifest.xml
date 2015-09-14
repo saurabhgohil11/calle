@@ -58,6 +58,7 @@
             android:name=".setupwizard.SetupActivity"
             android:theme="@style/AppThemeNoActionBar" >
         </activity>
+
         <activity
             android:name=".setupwizard.LogAnalyzerActivity"
             android:theme="@style/AppThemeNoActionBar" >
