@@ -180,7 +180,6 @@ public class CallStateReceiver extends BroadcastReceiver {
                 callDetails.nationalNumber = n.getNationalNumber();
                 callDetails.phoneNumberType = n.getPhoneNumberType();
                 callDetails.numberLocation = n.getPhoneNumberLocation();
-                AppGlobals.log(this,"saurabh "+n);
                 callDetails.isHidden = false;
                 //callCount --;
                 managedCursor.moveToNext();

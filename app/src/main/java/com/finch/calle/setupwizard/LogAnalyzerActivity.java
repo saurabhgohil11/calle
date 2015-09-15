@@ -103,7 +103,7 @@ class LogsWorker extends AsyncTask<Void, Integer, Void> {
 
 
         progressBar.setMax(managedCursor.getCount());
-        AppGlobals.log(this,"saurabh total logs to be read:"+managedCursor.getCount());
+        AppGlobals.log(this," total logs to be read:"+managedCursor.getCount());
 
         int i=0;
         while (managedCursor.moveToNext()) {

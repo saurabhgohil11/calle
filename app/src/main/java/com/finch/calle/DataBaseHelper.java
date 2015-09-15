@@ -220,7 +220,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
             return null;
         }
-        //Log.d("SAURABH",""+phoneNumber.getNationalNumber());
+        //Log.d("DBHelper",""+phoneNumber.getNationalNumber());
         String nationalNumber = String.valueOf(phoneNumber.getNationalNumber());
         String withCountryCode = phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164);
 

@@ -18,7 +18,7 @@
         <item>Click on a Call Log. Go to Option menu. Select Delete.\nThis will remove it from log also the minutes used by this log entry is also not summed up in total minutes.</item>
         <item>This app only records call log which has talk duration more than 0 seconds.</item>
         <item>Go to Settings -> Reset Application -> click OK.\nThis will delete all your log entries, preferences and resets the app back to beginning like you have freshly installed it.</item>
-        <item>NO. We don’t collect any of your personal information. This is a safest Call Logger and Timer app that you can trust.</item>
+        <item>No. We don’t collect any of your personal information. This is the safest Call Logger and Timer app that you can trust.</item>
         <item>It is pretty much accurate than any other app in the market. But as recently interstate mobile Number portability has started so for those type of numbers it may be wrongly detected.</item>
     </string-array>
 </resources>

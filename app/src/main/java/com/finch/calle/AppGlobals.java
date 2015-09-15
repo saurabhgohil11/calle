@@ -237,7 +237,7 @@ public class AppGlobals {
         int startDay=preferences.getInt(PKEY_BILL_CYCLE, -1);
         Calendar c = Calendar.getInstance();
         boolean firstloop=true;
-        //android.util.Log.d("AppGlobals","saurabh installationdate:" +installationDate+"currentDate="+c.getTimeInMillis());
+        //android.util.Log.d("AppGlobals"," installationdate:" +installationDate+"currentDate="+c.getTimeInMillis());
         while (c.getTimeInMillis()>installationDate) {
             if (c.get(Calendar.DATE)<startDay && firstloop) {
                 c.add(Calendar.MONTH, -1);
@@ -260,7 +260,7 @@ public class AppGlobals {
             c.set(Calendar.MILLISECOND, 999);
             dates[1] = new Date(c.getTimeInMillis());
             cycles.add(dates);
-            //Log.d("Saurabh","cycle:"+getBillCycleString(dates));
+            //Log.d("AppGlobals","cycle:"+getBillCycleString(dates));
             c.add(Calendar.MONTH, -1);
             if (c.get(Calendar.DATE)<startDay) {
                 c.add(Calendar.MONTH, -1);
@@ -285,7 +285,7 @@ public class AppGlobals {
             c.set(Calendar.MILLISECOND, 999);
             dates[1] = new Date(c.getTimeInMillis());
             cycles.add(dates);
-            Log.d("Saurabh", "cycle:" + getBillCycleString(dates));
+            //Log.d("AppGlobals", "cycle:" + getBillCycleString(dates));
         }
 
         return cycles;
