@@ -7,18 +7,19 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingBottom="35dp"
-    android:gravity="center_vertical"
+    android:gravity="center"
     tools:context="com.app.postpaidcallusage.HomeActivity$SetupWizardFragment">
     <ImageView
         android:id="@+id/info_image_page2"
         android:layout_width="wrap_content"
         android:layout_height="320dp"
         android:src="@drawable/info_image"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="25dp"/>
     <TextView
         android:id="@+id/info_title_page2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:textSize="20dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -30,7 +31,9 @@
         android:id="@+id/info_text_page2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="6dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="15dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:textColor="@color/almost_black"
