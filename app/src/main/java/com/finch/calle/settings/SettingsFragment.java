@@ -64,7 +64,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        AppGlobals.log(this, "onSharedPreferenceChanged(),key=" + key);
+        //AppGlobals.log(this, "onSharedPreferenceChanged(),key=" + key);
         updatePreference(findPreference(key), key);
         if (key.equals("enable_mins_toast")) {
             AppGlobals.isEnableToast = sharedPreferences.getBoolean(key,false);
@@ -249,7 +249,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             for (String s : children) {
                 if (!s.equals("lib")) {
                     deleteDir(new File(appDir, s));
-                    AppGlobals.log(this, "** File /data/data/APP_PACKAGE/" + s + " DELETED **");
+                    //AppGlobals.log(this, "** File /data/data/APP_PACKAGE/" + s + " DELETED **");
                 }
             }
         }

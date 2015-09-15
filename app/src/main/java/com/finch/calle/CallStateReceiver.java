@@ -83,7 +83,7 @@ public class CallStateReceiver extends BroadcastReceiver {
 
         if(intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)){
             isOutgoing=true;
-            AppGlobals.log(this, "isOGtrue");
+            //AppGlobals.log(this, "isOGtrue");
         }else{
             curState=intent.getStringExtra(TelephonyManager.EXTRA_STATE);
             if (curState.equals(TelephonyManager.EXTRA_STATE_RINGING)){

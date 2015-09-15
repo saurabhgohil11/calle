@@ -159,7 +159,7 @@ public class ModifyNumberListActivity extends ActionBarActivity implements ListV
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        AppGlobals.log(this, "onItemClicked:" + String.valueOf(position));
+        //AppGlobals.log(this, "onItemClicked:" + String.valueOf(position));
         if(numberListView.getCheckedItemCount()==numberListView.getCount()){
             selectAllCheck.setChecked(true);
         }else{

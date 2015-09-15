@@ -31,7 +31,7 @@ public class AppGlobals {
     public static boolean isMinuteMode = true;
     public static boolean isEnableToast = false;
 
-    public static final String LOG_TAG = "PostPaidCallUsage";
+    public static final String LOG_TAG = "Call-E";
 
     public static final String PKEY_BILL_CYCLE="bill_cycle";
     public static final String PKEY_USER_CIRCLE="user_circle";

@@ -142,7 +142,7 @@ public class SimpleRecyclerViewAdapter extends
     public void showLogDetailDialog(final CallDetails callDetails,int bgIndex) {
         final CostType userSpecifiedCostType = AppGlobals.getDataBaseHelper().getUserSpecifiedNumberType(callDetails.getPhoneNumber());
 
-        AppGlobals.log(this, "showLogDetailDialog: " + callDetails.toString());
+        //AppGlobals.log(this, "showLogDetailDialog: " + callDetails.toString());
         logDetailDialog = new Dialog(mContext);
         logDetailDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         logDetailDialog.setContentView(R.layout.dialog_log_detail);
