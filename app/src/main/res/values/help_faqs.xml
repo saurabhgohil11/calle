@@ -21,6 +21,6 @@
         <item>Go to Settings -> Reset Application -> click OK.\nThis will delete all your log entries, preferences and resets the app back to beginning like you have freshly installed it.</item>
         <item>Download and install trueCaller. Keep auto search on in trueCaller settings.\nOpen any call log from Call-E app -> Option Menu -> Copy Number. True Caller will find caller name and will show popup automatically.</item>
         <item>No. We don’t collect any of your personal information. This is the safest Call Logger and Timer app that you can trust.</item>
-        <item>It is pretty much accurate than any other app in the market. But as recently interstate mobile Number portability has started so for those type of numbers it may be wrongly detected.</item>
+        <item>It is pretty much accurate than any other app in the market. As recently interstate mobile Number portability has started so for those type of numbers it may be wrongly detected. But you can always fix this by moving a number to correct category as suggested in FAQ no. 2.</item>
     </string-array>
 </resources>

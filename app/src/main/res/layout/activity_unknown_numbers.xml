@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.finch.calle.setupwizard.UnknownNumbersActivity">
+    tools:context="com.evadroid.calle.setupwizard.UnknownNumbersActivity">
 
     <ListView
         android:id="@+id/unknown_list_view"

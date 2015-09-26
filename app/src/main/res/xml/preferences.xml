@@ -6,7 +6,7 @@
     <PreferenceCategory
         android:title="@string/plan_based_preferences">
 
-        <com.finch.calle.widget.NumberPickerPreference
+        <com.evadroid.calle.widget.NumberPickerPreference
             android:key="bill_cycle"
             android:title="@string/title_modify_cycle"
             android:dialogTitle="@string/dialog_title_modify_cycle"
@@ -33,19 +33,19 @@
             android:title="@string/title_excluded_numbers"
             android:summary="@string/summary_excluded_numbers">
             <intent
-                android:action="com.finch.action.EXCLUDED_NUMBERS"/>
+                android:action="com.evadroid.action.EXCLUDED_NUMBERS"/>
         </PreferenceScreen>
         <PreferenceScreen
             android:title="@string/title_local_numbers"
             android:summary="@string/summary_local_numbers">
             <intent
-                android:action="com.finch.action.LOCAL_NUMBERS"/>
+                android:action="com.evadroid.action.LOCAL_NUMBERS"/>
         </PreferenceScreen>
         <PreferenceScreen
             android:title="@string/title_std_numbers"
             android:summary="@string/summary_std_numbers">
             <intent
-                android:action="com.finch.action.STD_NUMBERS"/>
+                android:action="com.evadroid.action.STD_NUMBERS"/>
         </PreferenceScreen>
     </PreferenceCategory>
 
@@ -71,7 +71,7 @@
             android:title="@string/title_help"
             android:summary="@string/summary_help">
             <intent
-                android:action="com.finch.action.HELP"/>
+                android:action="com.evadroid.action.HELP"/>
         </PreferenceScreen>
         <Preference
             android:id="@+id/about"

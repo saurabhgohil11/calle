@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.finch.calle" >
+    package="com.evadroid.calle" >
 
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".HomeActivity"
+            android:name="com.evadroid.calle.HomeActivity"
             android:clearTaskOnLaunch="true"
             android:theme="@style/AppThemeNoActionBar" >
             <intent-filter>
@@ -25,27 +25,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".settings.NumberListActivity" >
+        <activity android:name="com.evadroid.calle.settings.NumberListActivity" >
             <intent-filter>
-                <action android:name="com.finch.action.EXCLUDED_NUMBERS" />
-                <action android:name="com.finch.action.STD_NUMBERS" />
-                <action android:name="com.finch.action.LOCAL_NUMBERS" />
+                <action android:name="com.evadroid.action.EXCLUDED_NUMBERS" />
+                <action android:name="com.evadroid.action.STD_NUMBERS" />
+                <action android:name="com.evadroid.action.LOCAL_NUMBERS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".settings.ModifyNumberListActivity"
+            android:name="com.evadroid.calle.settings.ModifyNumberListActivity"
             android:label="@string/title_activity_modify_number_list" >
         </activity>
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name="com.evadroid.calle.settings.SettingsActivity"
             android:label="@string/action_settings"
             android:theme="@style/AppThemePreference" >
         </activity>
 
         <receiver
-            android:name=".CallStateReceiver"
+            android:name="com.evadroid.calle.CallStateReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -55,43 +55,43 @@
         </receiver>
 
         <activity
-            android:name=".setupwizard.SetupActivity"
+            android:name="com.evadroid.calle.setupwizard.SetupActivity"
             android:theme="@style/AppThemeNoActionBar" >
         </activity>
 
         <activity
-            android:name=".setupwizard.LogAnalyzerActivity"
+            android:name="com.evadroid.calle.setupwizard.LogAnalyzerActivity"
             android:theme="@style/AppThemeNoActionBar" >
         </activity>
         <activity
-            android:name=".help.HelpActivity"
+            android:name="com.evadroid.calle.help.HelpActivity"
             android:label="@string/title_activity_help" >
             <intent-filter>
-                <action android:name="com.finch.action.HELP" />
+                <action android:name="com.evadroid.action.HELP" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".LogListActivity"
+            android:name="com.evadroid.calle.LogListActivity"
             android:label="@string/title_activity_log_list" >
         </activity>
         <activity
-            android:name=".UsageHistoryItemDetailActivity"
+            android:name="com.evadroid.calle.UsageHistoryItemDetailActivity"
             android:label="@string/title_activity_usage_history_item_detail" >
         </activity>
         <activity
-            android:name=".setupwizard.UnknownNumbersActivity"
+            android:name="com.evadroid.calle.setupwizard.UnknownNumbersActivity"
             android:label="@string/title_activity_unknown_numbers" >
         </activity>
         <activity
-            android:name=".setupwizard.TermsActivity"
+            android:name="com.evadroid.calle.setupwizard.TermsActivity"
             android:label="@string/terms_and_conditions"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="com.finch.calle.terms"/>
+                <data android:scheme="com.evadroid.calle.terms"/>
             </intent-filter>
         </activity>
     </application>
