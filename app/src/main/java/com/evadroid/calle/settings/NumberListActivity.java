@@ -217,8 +217,10 @@ public class NumberListActivity extends ActionBarActivity {
                         if (c != null && c.moveToFirst()) {
                             String number = c.getString(0);
                             int type = c.getInt(1);
-                            EditText userInput = (EditText) promptsView.findViewById(R.id.number_edit_text);
-                            userInput.setText(number);
+                            if(promptsView != null) {
+                                EditText userInput = (EditText) promptsView.findViewById(R.id.number_edit_text);
+                                userInput.setText(number);
+                            }
                         }
                     } finally {
                         if (c != null) {
