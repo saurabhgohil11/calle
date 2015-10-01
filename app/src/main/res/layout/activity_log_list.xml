@@ -7,14 +7,16 @@
         android:id="@+id/bill_cycle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/cards_padding"
+        android:layout_marginLeft="@dimen/top_text_margin_side"
+        android:padding="@dimen/top_text_padding"
         android:textColor="@android:color/black"
         android:textSize="@dimen/log_list_subtitle_text_size"/>
     <TextView
         android:id="@+id/minutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/cards_padding"
+        android:layout_marginRight="@dimen/top_text_margin_side"
+        android:padding="@dimen/top_text_padding"
         android:textColor="@android:color/black"
         android:layout_alignParentRight="true"
         android:textSize="@dimen/log_list_subtitle_text_size"/>
@@ -30,14 +32,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".HomeActivity"
-        tools:listitem="@layout/log_list_item_upper"
+        tools:listitem="@layout/list_item_log"
         android:scrollbars="vertical"/>
 
     <LinearLayout
         android:id="@+id/categorize_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#88d6d6d6"
+        android:background="#99d6d6d6"
         android:orientation="vertical"
         android:visibility="gone"
         android:layout_centerHorizontal="true"

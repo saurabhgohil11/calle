@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="@string/this_month"
-        android:drawableTop="@drawable/calendar2"
+        android:drawableLeft="@drawable/calendar2"
         style="@style/TabButtonStyle"
         android:onClick="onTabChanged"/>
     <Button
@@ -18,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="@string/logs"
-        android:drawableTop="@drawable/logs2"
+        android:text="@string/logs_history"
+        android:drawableLeft="@drawable/logs2"
         style="@style/TabButtonStyle"
         android:onClick="onTabChanged"/>
     <Button
@@ -27,8 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="@string/usage"
-        android:drawableTop="@drawable/usage2"
+        android:text="@string/usage_history"
+        android:drawableLeft="@drawable/usage2"
         style="@style/TabButtonStyle"
         android:onClick="onTabChanged"/>
 

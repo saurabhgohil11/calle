@@ -53,6 +53,7 @@
         android:title="@string/notifications">
         <CheckBoxPreference
             android:key="enable_mins_toast"
+            android:defaultValue="true"
             android:title="@string/title_notification_toast"
             android:summary="@string/summary_notification_toast"/>
     </PreferenceCategory>

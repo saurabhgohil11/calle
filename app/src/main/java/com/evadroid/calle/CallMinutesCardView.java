@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.evadroid.calle.utils.DateTimeUtils;
@@ -25,8 +26,8 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
     private LinearLayout mISDLayout;
     private LinearLayout mFreeLayout;
     private LinearLayout mUnknownLayout;
-    private LinearLayout mLocalSubMinutesLayout;
-    private LinearLayout mSTDSubMinutesLayout;
+    private TableLayout mLocalSubMinutesLayout;
+    private TableLayout mSTDSubMinutesLayout;
 
     private TextView mTitleLabel;
 
@@ -79,8 +80,8 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
         mISDLayout = (LinearLayout) rootView.findViewById(R.id.isd_layout);
         mFreeLayout = (LinearLayout) rootView.findViewById(R.id.free_layout);
         mUnknownLayout = (LinearLayout) rootView.findViewById(R.id.unknown_layout);
-        mLocalSubMinutesLayout = (LinearLayout) rootView.findViewById(R.id.sub_local_min_layout);
-        mSTDSubMinutesLayout = (LinearLayout) rootView.findViewById(R.id.sub_std_min_layout);
+        mLocalSubMinutesLayout = (TableLayout) rootView.findViewById(R.id.sub_local_min_layout);
+        mSTDSubMinutesLayout = (TableLayout) rootView.findViewById(R.id.sub_std_min_layout);
 		
 		mTitleLabel  = (TextView) rootView.findViewById(R.id.card_title);
 
@@ -115,11 +116,11 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
             return;
         }
 		if(mCallType == CallType.OUTGOING) {
-			mTitleLabel.setText(R.string.outgoing_calls);
+			mTitleLabel.setText(R.string.outgoing);
 			mTitleLabel.setTextColor(getResources().getColor(R.color.funky_green));
 			mTitleMins.setTextColor(getResources().getColor(R.color.funky_green));
 		} else {
-			mTitleLabel.setText(R.string.incoming_calls);
+			mTitleLabel.setText(R.string.incoming);
 			mTitleLabel.setTextColor(getResources().getColor(R.color.funky_orange));
 			mTitleMins.setTextColor(getResources().getColor(R.color.funky_orange));
 		}

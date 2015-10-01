@@ -24,7 +24,7 @@
     <style name="TabButtonStyle">
         <item name="android:background">@drawable/tab_button_background2</item>
         <item name="android:textColor">@color/tab_button_text_color2</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">15dp</item>
         <item name="android:paddingTop">0dp</item>
         <item name="android:fontFamily">sans-sarif</item>
         <item name="android:paddingBottom">5dp</item>

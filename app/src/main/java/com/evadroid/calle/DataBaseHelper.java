@@ -254,6 +254,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_LOGS_HISTORY, null, cv);
     }
 
+    //retrives logs for HomeActivity
     public ArrayList<CallDetails> getLogsHistory(){
         String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY + " WHERE " + KEY_IS_HIDDEN + "=0"+" ORDER BY "+KEY_DATE+" DESC";
         Cursor c = db.rawQuery(selectQuery,null);
@@ -300,9 +301,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public CallDetails getLastCall(){
-        String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY + " WHERE " + KEY_IS_HIDDEN + "=0";
+        String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY + " WHERE " + KEY_IS_HIDDEN + "=0" +" ORDER BY "+KEY_DATE+" DESC";
         Cursor c = db.rawQuery(selectQuery,null);
-        if (c.getCount()>0 && c.moveToLast()) {
+        if (c.getCount()>0 && c.moveToFirst()) {
             CallDetails cd = new CallDetails();
             cd.setCallID(c.getInt(0));
             cd.setCachedContactName(c.getString(1));
@@ -322,16 +323,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             c.close();
             return null;
         }
-    }
-
-    public void deleteLastCall(){
-        String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY;
-        Cursor c = db.rawQuery(selectQuery, null);
-        if (c.getCount()>0 && c.moveToLast()) {
-            int callID = c.getInt(0);
-            db.delete(TABLE_LOGS_HISTORY, KEY_CALL_ID + " = ?", new String[]{String.valueOf(callID)});
-        }
-        c.close();
     }
 
     public int deleteNumberFromLogs(long callID) {
@@ -411,6 +402,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //retrives log list for LogListActivity
     public ArrayList<CallDetails>  getLogList(long startDate,long endDate,CallType callType,CostType costType) { //if costtype is null give total
         boolean isMinuteMode = AppGlobals.isMinuteMode;
 

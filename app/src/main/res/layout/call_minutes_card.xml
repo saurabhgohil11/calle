@@ -20,13 +20,13 @@
             android:id="@+id/card_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/outgoing"
             style="@style/CardTitleStyle"/>
         <TextView
             android:id="@+id/card_title_mins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:fontFamily="sans-sarif"
             style="@style/CardTitleStyle"/>
     </RelativeLayout>
 
@@ -50,67 +50,74 @@
             style="@style/CardHeaderMinStyle"/>
     </LinearLayout>
 
-    <LinearLayout
+    <TableLayout
         android:id="@+id/sub_local_min_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="8dp"
-        android:paddingLeft="8dp"
-        android:paddingBottom="4dp"
+        android:stretchColumns="*"
+        android:layout_marginTop="-4dp"
+        android:paddingBottom="3dp"
         android:orientation="horizontal"
         android:visibility="gone">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/local_mobile_label"
-                android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/CardSmallTextStyle"
-                android:text="@string/mobile"/>
-            <TextView
-                android:id="@+id/local_mobile_mins"
-                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_column="0">
+                <TextView
+                    android:id="@+id/local_mobile_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardSmallTextStyle"
+                    android:text="@string/mobile"/>
+                <TextView
+                    android:id="@+id/local_mobile_mins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardSmallTextStyle"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/CardSmallTextStyle"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/local_fixedline_label"
-                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_column="1">
+                <TextView
+                    android:id="@+id/local_fixedline_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardSmallTextStyle"
+                    android:text="@string/landline"/>
+                <TextView
+                    android:id="@+id/local_fixedline_mins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardSmallTextStyle"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/CardSmallTextStyle"
-                android:text="@string/landline"/>
-            <TextView
-                android:id="@+id/local_fixedline_mins"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/CardSmallTextStyle"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/local_other_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/CardSmallTextStyle"
-                android:text="@string/unknown_other"/>
-            <TextView
-                android:id="@+id/local_other_mins"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/CardSmallTextStyle"/>
-        </LinearLayout>
-    </LinearLayout>
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_column="2">
+                <TextView
+                    android:id="@+id/local_other_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardSmallTextStyle"
+                    android:text="@string/unknown_other"/>
+                <TextView
+                    android:id="@+id/local_other_mins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardSmallTextStyle"/>
+            </LinearLayout>
+        </TableRow>
+    </TableLayout >
 
     <LinearLayout
         android:id="@+id/std_layout"
@@ -127,67 +134,74 @@
             style="@style/CardHeaderMinStyle"/>
     </LinearLayout>
 
-    <LinearLayout
+    <TableLayout
         android:id="@+id/sub_std_min_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="8dp"
-        android:paddingLeft="8dp"
-        android:paddingBottom="4dp"
+        android:stretchColumns="*"
+        android:layout_marginTop="-4dp"
+        android:paddingBottom="3dp"
         android:orientation="horizontal"
         android:visibility="gone">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/std_mobile_label"
-                android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/CardSmallTextStyle"
-                android:text="@string/mobile"/>
-            <TextView
-                android:id="@+id/std_mobile_mins"
-                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_column="0">
+                <TextView
+                    android:id="@+id/std_mobile_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardSmallTextStyle"
+                    android:text="@string/mobile"/>
+                <TextView
+                    android:id="@+id/std_mobile_mins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardSmallTextStyle"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/CardSmallTextStyle"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/std_fixedline_label"
-                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_column="1">
+                <TextView
+                    android:id="@+id/std_fixedline_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardSmallTextStyle"
+                    android:text="@string/landline"/>
+                <TextView
+                    android:id="@+id/std_fixedline_mins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardSmallTextStyle"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/CardSmallTextStyle"
-                android:text="@string/landline"/>
-            <TextView
-                android:id="@+id/std_fixedline_mins"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/CardSmallTextStyle"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/std_other_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/CardSmallTextStyle"
-                android:text="@string/unknown_other"/>
-            <TextView
-                android:id="@+id/std_other_mins"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/CardSmallTextStyle"/>
-        </LinearLayout>
-    </LinearLayout>
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_column="2">
+                <TextView
+                    android:id="@+id/std_other_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardSmallTextStyle"
+                    android:text="@string/unknown_other"/>
+                <TextView
+                    android:id="@+id/std_other_mins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardSmallTextStyle"/>
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
 
     <LinearLayout
         android:id="@+id/roaming_layout"

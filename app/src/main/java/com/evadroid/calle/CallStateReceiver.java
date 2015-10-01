@@ -73,7 +73,7 @@ public class CallStateReceiver extends BroadcastReceiver {
         dbHelper = AppGlobals.getInstance(context).getDataBaseHelper();  //init both appglobalinstance and dbhelper if they are null
         vsp = mContext.getSharedPreferences("CallStateReceive", Context.MODE_PRIVATE);
         ve=vsp.edit();
-        AppGlobals.log(this, "onReceive()");
+        //AppGlobals.log(this, "onReceive()");
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         if(!sp.getBoolean(AppGlobals.PKEY_FIRST_TIME,false)) {
@@ -114,9 +114,9 @@ public class CallStateReceiver extends BroadcastReceiver {
     }
 
     public void onCallStateChanged(int state, String number) throws InterruptedException {
-        AppGlobals.log(this, "onCallStateChanged() state="+curState);
+        AppGlobals.log(this, ""+curState);
         if(vsp.getInt("prevstate",-2)==vsp.getInt("state",-1)){
-            AppGlobals.log(this, "retrun from onCallStateChanged due to same states");
+            //AppGlobals.log(this, "return from onCallStateChanged due to same states");
             return;
         }
         switch(state){

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".HomeActivity"
-        tools:listitem="@layout/log_list_item_upper"
+        tools:listitem="@layout/list_item_log"
         android:scrollbars="vertical"/>
     <TextView
         android:id="@+id/no_items_text_view"

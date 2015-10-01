@@ -137,7 +137,7 @@ public class LogListActivity extends ActionBarActivity {
 
         simpleAdapter = new SimpleRecyclerViewAdapter(this,logListData,showCostType);
         recyclerView.setAdapter(simpleAdapter);
-        billCycle.setText(getResources().getString(R.string.bill_cycle) + " : " + AppGlobals.getBillCycleString(billCycleDates));
+        billCycle.setText(AppGlobals.getBillCycleString(billCycleDates));
         if (AppGlobals.isMinuteMode) {
             totalMinutes.setText(DateTimeUtils.timeToRoundedString(seconds));
         } else {
@@ -150,7 +150,7 @@ public class LogListActivity extends ActionBarActivity {
         if(logListData.isEmpty()) finish();
         simpleAdapter.notifyDataSetChanged();
         recyclerView.invalidate();
-        billCycle.setText(getResources().getString(R.string.bill_cycle) + " : " + AppGlobals.getBillCycleString(billCycleDates));
+        billCycle.setText(AppGlobals.getBillCycleString(billCycleDates));
         if (AppGlobals.isMinuteMode) {
             totalMinutes.setText(DateTimeUtils.timeToRoundedString(seconds));
         } else {
