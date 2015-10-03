@@ -29,7 +29,7 @@ public class CallStateReceiver extends BroadcastReceiver {
 
     //static int state,prevState;
 
-    /** TO DO : add callcount for multiple calls n++ onReceive retrive last n calls onStateIDLE and make n=0;*/
+    //** TO DO : add callcount for multiple calls n++ onReceive retrive last n calls onStateIDLE and make n=0;*/
 
     final String TAG2 = "CallStateReceiver : ";
 
@@ -54,8 +54,10 @@ public class CallStateReceiver extends BroadcastReceiver {
                             } else {
                                 minStr = DateTimeUtils.timeToString(lastCallDetails.getDuration());
                             }
-                            String toastMsg = String.format(mContext.getResources().getString(R.string.added_toast),minStr)+ " "+ lastCallDetails.getCostTypeString()+" "+lastCallDetails.getCallType().toString().toLowerCase();
-                            Toast.makeText(mContext, toastMsg, Toast.LENGTH_LONG).show();
+                            if (lastCallDetails.getCallType() != CallType.MISSED) {
+                                String toastMsg = String.format(mContext.getResources().getString(R.string.added_toast), minStr) + " " + lastCallDetails.getCostTypeString() + " " + lastCallDetails.getCallType().toString().toLowerCase();
+                                Toast.makeText(mContext, toastMsg, Toast.LENGTH_LONG).show();
+                            }
                         }
 
                     }
@@ -114,7 +116,7 @@ public class CallStateReceiver extends BroadcastReceiver {
     }
 
     public void onCallStateChanged(int state, String number) throws InterruptedException {
-        AppGlobals.log(this, ""+curState);
+        AppGlobals.log(this, "onCallStateChanged: "+curState);
         if(vsp.getInt("prevstate",-2)==vsp.getInt("state",-1)){
             //AppGlobals.log(this, "return from onCallStateChanged due to same states");
             return;
@@ -125,7 +127,7 @@ public class CallStateReceiver extends BroadcastReceiver {
             case TelephonyManager.CALL_STATE_OFFHOOK:
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
-                mHandler.sendMessageDelayed(mHandler.obtainMessage(UPDATE_LOGS_DB),3000);  //send message after it is updated in DB
+                mHandler.sendMessageDelayed(mHandler.obtainMessage(UPDATE_LOGS_DB),3500);  //send message after it is updated in DB
                 break;
         }
         ve.putInt("prevstate",vsp.getInt("state",-3));
@@ -136,7 +138,8 @@ public class CallStateReceiver extends BroadcastReceiver {
         AppGlobals.log(this, "retrieveCallSummary()");
         CallDetails callDetails =new CallDetails();
         Uri contacts = CallLog.Calls.CONTENT_URI;
-        Cursor managedCursor = CallStateReceiver.mContext.getContentResolver().query(contacts, null, null, null, null);
+        String sortOrder = CallLog.Calls.DATE+ " DESC";
+        Cursor managedCursor = CallStateReceiver.mContext.getContentResolver().query(contacts, null, null, null, sortOrder);
         int numberid = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
         int typeid = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
         int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
@@ -147,10 +150,10 @@ public class CallStateReceiver extends BroadcastReceiver {
             //do {
                 int duration = managedCursor.getInt(durationid);
                 //int duration = Integer.parseInt(callDuration);
-                if (duration <= 0) {
+                /*if (duration <= 0) {  // to avoid unchargable numbers
                     Log.e(AppGlobals.LOG_TAG, TAG2 + "duration is null");
                     return null;
-                }
+                }*/
                 callDetails.duration = duration;
                 callDetails.cachedContactName = managedCursor.getString(cachedNameid);
                 callDetails.phoneNumber = managedCursor.getString(numberid);
@@ -166,10 +169,10 @@ public class CallStateReceiver extends BroadcastReceiver {
                     case CallLog.Calls.INCOMING_TYPE:
                         callDetails.callType = CallType.INCOMING;
                         break;
-                    /*
+
                     case CallLog.Calls.MISSED_TYPE:
-                        c.callCostType = "Missed";
-                        break;*/
+                        callDetails.callType = CallType.MISSED;
+                        break;
                 }
 
                 TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);

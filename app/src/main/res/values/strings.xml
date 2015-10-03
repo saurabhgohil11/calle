@@ -130,6 +130,7 @@
     <string name="unknown_other">Unknown</string>
     <string name="incoming">Incoming</string>
     <string name="outgoing">Outgoing</string>
+    <string name="missed">Missed</string>
     <string name="incoming_calls">Incoming Calls</string>
     <string name="outgoing_calls">Outgoing Calls</string>
     <string name="seconds">Seconds</string>

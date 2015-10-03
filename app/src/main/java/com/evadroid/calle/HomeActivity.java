@@ -414,7 +414,7 @@ public class HomeActivity extends ActionBarActivity {
             } else {
                 lastCallNumber.setText(call.getPhoneNumber());
             }
-            lastCallType.setText(call.getCostTypeToDisplay());
+            lastCallType.setText(call.getCostAndCallTypeString());
             if(AppGlobals.isMinuteMode) {
                 lastCallDuration.setText(DateTimeUtils.timeToRoundedString(call.getDuration()));
             } else {

@@ -15,29 +15,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_alignParentTop="true">
             <ImageView
                 android:id="@+id/call_type_image"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_incoming"/>
+                android:layout_below="@+id/caller_name"
+                android:src="@drawable/ic_missed"/>
             <TextView
                 android:id="@+id/caller_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lydia Mccurry43432432432432432432432"
-                android:textSize="20dp"
-                android:layout_toRightOf="@id/call_type_image"
+                android:textSize="22dp"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@color/text_color_white" />
             <TextView
                 android:id="@+id/caller_number"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="28dp"
                 android:layout_below="@+id/caller_name"
+                android:gravity="center_vertical"
                 android:text="+91-9898989898"
                 android:textSize="17dp"
                 android:layout_toRightOf="@id/call_type_image"
@@ -46,8 +49,7 @@
         </RelativeLayout>
         <ImageButton
             android:id="@+id/option_menu_button"
-            android:layout_width="40dp"
-            android:layout_marginRight="5dp"
+            android:layout_width="45dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:background="?android:attr/actionBarItemBackground"

@@ -109,7 +109,7 @@ public class SimpleRecyclerViewAdapter extends
         else
             viewHolder.duration.setText("");
 
-        String type = call.getCostTypeToDisplay();
+        String type = call.getCostAndCallTypeString();
         if(type != null)
             viewHolder.type.setText(type);
         else
@@ -158,7 +158,7 @@ public class SimpleRecyclerViewAdapter extends
         final TextView mDuration = (TextView) logDetailDialog.findViewById(R.id.duration);
         final TextView mDate = (TextView) logDetailDialog.findViewById(R.id.date);
         final TextView mLocation = (TextView) logDetailDialog.findViewById(R.id.location);
-        final ImageView mCallType = (ImageView) logDetailDialog.findViewById(R.id.call_type_image);
+        final ImageView mCallTypeIcon = (ImageView) logDetailDialog.findViewById(R.id.call_type_image);
 
         if (callDetails.getCachedContactName() != null && !callDetails.getCachedContactName().isEmpty()) {
             mCallerName.setText(callDetails.getCachedContactName());
@@ -166,20 +166,23 @@ public class SimpleRecyclerViewAdapter extends
         } else {
             mCallerName.setText(callDetails.getPhoneNumber());
             mCallerNumber.setVisibility(View.GONE);
+            mCallTypeIcon.setVisibility(View.GONE);
         }
         mPhoneType.setText(callDetails.getPhoneNumberTypeToDisplay());
 
         if (callDetails.getCallType() == CallType.INCOMING) {
-            mCallType.setImageResource(R.drawable.ic_incoming);
-        } else {
-            mCallType.setImageResource(R.drawable.ic_outgoing);
+            mCallTypeIcon.setImageResource(R.drawable.ic_incoming);
+        } else if (callDetails.getCallType() == CallType.OUTGOING) {
+            mCallTypeIcon.setImageResource(R.drawable.ic_outgoing);
+        } else if (callDetails.getCallType() == CallType.MISSED) {
+            mCallTypeIcon.setImageResource(R.drawable.ic_missed);
         }
 
 
         //String costType = DateTimeUtils.toDisplayCase(callDetails.getCostType().toString().toLowerCase());
         StringBuffer costString = new StringBuffer();
         if(userSpecifiedCostType!=null) costString.append(mContext.getResources().getString(R.string.user_specified)+" ");
-        costString.append(callDetails.getCostTypeString());
+        costString.append(callDetails.getCostAndCallTypeString());
         mCostType.setText(costString);
 
         String time = DateTimeUtils.timeToDateString(callDetails.getDate());

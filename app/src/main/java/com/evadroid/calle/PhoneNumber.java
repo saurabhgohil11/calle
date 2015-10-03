@@ -29,13 +29,13 @@ public class PhoneNumber {
         if (AppGlobals.userCountryCode.equals("null")) {
             AppGlobals.getInstance(c).initUserCountryCode();
         }
-        AppGlobals.log(this,"-----------------PhoneNumber is:"+numberStr);
+        //AppGlobals.log(this,"-----------------PhoneNumber is:"+numberStr);
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
 
         try {
             this.phoneNumber = phoneUtil.parse(numberStr, AppGlobals.userCountryCode);
         } catch (NumberParseException e) {
-            AppGlobals.log(this,"NumberParseException was thrown: " + e.toString());
+            AppGlobals.log(this,"NumberParseException was thrown: " + numberStr +e.toString());
             return;
         }
 

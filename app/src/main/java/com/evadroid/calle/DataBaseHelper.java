@@ -252,6 +252,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_IS_HIDDEN,callDetails.isHidden());
         cv.put(KEY_GEO_LOCATION,callDetails.getNumberLocation());
         db.insert(TABLE_LOGS_HISTORY, null, cv);
+        AppGlobals.sendUpdateMessage();
     }
 
     //retrives logs for HomeActivity

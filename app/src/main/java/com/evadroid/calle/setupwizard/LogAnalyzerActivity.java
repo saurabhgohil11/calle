@@ -91,7 +91,7 @@ class LogsWorker extends AsyncTask<Void, Integer, Void> {
         String whereClause = CallLog.Calls.TYPE+ " IN("+CallLog.Calls.INCOMING_TYPE+","+CallLog.Calls.OUTGOING_TYPE+") AND "+
                 CallLog.Calls.DURATION+">"+0;
         String sortOrder = CallLog.Calls.DATE+ " ASC";
-        Cursor managedCursor = parent.getContentResolver().query(contacts, null, whereClause, null, sortOrder);
+        Cursor managedCursor = parent.getContentResolver().query(contacts, null, null, null, sortOrder);
         int numberid = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
         int typeid = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
         int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
@@ -100,7 +100,6 @@ class LogsWorker extends AsyncTask<Void, Integer, Void> {
 
         //call log fields at java.lang.Thread.run(Thread.java:818)
         //Caused by: android.database.sqlite.SQLiteException: near "AESC": syntax error (code 1): , while compiling: SELECT contactid, logtype, sim_id, real_phone_number, presentation, remind_me_later_set, e164_number, call_out_duration, vvm_id, countryiso, dormant_set, photo_id, type, is_read, address, number, photoring_uri, cityid, m_content, sdn_alpha_id, subscription_component_name, name, normalized_number, sec_custom1, raw_contact_id, simnum, country_code, fname, formatted_number, numbertype, sec_custom2, sns_tid, duration, account_id, geocoded_location, transcription, lookup_uri, cdnip_number, sns_pkey, frequent, messageid, subscription_id, _id, bname, sns_receiver_count, sp_type, pinyin_name, cnap_name, features, voicemail_uri, new, sec_custom3, date, data_usage, numberlabel, reject_flag, service_type, m_subject, spam_report, matched_number, account_name, lname FROM logs WHERE (logs.logtype=100 OR logs.logtype=150 OR logs.logtype=110 OR logs.logtype=900 OR logs.logtype=500 OR logs.logtype=800 OR logs.logtype=120 OR logs.logtype=510 OR logs.logtype=1000 OR logs.logtype=1150 OR logs.logtype=150 OR ((logs.sec_custom3 IS NULL ) AND logs.logtype=200 AND number NOT IN (SELECT number FROM logs WHERE number LIKE '%@%')) OR (logs.logtype=300 AND number NOT IN (SELECT number FROM logs WHERE number LIKE '%@%')) OR (logs.logtype=1200 AND number NOT IN (SELECT number FROM logs WHERE number LIKE '%@%')) OR logs.logtype=950 OR logs.logtype=1300 OR logs.logtype=1250) AND ((((type != 4)) AND (logtype=100 OR logtype=500 OR logtype=800 OR logtype=950 OR logtype=1000))) ORDER BY date AESC
-
 
         progressBar.setMax(managedCursor.getCount());
         AppGlobals.log(this," total logs to be read:"+managedCursor.getCount());
@@ -127,6 +126,10 @@ class LogsWorker extends AsyncTask<Void, Integer, Void> {
 
                 case CallLog.Calls.INCOMING_TYPE:
                     callDetails.callType = CallType.INCOMING;
+                    break;
+
+                case CallLog.Calls.MISSED_TYPE:
+                    callDetails.callType = CallType.MISSED;
                     break;
             }
             PhoneNumber n = new PhoneNumber(parent,dbHelper, callDetails.phoneNumber);

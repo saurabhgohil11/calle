@@ -1,5 +1,5 @@
 package com.evadroid.calle;
 
 public enum CallType {
-    INCOMING , OUTGOING
+    INCOMING , OUTGOING , MISSED
 }

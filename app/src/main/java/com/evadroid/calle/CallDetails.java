@@ -184,11 +184,11 @@ public class CallDetails implements Parcelable{
         this.isHidden = isHidden;
     }
 
-    public String getCostTypeToDisplay() {
+    public String getCostAndCallTypeString() {
         StringBuffer sb = new StringBuffer();
         Resources res = AppGlobals.mContext.getResources();
         if(res == null) {
-            AppGlobals.log(this,"getCostTypeToDisplay: resources null");
+            AppGlobals.log(this,"getCostAndCallTypeString: resources null");
             return "";
         }
         if(isRoaming){
@@ -209,6 +209,8 @@ public class CallDetails implements Parcelable{
             sb.append(res.getString(R.string.incoming));
         } else if (callType == CallType.OUTGOING) {
             sb.append(res.getString(R.string.outgoing));
+        } else if (callType == CallType.MISSED) {
+            sb.append(res.getString(R.string.missed));
         }
 
         return sb.toString();
