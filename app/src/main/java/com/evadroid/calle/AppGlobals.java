@@ -29,7 +29,6 @@ public class AppGlobals {
     public static String userCountryCode = "null";
     public static String simOperator = "null";
     public static boolean isMinuteMode = true;
-    public static boolean isEnableToast = false;
 
     public static final String LOG_TAG = "Call-E";
 
@@ -111,7 +110,6 @@ public class AppGlobals {
 
         isDualSim=false;
         isMinuteMode = AppGlobals.MODE_MINUTES.equals(preferences.getString(AppGlobals.PKEY_MODE_OF_CALCULATION, AppGlobals.MODE_MINUTES));
-        isEnableToast = preferences.getBoolean("enable_mins_toast",false);
 
         initUserCountryCode();
         initMaps();
@@ -328,5 +326,16 @@ public class AppGlobals {
             LogListActivity.mHandler.sendEmptyMessage(LogListActivity.UPDATE_VIEWS);
     }
 
+    public static boolean isEnableToast(Context c) {
+        if(mContext == null) {
+            mContext = c;
+        }
+        if(mContext != null) {
+            return PreferenceManager.getDefaultSharedPreferences(mContext).getBoolean("enable_mins_toast", false);
+        } else {
+            Log.d(LOG_TAG,"AppGlobals : mContext null in isEnableToast");
+            return false;
+        }
+    }
 
 }

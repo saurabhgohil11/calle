@@ -47,7 +47,7 @@ public class CallStateReceiver extends BroadcastReceiver {
                         Log.e(AppGlobals.LOG_TAG, TAG2 +"lastCallDetail is null");
                     } else {
                         dbHelper.addToLogsHistory(lastCallDetails);
-                        if(AppGlobals.isEnableToast) {
+                        if(AppGlobals.isEnableToast(mContext)) {
                             String minStr;
                             if(AppGlobals.isMinuteMode) {
                                 minStr = DateTimeUtils.timeToRoundedString(lastCallDetails.getDuration());
@@ -59,7 +59,6 @@ public class CallStateReceiver extends BroadcastReceiver {
                                 Toast.makeText(mContext, toastMsg, Toast.LENGTH_LONG).show();
                             }
                         }
-
                     }
                     break;
             }

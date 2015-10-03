@@ -66,10 +66,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         //AppGlobals.log(this, "onSharedPreferenceChanged(),key=" + key);
         updatePreference(findPreference(key), key);
-        if (key.equals("enable_mins_toast")) {
-            AppGlobals.isEnableToast = sharedPreferences.getBoolean(key,false);
-            return;
-        }
 
         if (key.equals("user_circle")) {
             final ProgressDialog progressDialog;
