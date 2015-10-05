@@ -84,11 +84,11 @@
         <TextView
             android:id="@+id/label_duration"
             android:text="@string/duration"
-            android:layout_below="@id/label_cost_type"
+            android:layout_below="@id/cost_type"
             style="@style/LogDetailTextStyle"/>
         <TextView
             android:id="@+id/duration"
-            android:layout_below="@id/label_cost_type"
+            android:layout_below="@id/cost_type"
             android:layout_toRightOf="@+id/label_duration"
             style="@style/LogDetailTextStyle"/>
         <TextView

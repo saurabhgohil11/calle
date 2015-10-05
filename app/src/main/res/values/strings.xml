@@ -18,9 +18,10 @@
     <string name="setup_page_2_text">Categorize your Local, STD, Roaming, ISD, and Free Minutes automagically\nNo manual entry needed</string>
     <string name="setup_page_3_text">This is first time setup wizard\nLet\'s setup your usage/plan details</string>
     <string name="analyzing_logs">Analyzing Your Call Logs…</string>
-    <string name="please_wait_logs_analysing">Please wait till we complete Log Analysis.</string>
-    <string name="analyzing_complete">Call Logs analysis completed.</string>
-    <string name="unknown_logs_detected">Application has detected some numbers which are ambiguous to categorize.\nDo you want to categorize them now?\n(This will improve local and std calls categorization.)</string>
+    <string name="please_wait_logs_analysing">Please wait till we complete log analysis.</string>
+    <string name="analyzing_complete">Call Logs Analyzed!</string>
+    <string name="unknown_logs_detected">Some ambiguous numbers are detected</string>
+    <string name="unknown_logs_detected_2">(It is recommend to categorize them for enhanced experience)</string>
     <string name="categorize_now">Categorize Now</string>
     <string name="skip">SKIP</string>
     <string name="mobile_number_hint">Mobile Number(10 Digits)</string>
@@ -93,8 +94,8 @@
     <string name="usage_history">Usage History</string>
     <string name="logs">Logs</string>
     <string name="usage">Usage</string>
-    <string name="title_want_to_add_cug">Add Free Numbers?</string>
-    <string name="message_want_to_add_cug">Do you want to add Numbers which are not charged by operator, like Customer Care and Closed User Group(CUG) numbers?\n\nYou can do it letter from Settings.If you need any help you can go to Help section in Settings.</string>
+    <string name="title_want_to_add_cug">Add Free Numbers</string>
+    <string name="message_want_to_add_cug">Do you want to add any Customer Care or Closed User Group(CUG) numbers which are not charged by operator?</string>
     <string name="dialog_title_mode_of_calculation">What is Mode of Calculation?</string>
     <string name="help_mode_of_calculation">Minutes: Select this mode if your carrier charges on per minute basis (e.g. Rs. 0.80/Min). 30 sec call is considered as a one minute.\n\nSeconds: Select this mode if your carrier charges you on per second basis(e.g. 1p/1sec). 30 second call is not rounded off to minutes.</string>
 

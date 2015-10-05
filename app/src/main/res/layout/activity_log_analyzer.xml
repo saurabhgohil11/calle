@@ -17,7 +17,8 @@
             android:text="@string/analyzing_logs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="22dp"
+            android:textColor="@color/action_bar_primary_color"
             android:layout_marginBottom="4dp"/>
 
         <ProgressBar
@@ -32,6 +33,18 @@
             android:text="@string/unknown_logs_detected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:padding="4dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/background_material_dark"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/unknown_logs_detected_2"
+            android:text="@string/unknown_logs_detected_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="15dp"
             android:padding="4dp"
             android:gravity="center_horizontal"
@@ -44,7 +57,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/categorize_now"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
+            style="@style/InnerButtonStyle"
             android:visibility="gone"/>
 
     </LinearLayout>

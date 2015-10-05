@@ -2,6 +2,7 @@
 <resources>
     <color name="action_bar_primary_color">#1D5479</color>
     <color name="action_bar_primary_dark_color">#143952</color>
+    <color name="button_primary_color">#143952</color>
     <color name="transparent">#00000000</color>
     <color name="text_color_white">#fefefe</color>
     <color name="almost_black">#111</color>
@@ -35,6 +36,5 @@
     <color name="color1">#ccD9F6FF</color>
     <color name="color2">#aa74c8C4</color>
     <color name="color3">#cfF5FBCC</color>
-    <color name="title_green">#009788</color>
 
 </resources>

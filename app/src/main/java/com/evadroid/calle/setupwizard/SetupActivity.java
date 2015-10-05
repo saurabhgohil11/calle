@@ -195,6 +195,7 @@ public class SetupActivity extends ActionBarActivity {
         private static final int FRAG_INFO_1 = 1;
 
         int fragmentNum;
+        DataBaseHelper dbHelper;
 
         public static SetupWizardFragment newInstance(int fragmentNum) {
             SetupWizardFragment fragment = new SetupWizardFragment();
@@ -212,6 +213,7 @@ public class SetupActivity extends ActionBarActivity {
             if (getArguments() != null) {
                 fragmentNum = getArguments().getInt(FRAGNO);
             }
+            dbHelper = AppGlobals.getDataBaseHelper(getActivity());
         }
 
         @Override
@@ -245,7 +247,7 @@ public class SetupActivity extends ActionBarActivity {
                         public void afterTextChanged(Editable s) {
                             String number = mobileNumber.getText().toString();
                             if(number!=null && number.length()>=4) {
-                                DataBaseHelper dbHelper = AppGlobals.getDataBaseHelper(getActivity());
+
                                 if(dbHelper == null) {
                                     dbHelper = new DataBaseHelper(getActivity());
                                 }

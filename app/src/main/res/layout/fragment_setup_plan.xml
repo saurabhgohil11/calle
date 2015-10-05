@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/your_operator"
-            android:textColor="@color/title_green"
+            android:textColor="@color/accent_material_light"
             android:paddingTop="@dimen/setup_screen_between_margin"/>
 
         <Spinner
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/start_date_of_cycle"
-            android:textColor="@color/title_green"
+            android:textColor="@color/accent_material_light"
             android:paddingTop="@dimen/setup_screen_between_margin"/>
 
         <Spinner
@@ -98,7 +98,7 @@
             android:text="@string/mode_of_calculation"
             android:linksClickable="true"
             android:clickable="true"
-            android:textColor="@color/title_green"
+            android:textColor="@color/accent_material_light"
             android:onClick="onShowMinutesHelp"
             android:paddingTop="@dimen/setup_screen_between_margin"/>
         <TextView

@@ -37,10 +37,11 @@ public class LogAnalyzerActivity extends ActionBarActivity {
         final ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar);
         final TextView progresstextview = (TextView)findViewById(R.id.analyzing_text);
         final TextView unknwontextview = (TextView)findViewById(R.id.unknown_logs_detected);
+        final TextView unknwontextview2 = (TextView)findViewById(R.id.unknown_logs_detected_2);
         final Button categorizeButton = (Button) findViewById(R.id.categorize_button);
         final Button skipButton = (Button) findViewById(R.id.skip_button);
 
-        logsWorker = new LogsWorker(this, progressBar, progresstextview,unknwontextview,categorizeButton,skipButton);
+        logsWorker = new LogsWorker(this, progressBar, progresstextview,unknwontextview,unknwontextview2,categorizeButton,skipButton);
         logsWorker.execute();
         progresstextview.startAnimation(fadein);
     }
@@ -62,18 +63,20 @@ class LogsWorker extends AsyncTask<Void, Integer, Void> {
     private final ProgressBar progressBar;
     private final TextView progressTextView;
     private final TextView categorizeTextView;
+    private final TextView categorizeTextView2;
     private final Button categorizeButton;
     private final Button skipButton;
     AppGlobals appGlobals;
     DataBaseHelper dbHelper;
     final Animation fadein = new AlphaAnimation(0.0f, 1.0f);
 
-    public LogsWorker(final Activity parent, final ProgressBar progressBar, final TextView progressTextView, final TextView categorizeTextView, final Button categorizeButton, Button skipButton) {
+    public LogsWorker(final Activity parent, final ProgressBar progressBar, final TextView progressTextView, final TextView categorizeTextView, final TextView categorizeTextView2, final Button categorizeButton, Button skipButton) {
         this.parent = parent;
         this.progressBar = progressBar;
         this.progressTextView = progressTextView;
         this.categorizeButton = categorizeButton;
         this.categorizeTextView = categorizeTextView;
+        this.categorizeTextView2 = categorizeTextView2;
         this.skipButton = skipButton;
         fadein.setDuration(900);
     }
@@ -163,9 +166,11 @@ class LogsWorker extends AsyncTask<Void, Integer, Void> {
         ArrayList<CallDetails> unknwonList = dbHelper.getUnknownLogsHistory();
         if(unknwonList!=null && !unknwonList.isEmpty()) {
             categorizeTextView.setVisibility(View.VISIBLE);
+            categorizeTextView2.setVisibility(View.VISIBLE);
             categorizeButton.setVisibility(View.VISIBLE);
             skipButton.setVisibility(View.VISIBLE);
             categorizeTextView.startAnimation(fadein);
+            categorizeTextView2.startAnimation(fadein);
             fadein.setDuration(1900);
             categorizeButton.startAnimation(fadein);
             skipButton.startAnimation(fadein);
