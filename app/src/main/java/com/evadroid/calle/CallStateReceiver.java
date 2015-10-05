@@ -47,6 +47,8 @@ public class CallStateReceiver extends BroadcastReceiver {
                         Log.e(AppGlobals.LOG_TAG, TAG2 +"lastCallDetail is null");
                     } else {
                         dbHelper.addToLogsHistory(lastCallDetails);
+                        if(AppGlobals.showLogs)
+                            Log.d(AppGlobals.LOG_TAG, TAG2 + "lastCallDetail is "+lastCallDetails);
                         if(AppGlobals.isEnableToast(mContext)) {
                             String minStr;
                             if(AppGlobals.isMinuteMode) {
@@ -74,7 +76,8 @@ public class CallStateReceiver extends BroadcastReceiver {
         dbHelper = AppGlobals.getInstance(context).getDataBaseHelper();  //init both appglobalinstance and dbhelper if they are null
         vsp = mContext.getSharedPreferences("CallStateReceive", Context.MODE_PRIVATE);
         ve=vsp.edit();
-        //AppGlobals.log(this, "onReceive()");
+        if(AppGlobals.showLogs)
+            AppGlobals.log(this, "onReceive()");
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         if(!sp.getBoolean(AppGlobals.PKEY_FIRST_TIME,false)) {
@@ -84,7 +87,8 @@ public class CallStateReceiver extends BroadcastReceiver {
 
         if(intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)){
             isOutgoing=true;
-            //AppGlobals.log(this, "isOGtrue");
+            if(AppGlobals.showLogs)
+                AppGlobals.log(this, "isOGtrue");
         }else{
             curState=intent.getStringExtra(TelephonyManager.EXTRA_STATE);
             if (curState.equals(TelephonyManager.EXTRA_STATE_RINGING)){
@@ -134,7 +138,8 @@ public class CallStateReceiver extends BroadcastReceiver {
     }
 
     CallDetails retrieveCallSummary() {
-        AppGlobals.log(this, "retrieveCallSummary()");
+        if(AppGlobals.showLogs)
+            AppGlobals.log(this, "retrieveCallSummary()");
         CallDetails callDetails =new CallDetails();
         Uri contacts = CallLog.Calls.CONTENT_URI;
         String sortOrder = CallLog.Calls.DATE+ " DESC";
@@ -160,6 +165,8 @@ public class CallStateReceiver extends BroadcastReceiver {
 
                 String callType = managedCursor.getString(typeid);
                 int dircode = Integer.parseInt(callType);
+                if(AppGlobals.showLogs)
+                    AppGlobals.log(this, "retrieveCallSummary(): dircode"+dircode);
                 switch (dircode) {
                     case CallLog.Calls.OUTGOING_TYPE:
                         callDetails.callType = CallType.OUTGOING;
@@ -184,7 +191,7 @@ public class CallStateReceiver extends BroadcastReceiver {
                 callDetails.numberLocation = n.getPhoneNumberLocation();
                 callDetails.isHidden = false;
                 //callCount --;
-                managedCursor.moveToNext();
+                //managedCursor.moveToNext();
             //} while (callCount>0);
         }
         managedCursor.close();

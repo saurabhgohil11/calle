@@ -11,8 +11,6 @@ import java.util.Locale;
 
 public class PhoneNumber {
 
-    private boolean showLogs = false;
-
     DataBaseHelper mdbHelper;
 
     CostType costType;
@@ -52,12 +50,12 @@ public class PhoneNumber {
                 String locationStateCode = mdbHelper.getMobileNumberState(phoneNumber.getNationalNumber());
                 phoneNumberLocation = AppGlobals.circleNameMap.get(locationStateCode);
             }
-            if(showLogs)
+            if(AppGlobals.showLogs)
                 AppGlobals.log(this, "costType is "+costType.toString());
         } else if (phoneNumber.getCountryCode() != AppGlobals.userCountryCodeNumber) {
             costType = CostType.ISD;
             nationalNumber = numberStr;
-            if (showLogs)
+            if (AppGlobals.showLogs)
                 AppGlobals.log(this, "costType is ISD");
         } else {
             costType = CostType.UNKNOWN;
@@ -86,10 +84,10 @@ public class PhoneNumber {
                     findCostToFixedLine();
                 } else if (phoneNumberType == PhoneNumberUtil.PhoneNumberType.TOLL_FREE) {
                     costType = CostType.FREE;
-                    if(showLogs)
+                    if(AppGlobals.showLogs)
                         AppGlobals.log(this, "costType is toll Free");
                 }
-                if(showLogs)
+                if(AppGlobals.showLogs)
                     AppGlobals.log(this, "phoneNumberLocation is "+phoneNumberLocation);
                 break;
             default:

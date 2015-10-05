@@ -18,6 +18,8 @@ import java.util.HashMap;
 
 public class AppGlobals {
 
+    public static final boolean showLogs = false;
+
     public static volatile AppGlobals instance;
 
     public static Context mContext;

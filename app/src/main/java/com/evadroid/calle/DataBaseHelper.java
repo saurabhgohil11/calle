@@ -18,8 +18,6 @@ import java.util.Date;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
-    private boolean showLogs = false;
-
     private final Context mContext;
 
     private static final int DATABASE_VERSION = 1;
@@ -121,7 +119,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             state = c.getString(0);
         }
         //db.close();
-        if(showLogs)
+        if(AppGlobals.showLogs)
             AppGlobals.log(this,"trimmed Number = "+phoneNumber+ ", state = "+ state);
         c.close();
         return state;
