@@ -31,20 +31,22 @@ public class CallStateReceiver extends BroadcastReceiver {
 
     //** TO DO : add callcount for multiple calls n++ onReceive retrive last n calls onStateIDLE and make n=0;*/
 
-    final String TAG2 = "CallStateReceiver : ";
+    static final String TAG2 = "CallStateReceiver : ";
 
     SharedPreferences vsp;//sahared pref for variable
     SharedPreferences.Editor ve;
-    DataBaseHelper dbHelper;
+    static DataBaseHelper dbHelper;
 
-    private Handler mHandler = new Handler(){
+    private static Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch(msg.what){
                 case UPDATE_LOGS_DB:
                     CallDetails lastCallDetails = retrieveCallSummary();
-                    if(lastCallDetails==null) {
+                    if (lastCallDetails==null) {
                         Log.e(AppGlobals.LOG_TAG, TAG2 +"lastCallDetail is null");
+                    } else if (dbHelper.isDuplicatewithLastLog(lastCallDetails)) {
+                        Log.d(AppGlobals.LOG_TAG, TAG2 + "duplicate Log");
                     } else {
                         dbHelper.addToLogsHistory(lastCallDetails);
                         if(AppGlobals.showLogs)
@@ -137,9 +139,9 @@ public class CallStateReceiver extends BroadcastReceiver {
         ve.commit();
     }
 
-    CallDetails retrieveCallSummary() {
+    static CallDetails retrieveCallSummary() {
         if(AppGlobals.showLogs)
-            AppGlobals.log(this, "retrieveCallSummary()");
+            AppGlobals.log(AppGlobals.LOG_TAG, TAG2 + "retrieveCallSummary()");
         CallDetails callDetails =new CallDetails();
         Uri contacts = CallLog.Calls.CONTENT_URI;
         String sortOrder = CallLog.Calls.DATE+ " DESC";
@@ -166,7 +168,7 @@ public class CallStateReceiver extends BroadcastReceiver {
                 String callType = managedCursor.getString(typeid);
                 int dircode = Integer.parseInt(callType);
                 if(AppGlobals.showLogs)
-                    AppGlobals.log(this, "retrieveCallSummary(): dircode"+dircode);
+                    AppGlobals.log(AppGlobals.LOG_TAG, TAG2 + "retrieveCallSummary(): dircode"+dircode);
                 switch (dircode) {
                     case CallLog.Calls.OUTGOING_TYPE:
                         callDetails.callType = CallType.OUTGOING;
