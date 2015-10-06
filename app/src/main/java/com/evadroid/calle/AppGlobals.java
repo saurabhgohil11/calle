@@ -191,7 +191,7 @@ public class AppGlobals {
     }
 
     public static String getBillCycleString(Date cycleDates[]) {
-        if(cycleDates[0] == null || cycleDates[1]==null)
+        if (cycleDates[0] == null || cycleDates[1]==null)
             return "";
         Date startDate = cycleDates[0];
         Date endDate = cycleDates[1];
@@ -202,7 +202,8 @@ public class AppGlobals {
     public static Date[] getCurrentBillCycleDates() {
         int startDay=preferences.getInt(PKEY_BILL_CYCLE, -1);
         Calendar c = Calendar.getInstance();
-        if(c.get(Calendar.DATE)<startDay)
+        int curDay = c.get(Calendar.DATE);
+        if (curDay<startDay)
             c.add(Calendar.MONTH, -1);
         c.set(Calendar.DATE, startDay);
         c.set(Calendar.HOUR_OF_DAY,0);  //HOUR is stricly 12 Hours
@@ -230,17 +231,19 @@ public class AppGlobals {
         if((temp=dbHelper.getOldestLogDate())!=-1) {
             installationDate = temp;
         }
-        //installationDate = 1262344139000L;  //Fri, 01 Jan 2010 11:08:59 GMT
+        //installationDate = 1417478878000L;  //Tue, 02 Dec 2014 00:07:58 GMT
         if(installationDate == -1) {
             return cycles;
         }
 
         int startDay=preferences.getInt(PKEY_BILL_CYCLE, -1);
         Calendar c = Calendar.getInstance();
+        int curDay = c.get(Calendar.DATE);
         boolean firstloop=true;
-        //android.util.Log.d("AppGlobals"," installationdate:" +installationDate+"currentDate="+c.getTimeInMillis());
+        if (showLogs)
+            Log.d("AppGlobals","getUsageCycleArray installationdate:" +installationDate+", currentDate="+c.getTimeInMillis()+", startDay"+startDay+", curDay"+curDay);
         while (c.getTimeInMillis()>installationDate) {
-            if (c.get(Calendar.DATE)<startDay && firstloop) {
+            if (curDay<startDay && firstloop) {
                 c.add(Calendar.MONTH, -1);
                 firstloop=false;
             }
@@ -261,7 +264,8 @@ public class AppGlobals {
             c.set(Calendar.MILLISECOND, 999);
             dates[1] = new Date(c.getTimeInMillis());
             cycles.add(dates);
-            //Log.d("AppGlobals","cycle:"+getBillCycleString(dates));
+            if (showLogs)
+                Log.d("AppGlobals","getUsageCycleArray cycle:"+getBillCycleString(dates));
             c.add(Calendar.MONTH, -1);
             if (c.get(Calendar.DATE)<startDay) {
                 c.add(Calendar.MONTH, -1);
@@ -286,7 +290,8 @@ public class AppGlobals {
             c.set(Calendar.MILLISECOND, 999);
             dates[1] = new Date(c.getTimeInMillis());
             cycles.add(dates);
-            //Log.d("AppGlobals", "cycle:" + getBillCycleString(dates));
+            if (showLogs)
+                Log.d("AppGlobals", "getUsageCycleArray cycle:" + getBillCycleString(dates));
         }
 
         return cycles;
