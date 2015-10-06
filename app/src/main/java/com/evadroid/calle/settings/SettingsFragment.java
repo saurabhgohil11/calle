@@ -8,21 +8,34 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.evadroid.calle.AppGlobals;
+import com.evadroid.calle.CallDetails;
+import com.evadroid.calle.CallType;
 import com.evadroid.calle.DataBaseHelper;
 import com.evadroid.calle.HomeActivity;
+import com.evadroid.calle.PhoneNumber;
 import com.evadroid.calle.R;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.util.Date;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -38,7 +51,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
         initPrefrences();
-
     }
 
     private void initPrefrences() {
@@ -47,6 +59,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         ListPreference listPref = (ListPreference) findPreference("user_circle");
         listPref.setSummary(getResources().getString(R.string.summary_user_circle) + listPref.getEntry());
+        if (!AppGlobals.showDevOptions) {
+            PreferenceScreen parent = (PreferenceScreen) findPreference("parent_screen");
+            PreferenceCategory devOptions = (PreferenceCategory) findPreference("dev_options");
+            parent.removePreference(devOptions);
+        }
+
     }
 
 
@@ -158,71 +176,75 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 case "about":
                     showAboutDialog();
                     break;
-                /*case "extract_database":
-                    File sd = Environment.getExternalStorageDirectory();
-                    File data = Environment.getDataDirectory();
-                    FileChannel source;
-                    FileChannel destination;
-                    String currentDBPath = "/data/" + "com.evadroid.calle" + "/databases/" + "calleapp";
-                    String backupDBPath = "calleapp";
-                    File currentDB = new File(data, currentDBPath);
-                    File backupDB = new File(sd, backupDBPath);
-                    try {
-                        source = new FileInputStream(currentDB).getChannel();
-                        destination = new FileOutputStream(backupDB).getChannel();
-                        destination.transferFrom(source, 0, source.size());
-                        source.close();
-                        destination.close();
-                        Toast.makeText(getActivity(), "DB Exported to" + backupDB.getAbsolutePath(), Toast.LENGTH_LONG).show();
-                    } catch (IOException e) {
-                        Toast.makeText(getActivity(), "Failed to export!", Toast.LENGTH_LONG).show();
-                        e.printStackTrace();
+                case "extract_database":
+                    if (AppGlobals.showDevOptions) {
+                        File sd = Environment.getExternalStorageDirectory();
+                        File data = Environment.getDataDirectory();
+                        FileChannel source;
+                        FileChannel destination;
+                        String currentDBPath = "/data/" + "com.evadroid.calle" + "/databases/" + "calleapp";
+                        String backupDBPath = "calleapp";
+                        File currentDB = new File(data, currentDBPath);
+                        File backupDB = new File(sd, backupDBPath);
+                        try {
+                            source = new FileInputStream(currentDB).getChannel();
+                            destination = new FileOutputStream(backupDB).getChannel();
+                            destination.transferFrom(source, 0, source.size());
+                            source.close();
+                            destination.close();
+                            Toast.makeText(getActivity(), "DB Exported to" + backupDB.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                        } catch (IOException e) {
+                            Toast.makeText(getActivity(), "Failed to export! check permissions", Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
                     }
                     break;
                 case "number_test":
-                    LayoutInflater li = LayoutInflater.from(getActivity());
-                    View promptsView = li.inflate(R.layout.dialog_number_test, null);
-                    alertDialogBuilder.setTitle("Enter Number to Add: ");
-                    // set prompts.xml to alertdialog builder
-                    alertDialogBuilder.setView(promptsView);
+                    if (AppGlobals.showDevOptions) {
+                        LayoutInflater li = LayoutInflater.from(getActivity());
+                        View promptsView = li.inflate(R.layout.dialog_number_test, null);
+                        alertDialogBuilder.setTitle("Enter Number to Add: ");
+                        // set prompts.xml to alertdialog builder
+                        alertDialogBuilder.setView(promptsView);
 
-                    final EditText userInput = (EditText) promptsView.findViewById(R.id.number_edit_text);
-                    final EditText igog = (EditText) promptsView.findViewById(R.id.ic_og_edit_text);
-                    alertDialogBuilder.setPositiveButton("OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
+                        final EditText userInput = (EditText) promptsView.findViewById(R.id.number_edit_text);
+                        final EditText igog = (EditText) promptsView.findViewById(R.id.ic_og_edit_text);
+                        alertDialogBuilder.setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
 
-                                    String number = userInput.getText().toString();
-                                    String numbertype = igog.getText().toString();
-                                    if (number == null || number.isEmpty() || numbertype == null || numbertype.isEmpty()) {
-                                        Toast.makeText(getActivity(),"Number or type can't be empty",Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        CallDetails cd =new CallDetails();
-                                        cd.duration=150;
-                                        cd.date = new Date().getTime();
-                                        cd.cachedContactName = "Misa Misa";
-                                        cd.phoneNumber = number;
-                                        cd.isRoaming = numbertype.contains("r");
-                                        cd.isHidden = false;
-                                        if(numbertype.contains("i"))
+                                        String number = userInput.getText().toString();
+                                        String numbertype = igog.getText().toString();
+                                        if (number == null || number.isEmpty() || numbertype == null || numbertype.isEmpty()) {
+                                            Toast.makeText(getActivity(), "Number or type can't be empty", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            CallDetails cd = new CallDetails();
+                                            cd.duration = 150;
+                                            cd.date = new Date().getTime();
+                                            cd.cachedContactName = "Misa Misa";
+                                            cd.phoneNumber = number;
+                                            cd.isRoaming = numbertype.contains("r");
+                                            cd.isHidden = false;
+                                            if (numbertype.contains("i"))
                                                 cd.callType = CallType.INCOMING;
-                                        if(numbertype.contains("o"))
+                                            if (numbertype.contains("o"))
                                                 cd.callType = CallType.OUTGOING;
 
-                                        PhoneNumber n = new PhoneNumber(getActivity(),AppGlobals.dbHelper,cd.phoneNumber);
-                                        cd.costType = n.getCostType();
-                                        cd.nationalNumber = n.getNationalNumber();
-                                        cd.phoneNumberType = n.getPhoneNumberType();
-                                        cd.numberLocation = n.getPhoneNumberLocation();
+                                            PhoneNumber n = new PhoneNumber(getActivity(), AppGlobals.getDataBaseHelper(), cd.phoneNumber);
+                                            cd.costType = n.getCostType();
+                                            cd.nationalNumber = n.getNationalNumber();
+                                            cd.phoneNumberType = n.getPhoneNumberType();
+                                            cd.numberLocation = n.getPhoneNumberLocation();
 
-                                        AppGlobals.dbHelper.addToLogsHistory(cd);
+                                            AppGlobals.getDataBaseHelper().addToLogsHistory(cd);
+                                        }
+
                                     }
-
-                                }
-                            });
-                    alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
-                    break;*/
+                                });
+                        alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    }
+                    break;
             }
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:speedreader="http://schemas.android.com/apk/res-auto">
+    xmlns:speedreader="http://schemas.android.com/apk/res-auto"
+    android:key="parent_screen">
 
     <PreferenceCategory
         android:title="@string/plan_based_preferences">
@@ -82,7 +83,8 @@
 
     </PreferenceCategory>
 
-    <!--PreferenceCategory
+    <PreferenceCategory
+        android:key="dev_options"
         android:title="Developer Options">
 
         <Preference
@@ -94,6 +96,6 @@
             android:id="@+id/number_test"
             android:key="number_test"
             android:title="Number Test" />
-    </PreferenceCategory-->
+    </PreferenceCategory>
 
 </PreferenceScreen>

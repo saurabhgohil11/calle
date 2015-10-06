@@ -130,7 +130,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         values.put(KEY_PHONE_NUMBER, number);
         values.put(KEY_COST_TYPE,costType.ordinal());
         String existingNumber = isUserSpecifiedNumberExists(number);
-        AppGlobals.log(this, existingNumber);
+        if(AppGlobals.showLogs)
+            AppGlobals.log(this, "addUserSpecifiedNumber existingNumber"+existingNumber);
         if(existingNumber!=null){
             ContentValues newValues = new ContentValues();
             newValues.put(KEY_PHONE_NUMBER, number);

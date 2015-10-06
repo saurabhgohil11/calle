@@ -19,6 +19,7 @@ import java.util.HashMap;
 public class AppGlobals {
 
     public static final boolean showLogs = false;
+    public static final boolean showDevOptions = false;  //don't forget to change permission
 
     public static volatile AppGlobals instance;
 
