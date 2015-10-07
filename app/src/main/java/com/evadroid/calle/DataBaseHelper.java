@@ -303,7 +303,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean isDuplicatewithLastLog(CallDetails c) {
         //To-Do :modified method to checke from DB is there any other exact similar log
         CallDetails lastCallLog = getLastCall();
-        boolean isEqual = lastCallLog.date == c.date && lastCallLog.nationalNumber.equals(c.nationalNumber);
+        boolean isEqual = lastCallLog.date == c.date
+                && lastCallLog.duration == c.duration
+                && lastCallLog.nationalNumber.equals(c.nationalNumber);
         if (AppGlobals.showLogs)
             AppGlobals.log(this,"isDuplicatewithLastLog:\n1."+c+"\n2."+lastCallLog+"\nisEqual"+isEqual);
         return isEqual;

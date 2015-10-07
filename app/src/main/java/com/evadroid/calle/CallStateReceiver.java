@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -19,6 +20,7 @@ import com.evadroid.calle.utils.DateTimeUtils;
 
 public class CallStateReceiver extends BroadcastReceiver {
     private static final int UPDATE_LOGS_DB = 10101;
+    private static final int UPDATE_LOGS_DB_TRY2 = 10102;
     public static Context mContext;
     static boolean isOutgoing=false;
     static boolean isIncoming=false;
@@ -36,6 +38,7 @@ public class CallStateReceiver extends BroadcastReceiver {
     SharedPreferences vsp;//sahared pref for variable
     SharedPreferences.Editor ve;
     static DataBaseHelper dbHelper;
+    static MissingLogsWorker missingLogsWorker;
 
     private static Handler mHandler = new Handler(){
         @Override
@@ -47,6 +50,7 @@ public class CallStateReceiver extends BroadcastReceiver {
                         Log.e(AppGlobals.LOG_TAG, TAG2 +"lastCallDetail is null");
                     } else if (dbHelper.isDuplicatewithLastLog(lastCallDetails)) {
                         Log.d(AppGlobals.LOG_TAG, TAG2 + "duplicate Log");
+                        sendMessageDelayed(obtainMessage(UPDATE_LOGS_DB_TRY2),900); //try to check again due to delay in system
                     } else {
                         dbHelper.addToLogsHistory(lastCallDetails);
                         if(AppGlobals.showLogs)
@@ -58,8 +62,32 @@ public class CallStateReceiver extends BroadcastReceiver {
                             } else {
                                 minStr = DateTimeUtils.timeToString(lastCallDetails.getDuration());
                             }
-                            if (lastCallDetails.getCallType() != CallType.MISSED) {
+                            if (lastCallDetails.getCallType() != CallType.MISSED && lastCallDetails.duration > 0) {
                                 String toastMsg = String.format(mContext.getResources().getString(R.string.added_toast), minStr) + " " + lastCallDetails.getCostTypeString() + " " + lastCallDetails.getCallType().toString().toLowerCase();
+                                Toast.makeText(mContext, toastMsg, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                    break;
+                case UPDATE_LOGS_DB_TRY2:
+                    CallDetails lastCallDetails2 = retrieveCallSummary();
+                    if (lastCallDetails2==null) {
+                        Log.e(AppGlobals.LOG_TAG, TAG2 +"lastCallDetail is null try 2");
+                    } else if (dbHelper.isDuplicatewithLastLog(lastCallDetails2)) {
+                        Log.d(AppGlobals.LOG_TAG, TAG2 + "duplicate Log try 2");
+                    } else {
+                        dbHelper.addToLogsHistory(lastCallDetails2);
+                        if(AppGlobals.showLogs)
+                            Log.d(AppGlobals.LOG_TAG, TAG2 + "lastCallDetail is try 2 "+lastCallDetails2);
+                        if(AppGlobals.isEnableToast(mContext)) {
+                            String minStr;
+                            if(AppGlobals.isMinuteMode) {
+                                minStr = DateTimeUtils.timeToRoundedString(lastCallDetails2.getDuration());
+                            } else {
+                                minStr = DateTimeUtils.timeToString(lastCallDetails2.getDuration());
+                            }
+                            if (lastCallDetails2.getCallType() != CallType.MISSED && lastCallDetails2.duration > 0) {
+                                String toastMsg = String.format(mContext.getResources().getString(R.string.added_toast), minStr) + " " + lastCallDetails2.getCostTypeString() + " " + lastCallDetails2.getCallType().toString().toLowerCase();
                                 Toast.makeText(mContext, toastMsg, Toast.LENGTH_LONG).show();
                             }
                         }
@@ -87,8 +115,16 @@ public class CallStateReceiver extends BroadcastReceiver {
             return;
         }
 
+        if(missingLogsWorker == null)
+            missingLogsWorker = new MissingLogsWorker(context);
+        if(missingLogsWorker.getStatus() == AsyncTask.Status.FINISHED)
+            missingLogsWorker = new MissingLogsWorker(context);
+
         if(intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)){
             isOutgoing=true;
+            if(missingLogsWorker.getStatus() != AsyncTask.Status.RUNNING) {
+                missingLogsWorker.execute();
+            }
             if(AppGlobals.showLogs)
                 AppGlobals.log(this, "isOGtrue");
         }else{
@@ -98,6 +134,9 @@ public class CallStateReceiver extends BroadcastReceiver {
                 ve.commit();
                 //state = TelephonyManager.CALL_STATE_RINGING;
                 isIncoming=true;
+                if(missingLogsWorker.getStatus() != AsyncTask.Status.RUNNING) {
+                    missingLogsWorker.execute();
+                }
                 phoneNumber=intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
             }
             if(curState.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {

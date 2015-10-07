@@ -155,6 +155,8 @@ public class HomeActivity extends ActionBarActivity {
                 mHandler.sendEmptyMessageDelayed(SHOW_CUG_DIALOG,5000);
             }
 
+            addMissingLogsAfterLastLog();
+
             mLogsHistoryData = AppGlobals.getDataBaseHelper(this).getLogsHistory();
             initUI();
             updateLastCall();
@@ -169,7 +171,9 @@ public class HomeActivity extends ActionBarActivity {
         }
     }
 
-
+    private void addMissingLogsAfterLastLog() {
+        new MissingLogsWorker(this).execute();
+    }
 
     public static List<CallDetails> getLogsHistoryData() {
         return mLogsHistoryData;
