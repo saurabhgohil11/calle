@@ -78,10 +78,8 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
             remember this missing logs are found very rarely*/
             TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
             callDetails.isRoaming = manager.isNetworkRoaming();
-            dbHelper.addToLogsHistory(callDetails);
+            dbHelper.addToLogsHistory(callDetails,true);
         }
-        if(managedCursor.getCount() > 0)
-            AppGlobals.sendUpdateMessage();
         managedCursor.close();
         return null;
     }

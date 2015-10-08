@@ -237,7 +237,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void addToLogsHistory(CallDetails callDetails) {
+    public void addToLogsHistory(CallDetails callDetails, boolean checkDupe) {
+        if (checkDupe && isDuplicateLog(callDetails)) {
+            if(AppGlobals.showLogs)
+                AppGlobals.log(this,"Do not add duplicate log");
+            return;
+        }
         ContentValues cv = new ContentValues();
         cv.put(KEY_PHONE_NUMBER,callDetails.getPhoneNumber());
         cv.put(KEY_NATIONAL_NUMBER,callDetails.getNationalNumber());
@@ -252,6 +257,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_GEO_LOCATION,callDetails.getNumberLocation());
         db.insert(TABLE_LOGS_HISTORY, null, cv);
         AppGlobals.sendUpdateMessage();
+    }
+
+    private boolean isDuplicateLog(CallDetails c) {
+        String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY + " WHERE " + KEY_DATE + "=" + c.getDate()
+                + " AND " + KEY_NATIONAL_NUMBER + "=" + c.getNationalNumber()
+                + " AND " + KEY_CALL_DURATION + "=" + c.getDuration()
+                + " AND " + KEY_CALL_TYPE + " = " + c.getCallType().ordinal();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if(cursor.getCount()>0)
+            return true;
+        return false;
     }
 
     //retrives logs for HomeActivity

@@ -52,7 +52,7 @@ public class CallStateReceiver extends BroadcastReceiver {
                         Log.d(AppGlobals.LOG_TAG, TAG2 + "duplicate Log");
                         sendMessageDelayed(obtainMessage(UPDATE_LOGS_DB_TRY2),900); //try to check again due to delay in system
                     } else {
-                        dbHelper.addToLogsHistory(lastCallDetails);
+                        dbHelper.addToLogsHistory(lastCallDetails,true);
                         if(AppGlobals.showLogs)
                             Log.d(AppGlobals.LOG_TAG, TAG2 + "lastCallDetail is "+lastCallDetails);
                         if(AppGlobals.isEnableToast(mContext)) {
@@ -76,7 +76,7 @@ public class CallStateReceiver extends BroadcastReceiver {
                     } else if (dbHelper.isDuplicatewithLastLog(lastCallDetails2)) {
                         Log.d(AppGlobals.LOG_TAG, TAG2 + "duplicate Log try 2");
                     } else {
-                        dbHelper.addToLogsHistory(lastCallDetails2);
+                        dbHelper.addToLogsHistory(lastCallDetails2,true);
                         if(AppGlobals.showLogs)
                             Log.d(AppGlobals.LOG_TAG, TAG2 + "lastCallDetail is try 2 "+lastCallDetails2);
                         if(AppGlobals.isEnableToast(mContext)) {

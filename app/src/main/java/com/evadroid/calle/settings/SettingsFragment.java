@@ -236,7 +236,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                                             cd.phoneNumberType = n.getPhoneNumberType();
                                             cd.numberLocation = n.getPhoneNumberLocation();
 
-                                            AppGlobals.getDataBaseHelper().addToLogsHistory(cd);
+                                            AppGlobals.getDataBaseHelper().addToLogsHistory(cd,true);
                                         }
 
                                     }

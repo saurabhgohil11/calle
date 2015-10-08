@@ -142,7 +142,7 @@ class LogsWorker extends AsyncTask<Void, Integer, Void> {
             callDetails.numberLocation = n.getPhoneNumberLocation();
             callDetails.isHidden = false;
             callDetails.isRoaming = false;
-            dbHelper.addToLogsHistory(callDetails);
+            dbHelper.addToLogsHistory(callDetails,false);
             progressBar.setProgress(i);
         }
         managedCursor.close();
