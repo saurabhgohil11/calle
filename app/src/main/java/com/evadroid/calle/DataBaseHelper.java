@@ -299,7 +299,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<CallDetails> getUnknownLogsHistory() {
         String selectQuery = "SELECT DISTINCT "+KEY_NATIONAL_NUMBER+","+ KEY_PHONE_NUMBER+","+ KEY_CACHED_CONTACT_NAME+" FROM "+TABLE_LOGS_HISTORY+
-                             " WHERE "+ KEY_COST_TYPE +" = "+CostType.UNKNOWN.ordinal();
+                             " WHERE "+ KEY_COST_TYPE +" = "+CostType.UNKNOWN.ordinal()+" AND "+KEY_CALL_DURATION+">0";
         Cursor c = db.rawQuery(selectQuery,null);
 
         ArrayList<CallDetails> list = new ArrayList<>();
@@ -400,6 +400,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             query.append(" AND "+KEY_COST_TYPE+"="+costType.ordinal()+" AND "+KEY_IS_ROAMING+"="+0);
         }
 
+        query.append(" AND "+KEY_CALL_DURATION+">0");
+
         Cursor c = db.rawQuery(query.toString(), null);
         if(c.getCount()>0) {
             c.moveToFirst();
@@ -451,6 +453,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         } else {
             query.append(" AND "+KEY_COST_TYPE+"="+costType.ordinal()+" AND "+KEY_IS_ROAMING+"="+0);
         }
+
+        query.append(" AND "+KEY_CALL_DURATION+">0");
+
         query.append(" ORDER BY "+KEY_DATE+" DESC");
 
         Cursor c = db.rawQuery(query.toString(),null);
@@ -503,6 +508,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         } else { //for mobile or fixed line
             query.append(" AND "+KEY_PHONE_NUMBER_TYPE+"="+phoneNumberType.ordinal());
         }
+
+        query.append(" AND "+KEY_CALL_DURATION+">0");
 
         Cursor c = db.rawQuery(query.toString(), null);
         if(c.getCount()>0) {
