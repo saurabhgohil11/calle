@@ -25,6 +25,10 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
             AppGlobals.log(this,"mContext null Here");
             return null;
         }
+        if (lastCallLog == null) {
+            AppGlobals.log(this,"lastLog null Here");
+            return null;
+        }
         if(AppGlobals.showLogs)
             AppGlobals.log(this,"Adding Missing Logs");
         CallDetails callDetails = new CallDetails();
