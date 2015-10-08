@@ -50,7 +50,7 @@ public class CallStateReceiver extends BroadcastReceiver {
                         Log.e(AppGlobals.LOG_TAG, TAG2 +"lastCallDetail is null");
                     } else if (dbHelper.isDuplicatewithLastLog(lastCallDetails)) {
                         Log.d(AppGlobals.LOG_TAG, TAG2 + "duplicate Log");
-                        sendMessageDelayed(obtainMessage(UPDATE_LOGS_DB_TRY2),900); //try to check again due to delay in system
+                        sendMessageDelayed(obtainMessage(UPDATE_LOGS_DB_TRY2),1000); //try to check again due to delay in system
                     } else {
                         dbHelper.addToLogsHistory(lastCallDetails,true);
                         if(AppGlobals.showLogs)
@@ -63,7 +63,7 @@ public class CallStateReceiver extends BroadcastReceiver {
                                 minStr = DateTimeUtils.timeToString(lastCallDetails.getDuration());
                             }
                             if (lastCallDetails.getCallType() != CallType.MISSED && lastCallDetails.duration > 0) {
-                                String toastMsg = String.format(mContext.getResources().getString(R.string.added_toast), minStr) + " " + lastCallDetails.getCostTypeString() + " " + lastCallDetails.getCallType().toString().toLowerCase();
+                                String toastMsg = String.format(mContext.getResources().getString(R.string.added_toast), minStr) + " " + lastCallDetails.getCostAndCallTypeString();
                                 Toast.makeText(mContext, toastMsg, Toast.LENGTH_LONG).show();
                             }
                         }
@@ -87,7 +87,7 @@ public class CallStateReceiver extends BroadcastReceiver {
                                 minStr = DateTimeUtils.timeToString(lastCallDetails2.getDuration());
                             }
                             if (lastCallDetails2.getCallType() != CallType.MISSED && lastCallDetails2.duration > 0) {
-                                String toastMsg = String.format(mContext.getResources().getString(R.string.added_toast), minStr) + " " + lastCallDetails2.getCostTypeString() + " " + lastCallDetails2.getCallType().toString().toLowerCase();
+                                String toastMsg = String.format(mContext.getResources().getString(R.string.added_toast), minStr) + " " + lastCallDetails2.getCostAndCallTypeString();
                                 Toast.makeText(mContext, toastMsg, Toast.LENGTH_LONG).show();
                             }
                         }
@@ -171,7 +171,7 @@ public class CallStateReceiver extends BroadcastReceiver {
             case TelephonyManager.CALL_STATE_OFFHOOK:
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
-                mHandler.sendMessageDelayed(mHandler.obtainMessage(UPDATE_LOGS_DB),3500);  //send message after it is updated in DB
+                mHandler.sendMessageDelayed(mHandler.obtainMessage(UPDATE_LOGS_DB),3200);  //send message after it is updated in DB
                 break;
         }
         ve.putInt("prevstate",vsp.getInt("state",-3));
