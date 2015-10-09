@@ -146,6 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
+                    android:textStyle="bold"
                     android:layout_marginLeft="@dimen/cards_between_margin"
                     android:linksClickable="true"
                     android:onClick="onShowMinutesHelp"
@@ -155,7 +156,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/funky_grey"
+                android:textColor="#ee143952"
                 android:layout_marginTop="@dimen/cards_between_margin"
                 android:layout_marginLeft="@dimen/cards_between_margin"
                 android:layout_marginBottom="-5dp"
