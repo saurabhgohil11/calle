@@ -220,6 +220,10 @@ public class CallStateReceiver extends BroadcastReceiver {
                     case CallLog.Calls.MISSED_TYPE:
                         callDetails.callType = CallType.MISSED;
                         break;
+
+                    default:  //calltype5 in samsung when reject incoming call
+                        callDetails.callType = CallType.MISSED;
+                        break;
                 }
 
                 TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);

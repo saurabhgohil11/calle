@@ -134,6 +134,10 @@ class LogsWorker extends AsyncTask<Void, Integer, Void> {
                 case CallLog.Calls.MISSED_TYPE:
                     callDetails.callType = CallType.MISSED;
                     break;
+
+                default:  //calltype5 in samsung when reject incoming call
+                    callDetails.callType = CallType.MISSED;
+                    break;
             }
             PhoneNumber n = new PhoneNumber(parent,dbHelper, callDetails.phoneNumber);
             callDetails.costType = n.getCostType();
