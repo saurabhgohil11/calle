@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class LogListActivity extends ActionBarActivity {
+public class LogListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private SimpleRecyclerViewAdapter simpleAdapter;

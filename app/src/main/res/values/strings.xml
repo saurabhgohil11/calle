@@ -177,5 +177,8 @@
     <string name="add_now">ADD NOW</string>
     <string name="add_later">ADD LATER</string>
     <string name="quetion_mark"><div><a href=""> (?) </a></div></string>
+    <string name="permission_error">One or More Permissions are required to Call-E app</string>
+    <string name="permission_notification_title">Call-E Permission is required</string>
+    <string name="permission_notification_msg">Tap Here to go to Permissions</string>
 
 </resources>

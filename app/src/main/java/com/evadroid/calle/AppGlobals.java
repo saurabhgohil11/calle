@@ -1,10 +1,13 @@
 package com.evadroid.calle;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -32,6 +35,8 @@ public class AppGlobals {
     public static String userCountryCode = "null";
     public static String simOperator = "null";
     public static boolean isMinuteMode = true;
+
+    public static final int MY_PERMISSIONS_REQUEST = 51;
 
     public static final String LOG_TAG = "Call-E";
 
@@ -344,6 +349,13 @@ public class AppGlobals {
             Log.d(LOG_TAG,"AppGlobals : mContext null in isEnableToast");
             return false;
         }
+    }
+
+    public static boolean checkForPermissions(Context context) {
+        return  ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(context,Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(context,Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(context,Manifest.permission.PROCESS_OUTGOING_CALLS) == PackageManager.PERMISSION_GRANTED ;
     }
 
 }

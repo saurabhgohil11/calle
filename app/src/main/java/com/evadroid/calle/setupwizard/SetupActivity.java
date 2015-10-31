@@ -1,20 +1,23 @@
 package com.evadroid.calle.setupwizard;
 
+import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
@@ -42,7 +45,7 @@ import java.util.Date;
 
 
 
-public class SetupActivity extends ActionBarActivity {
+public class SetupActivity extends AppCompatActivity {
 
     private ViewPager mPager;
 
@@ -60,6 +63,11 @@ public class SetupActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_setup);
+
+        boolean permissionGranted = AppGlobals.checkForPermissions(SetupActivity.this);
+        if (!permissionGranted) {
+            requestPermissions();
+        }
 
         if(!AppGlobals.isTablet(this)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -114,6 +122,37 @@ public class SetupActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    private void requestPermissions() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(SetupActivity.this,Manifest.permission.READ_CALL_LOG)) {
+            ActivityCompat.requestPermissions(SetupActivity.this,
+                    new String[]{Manifest.permission.READ_CALL_LOG,
+                            Manifest.permission.READ_PHONE_STATE,
+                            Manifest.permission.PROCESS_OUTGOING_CALLS},
+                    AppGlobals.MY_PERMISSIONS_REQUEST);
+        } else {
+            ActivityCompat.requestPermissions(SetupActivity.this,
+                    new String[]{Manifest.permission.READ_CALL_LOG,
+                            Manifest.permission.READ_PHONE_STATE,
+                            Manifest.permission.PROCESS_OUTGOING_CALLS},
+                    AppGlobals.MY_PERMISSIONS_REQUEST);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case AppGlobals.MY_PERMISSIONS_REQUEST: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    Toast.makeText(SetupActivity.this, R.string.permission_error, Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                return;
+            }
+        }
     }
 
     @Override

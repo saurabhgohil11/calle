@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +34,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import java.util.ArrayList;
 
 
-public class NumberListActivity extends ActionBarActivity {
+public class NumberListActivity extends AppCompatActivity {
 
     final int TYPE_LOCAL_LIST=200;
     final int TYPE_EXCLUDED_LIST=201;

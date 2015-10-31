@@ -2,7 +2,7 @@ package com.evadroid.calle.setupwizard;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
 
@@ -15,7 +15,7 @@ import com.evadroid.calle.R;
 
 import java.util.ArrayList;
 
-public class UnknownNumbersActivity extends ActionBarActivity {
+public class UnknownNumbersActivity extends AppCompatActivity {
 
     ListView unknownListView;
     UnknownListViewAdapter adapter;

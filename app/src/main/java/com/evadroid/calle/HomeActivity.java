@@ -1,18 +1,27 @@
 package com.evadroid.calle;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.evadroid.calle.settings.NumberListActivity;
 import com.evadroid.calle.settings.SettingsActivity;
@@ -38,7 +48,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends AppCompatActivity {
     Button thisMonthButton;
     Button logsButton;
     Button usageHistoryButton;
@@ -101,29 +111,31 @@ public class HomeActivity extends ActionBarActivity {
 
     //----this month tab ends-----
 
+    boolean permissionGranted;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        permissionGranted = AppGlobals.checkForPermissions(HomeActivity.this);
 
         sp = PreferenceManager.getDefaultSharedPreferences(this);
-        if(!sp.contains(AppGlobals.PKEY_FIRST_TIME))
-        {
+        if (!sp.contains(AppGlobals.PKEY_FIRST_TIME)) {
             //first time app is used
             //persistance variables for Broadcast receiver
-            SharedPreferences prefs = getSharedPreferences("CallStateReceiver", Context.MODE_PRIVATE );
+            SharedPreferences prefs = getSharedPreferences("CallStateReceiver", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("state", -2 );
-            editor.putInt("prevstate",-2);
+            editor.putInt("state", -2);
+            editor.putInt("prevstate", -2);
             editor.commit();
 
             SharedPreferences.Editor e = sp.edit();
-            e.putBoolean(AppGlobals.PKEY_FIRST_TIME,false);
+            e.putBoolean(AppGlobals.PKEY_FIRST_TIME, false);
             e.commit();
         }
 
-        if(!sp.getBoolean(AppGlobals.PKEY_FIRST_TIME,false)){
-            startActivity(new Intent(this,SetupActivity.class));
+        if (!sp.getBoolean(AppGlobals.PKEY_FIRST_TIME, false)) {
+            startActivity(new Intent(this, SetupActivity.class));
             finish();
         } else {
             appGlobals = AppGlobals.getInstance(this);
@@ -151,8 +163,8 @@ public class HomeActivity extends ActionBarActivity {
                 }
             };
 
-            if(!sp.getBoolean(AppGlobals.PKEY_CUG_DIALOG_SHOWN,false)) {
-                mHandler.sendEmptyMessageDelayed(SHOW_CUG_DIALOG,5000);
+            if (!sp.getBoolean(AppGlobals.PKEY_CUG_DIALOG_SHOWN, false)) {
+                mHandler.sendEmptyMessageDelayed(SHOW_CUG_DIALOG, 5000);
             }
 
             addMissingLogsAfterLastLog();
@@ -169,15 +181,72 @@ public class HomeActivity extends ActionBarActivity {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             }
         }
+
+        if (!permissionGranted) {
+            requestPermissions();
+        }
     }
 
     private void addMissingLogsAfterLastLog() {
-        new MissingLogsWorker(this).execute();
+        if (permissionGranted)
+            new MissingLogsWorker(this).execute();
     }
 
     public static List<CallDetails> getLogsHistoryData() {
         return mLogsHistoryData;
     }
+
+
+    private void requestPermissions() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this,Manifest.permission.READ_CALL_LOG)) {
+            ActivityCompat.requestPermissions(HomeActivity.this,
+                    new String[]{Manifest.permission.READ_CALL_LOG,
+                            Manifest.permission.READ_PHONE_STATE,
+                            Manifest.permission.PROCESS_OUTGOING_CALLS},
+                    AppGlobals.MY_PERMISSIONS_REQUEST);
+        } else {
+            ActivityCompat.requestPermissions(HomeActivity.this,
+                    new String[]{Manifest.permission.READ_CALL_LOG,
+                            Manifest.permission.READ_PHONE_STATE,
+                            Manifest.permission.PROCESS_OUTGOING_CALLS},
+                    AppGlobals.MY_PERMISSIONS_REQUEST);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case AppGlobals.MY_PERMISSIONS_REQUEST: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    addMissingLogsAfterLastLog();
+                    mHandler.sendEmptyMessage(UPDATE_VIEWS);
+                } else {
+                    Toast.makeText(HomeActivity.this, R.string.permission_error, Toast.LENGTH_SHORT).show();
+                    Resources res = getResources();
+                    String title = res.getString(R.string.permission_notification_title);
+                    String msg = res.getString(R.string.permission_notification_msg);
+                    Intent appInfoIntent = new Intent();
+                    appInfoIntent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", "com.evadroid.calle", null);
+                    appInfoIntent.setData(uri);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(HomeActivity.this,(int) System.currentTimeMillis(), appInfoIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                            .setSmallIcon(R.drawable.ic_launcher)
+                            .setContentTitle(title)
+                            .setContentText(msg)
+                            .setAutoCancel(true)
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            .setContentIntent(pendingIntent);
+
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    notificationManager.notify(10, mBuilder.build());
+                    finish();
+                }
+                return;
+            }
+        }
+    }
+
 
     private void initUI() {
 
@@ -285,13 +354,12 @@ public class HomeActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        if(!sp.getBoolean(AppGlobals.PKEY_FIRST_TIME,false)){  //for app reset
-            startActivity(new Intent(this,SetupActivity.class));
+        if (!sp.getBoolean(AppGlobals.PKEY_FIRST_TIME, false)) {  //for app reset
+            startActivity(new Intent(this, SetupActivity.class));
             finish();
         }
 
-        if(AppGlobals.isMinuteMode) {
+        if (AppGlobals.isMinuteMode) {
             calculationModeSwitch.setChecked(false);
         } else {
             calculationModeSwitch.setChecked(true);
@@ -301,7 +369,7 @@ public class HomeActivity extends ActionBarActivity {
         simCircle.setText(AppGlobals.circleNameMap.get(AppGlobals.userState));
         currentBillCycle.setText(AppGlobals.getCurrentBillCycleString());
 
-        if(tabLogsHistory.getVisibility() == View.VISIBLE) {
+        if (tabLogsHistory.getVisibility() == View.VISIBLE) {
             if (getLogsHistoryData() == null || getLogsHistoryData().isEmpty()) {
                 mLogHistoryRecyclerView.setVisibility(View.GONE);
                 noLogsItems.setVisibility(View.VISIBLE);
@@ -311,7 +379,7 @@ public class HomeActivity extends ActionBarActivity {
             }
         }
 
-        if(tabUsageHistory.getVisibility() == View.VISIBLE) {
+        if (tabUsageHistory.getVisibility() == View.VISIBLE) {
             if (mUsageHistoryData == null || mUsageHistoryData.isEmpty()) {
                 mUsageHistoryListView.setVisibility(View.GONE);
                 noLogsItems.setVisibility(View.VISIBLE);

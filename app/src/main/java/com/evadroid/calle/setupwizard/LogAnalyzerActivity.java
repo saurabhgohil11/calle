@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CallLog;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -27,7 +27,7 @@ import com.evadroid.calle.R;
 import java.util.ArrayList;
 
 
-public class LogAnalyzerActivity extends ActionBarActivity {
+public class LogAnalyzerActivity extends AppCompatActivity {
     LogsWorker logsWorker;
     final Animation fadein = new AlphaAnimation(0.0f, 1.0f);
     @Override
