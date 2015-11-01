@@ -19,7 +19,7 @@ public class PhoneNumber {
     String phoneNumberLocation;
     String nationalNumber; //for ISD it is kept with ISD code other numbers are without country code
 
-    public PhoneNumber(Context c, DataBaseHelper dbHelper, String numberStr){
+    public PhoneNumber(Context c, DataBaseHelper dbHelper, String numberStr) {
         this.mdbHelper = dbHelper;
         costType = CostType.UNKNOWN;
         phoneNumberType = PhoneNumberUtil.PhoneNumberType.UNKNOWN;
@@ -33,25 +33,25 @@ public class PhoneNumber {
         try {
             this.phoneNumber = phoneUtil.parse(numberStr, AppGlobals.userCountryCode);
         } catch (NumberParseException e) {
-            AppGlobals.log(this,"NumberParseException was thrown: " + numberStr +e.toString());
+            AppGlobals.log(this, "NumberParseException was thrown: " + numberStr + e.toString());
             return;
         }
 
-        if(phoneUtil.isValidNumber(phoneNumber)) {
+        if (phoneUtil.isValidNumber(phoneNumber)) {
             phoneNumberType = phoneUtil.getNumberType(phoneNumber);
             PhoneNumberOfflineGeocoder geocoder = PhoneNumberOfflineGeocoder.getInstance();
             phoneNumberLocation = geocoder.getDescriptionForNumber(phoneNumber, Locale.ENGLISH);
         }
 
         costType = mdbHelper.getUserSpecifiedNumberType(String.valueOf(phoneNumber.getNationalNumber()));
-        if (costType!=null) { // it is user specified no.
+        if (costType != null) { // it is user specified no.
             nationalNumber = String.valueOf(phoneNumber.getNationalNumber());
             if (phoneNumberType == PhoneNumberUtil.PhoneNumberType.MOBILE) {
                 String locationStateCode = mdbHelper.getMobileNumberState(phoneNumber.getNationalNumber());
                 phoneNumberLocation = AppGlobals.circleNameMap.get(locationStateCode);
             }
-            if(AppGlobals.showLogs)
-                AppGlobals.log(this, "costType is "+costType.toString());
+            if (AppGlobals.showLogs)
+                AppGlobals.log(this, "costType is " + costType.toString());
         } else if (phoneNumber.getCountryCode() != AppGlobals.userCountryCodeNumber) {
             costType = CostType.ISD;
             nationalNumber = numberStr;
@@ -71,24 +71,24 @@ public class PhoneNumber {
         switch (AppGlobals.userCountryCodeNumber) {
             case 91:
                 if (phoneNumberType == PhoneNumberUtil.PhoneNumberType.FIXED_LINE_OR_MOBILE) { //first check for mobile if not found check for landline
-                    if(findCostToMobile()) {
+                    if (findCostToMobile()) {
                         phoneNumberType = PhoneNumberUtil.PhoneNumberType.MOBILE;
                     } else {
                         findCostToFixedLine();
                         phoneNumberType = PhoneNumberUtil.PhoneNumberType.FIXED_LINE;
                     }
-                }else if (phoneNumberType == PhoneNumberUtil.PhoneNumberType.MOBILE) { //self categorization for mobiles
+                } else if (phoneNumberType == PhoneNumberUtil.PhoneNumberType.MOBILE) { //self categorization for mobiles
                     phoneNumberLocation = null;
                     findCostToMobile();
                 } else if (phoneNumberType == PhoneNumberUtil.PhoneNumberType.FIXED_LINE) { // landlines
                     findCostToFixedLine();
                 } else if (phoneNumberType == PhoneNumberUtil.PhoneNumberType.TOLL_FREE) {
                     costType = CostType.FREE;
-                    if(AppGlobals.showLogs)
+                    if (AppGlobals.showLogs)
                         AppGlobals.log(this, "costType is toll Free");
                 }
-                if(AppGlobals.showLogs)
-                    AppGlobals.log(this, "phoneNumberLocation is "+phoneNumberLocation);
+                if (AppGlobals.showLogs)
+                    AppGlobals.log(this, "phoneNumberLocation is " + phoneNumberLocation);
                 break;
             default:
 
@@ -96,33 +96,33 @@ public class PhoneNumber {
     }
 
     private void findCostToFixedLine() {
-        if(phoneNumberLocation == null || phoneNumberLocation.isEmpty()) {
+        if (phoneNumberLocation == null || phoneNumberLocation.isEmpty()) {
             costType = CostType.UNKNOWN;
             return;
         }
-        String[] includedRegions,excludedRegions;
+        String[] includedRegions, excludedRegions;
         includedRegions = AppGlobals.includedRegionsMap.get(AppGlobals.userState);
         excludedRegions = AppGlobals.excludedRegionsMap.get(AppGlobals.userState);
         String phoneNumberRegion = phoneNumberLocation.toLowerCase();
 
-        boolean isLocal=false;
-        for(String s:includedRegions){
-            if(phoneNumberRegion.contains(s)){
-                isLocal=true;
+        boolean isLocal = false;
+        for (String s : includedRegions) {
+            if (phoneNumberRegion.contains(s)) {
+                isLocal = true;
                 break;
             }
         }
-        if(isLocal && excludedRegions!=null){
-            for(String s:excludedRegions){
-                if(phoneNumberRegion.contains(s)){
-                    isLocal=false;
+        if (isLocal && excludedRegions != null) {
+            for (String s : excludedRegions) {
+                if (phoneNumberRegion.contains(s)) {
+                    isLocal = false;
                 }
             }
         }
-        if(isLocal){
-            costType=CostType.LOCAL;
-        }else{
-            costType=CostType.STD;
+        if (isLocal) {
+            costType = CostType.LOCAL;
+        } else {
+            costType = CostType.STD;
         }
     }
 
@@ -132,7 +132,7 @@ public class PhoneNumber {
 
     private boolean findCostToMobile() {
         costType = mdbHelper.getMobileCostType(phoneNumber);
-        if(costType==CostType.UNKNOWN) {
+        if (costType == CostType.UNKNOWN) {
             return false;
         } else {
             String locationstateCode = mdbHelper.getMobileNumberState(phoneNumber.getNationalNumber());
@@ -141,7 +141,7 @@ public class PhoneNumber {
         }
     }
 
-    public CostType getCostType(){
+    public CostType getCostType() {
         return costType;
     }
 

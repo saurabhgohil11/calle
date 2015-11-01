@@ -14,7 +14,7 @@ import com.evadroid.calle.utils.DateTimeUtils;
 
 import java.util.ArrayList;
 
-public class UsageListViewAdapter extends BaseAdapter implements AdapterView.OnItemClickListener{
+public class UsageListViewAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
     private final Context context;
     private final ArrayList<UsageDetail> data;
     String outgoingStr;
@@ -65,9 +65,9 @@ public class UsageListViewAdapter extends BaseAdapter implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent i = new Intent(context,UsageHistoryItemDetailActivity.class);
-        i.putExtra("startdate",data.get(position).cycleDates[0].getTime());
-        i.putExtra("enddate",data.get(position).cycleDates[1].getTime());
+        Intent i = new Intent(context, UsageHistoryItemDetailActivity.class);
+        i.putExtra("startdate", data.get(position).cycleDates[0].getTime());
+        i.putExtra("enddate", data.get(position).cycleDates[1].getTime());
         context.startActivity(i);
     }
 }

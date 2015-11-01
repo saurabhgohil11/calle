@@ -16,12 +16,13 @@ public class UsageDetail {
     public int getOutgoingSeconds() {
         return outgoingSeconds;
     }
+
     public int getIncomingSeconds() {
         return incomingSeconds;
     }
 
     @Override
     public String toString() {
-        return "Cycle:"+getCycleString()+", ogSecs:"+getOutgoingSeconds()+", inSecs:"+getIncomingSeconds();
+        return "Cycle:" + getCycleString() + ", ogSecs:" + getOutgoingSeconds() + ", inSecs:" + getIncomingSeconds();
     }
 }

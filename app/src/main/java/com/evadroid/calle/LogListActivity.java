@@ -59,13 +59,13 @@ public class LogListActivity extends AppCompatActivity {
             }
         };
 
-        int i = getIntent().getExtras().getInt("costtype",-1);
-        if(i>=0) {
+        int i = getIntent().getExtras().getInt("costtype", -1);
+        if (i >= 0) {
             costType = CostType.values()[i];
             showCostType = false;
         } else {
             costType = null;
-            showCostType =true;
+            showCostType = true;
         }
         i = getIntent().getExtras().getInt("calltype");
         callType = CallType.values()[i];
@@ -77,13 +77,13 @@ public class LogListActivity extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
 
-        if(!AppGlobals.isTablet(this)) {
+        if (!AppGlobals.isTablet(this)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
         StringBuffer sb = new StringBuffer();
         Resources res = getResources();
-        if(costType!=null) {
+        if (costType != null) {
             switch (costType) {
                 case LOCAL:
                     sb.append(res.getString(R.string.local));
@@ -135,7 +135,7 @@ public class LogListActivity extends AppCompatActivity {
 
         initListData();
 
-        simpleAdapter = new SimpleRecyclerViewAdapter(this,logListData,showCostType);
+        simpleAdapter = new SimpleRecyclerViewAdapter(this, logListData, showCostType);
         recyclerView.setAdapter(simpleAdapter);
         billCycle.setText(AppGlobals.getBillCycleString(billCycleDates));
         if (AppGlobals.isMinuteMode) {
@@ -147,7 +147,7 @@ public class LogListActivity extends AppCompatActivity {
 
     private void updateViews() {
         initListData();
-        if(logListData.isEmpty()) finish();
+        if (logListData.isEmpty()) finish();
         simpleAdapter.notifyDataSetChanged();
         recyclerView.invalidate();
         billCycle.setText(AppGlobals.getBillCycleString(billCycleDates));
@@ -158,10 +158,10 @@ public class LogListActivity extends AppCompatActivity {
         }
     }
 
-    private void initListData(){
+    private void initListData() {
         DataBaseHelper dbHelper = AppGlobals.getDataBaseHelper(this);
-        if(dbHelper == null){
-            AppGlobals.log(this,"returning from initListData due to dbHelper null");
+        if (dbHelper == null) {
+            AppGlobals.log(this, "returning from initListData due to dbHelper null");
             return;
         }
         logListData.clear();
@@ -177,7 +177,7 @@ public class LogListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == android.R.id.home) {
+        if (id == android.R.id.home) {
             this.finish();
             return true;
         }

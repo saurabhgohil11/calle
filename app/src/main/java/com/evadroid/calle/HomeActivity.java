@@ -198,7 +198,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void requestPermissions() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this,Manifest.permission.READ_CALL_LOG)) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this, Manifest.permission.READ_CALL_LOG)) {
             ActivityCompat.requestPermissions(HomeActivity.this,
                     new String[]{Manifest.permission.READ_CALL_LOG,
                             Manifest.permission.READ_PHONE_STATE,
@@ -214,7 +214,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case AppGlobals.MY_PERMISSIONS_REQUEST: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -229,7 +229,7 @@ public class HomeActivity extends AppCompatActivity {
                     appInfoIntent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     Uri uri = Uri.fromParts("package", "com.evadroid.calle", null);
                     appInfoIntent.setData(uri);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(HomeActivity.this,(int) System.currentTimeMillis(), appInfoIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(HomeActivity.this, (int) System.currentTimeMillis(), appInfoIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setContentTitle(title)
@@ -292,7 +292,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SharedPreferences.Editor e = sp.edit();
                 Resources res = getResources();
-                if(isChecked) {
+                if (isChecked) {
                     minuteModeText.setTextColor(res.getColor(R.color.funky_grey));
                     secondModeText.setTextColor(res.getColor(R.color.switch_second));
                     e.putString(AppGlobals.PKEY_MODE_OF_CALCULATION, AppGlobals.MODE_SECONDS);
@@ -308,7 +308,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        if(AppGlobals.isMinuteMode) {
+        if (AppGlobals.isMinuteMode) {
             secondModeText.setTextColor(getResources().getColor(R.color.funky_grey));
             minuteModeText.setTextColor(getResources().getColor(R.color.switch_minute));
         } else {
@@ -335,7 +335,7 @@ public class HomeActivity extends AppCompatActivity {
         mLogHistoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         List<CallDetails> items = HomeActivity.getLogsHistoryData();
-        mLogHistorySimpleAdapter = new SimpleRecyclerViewAdapter(this,items,true);
+        mLogHistorySimpleAdapter = new SimpleRecyclerViewAdapter(this, items, true);
         mLogHistoryRecyclerView.setAdapter(mLogHistorySimpleAdapter);
 
         tabUsageHistory.setVisibility(View.GONE);
@@ -345,7 +345,7 @@ public class HomeActivity extends AppCompatActivity {
         //usage history tab
         mUsageHistoryListView = (ListView) findViewById(R.id.usage_list_view);
         mUsageHistoryData = AppGlobals.getDataBaseHelper(this).getUsageHistoryList();
-        mUsageHistoryAdapter = new UsageListViewAdapter(this,mUsageHistoryData);
+        mUsageHistoryAdapter = new UsageListViewAdapter(this, mUsageHistoryData);
         mUsageHistoryListView.setAdapter(mUsageHistoryAdapter);
         mUsageHistoryListView.setOnItemClickListener(mUsageHistoryAdapter);
 
@@ -390,18 +390,18 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void onCloseClicked(View v){
+    public void onCloseClicked(View v) {
         finish();
     }
 
-    public void onSettingsClicked(View v){
+    public void onSettingsClicked(View v) {
         startActivity(new Intent(this, SettingsActivity.class));
     }
 
-    public void onTabChanged(View button){
-        if(button.isSelected()) return;
+    public void onTabChanged(View button) {
+        if (button.isSelected()) return;
 
-        switch(button.getId()) {
+        switch (button.getId()) {
             case R.id.this_month_tab_button:
                 logsButton.setSelected(false);
                 usageHistoryButton.setSelected(false);
@@ -447,7 +447,7 @@ public class HomeActivity extends AppCompatActivity {
         mUsageHistoryData.addAll(AppGlobals.getDataBaseHelper(this).getUsageHistoryList());
         mUsageHistoryAdapter.notifyDataSetChanged();
         mUsageHistoryListView.invalidate();
-        if(tabUsageHistory.getVisibility() == View.VISIBLE) {
+        if (tabUsageHistory.getVisibility() == View.VISIBLE) {
             if (mUsageHistoryData == null || mUsageHistoryData.isEmpty()) {
                 mUsageHistoryListView.setVisibility(View.GONE);
                 noLogsItems.setVisibility(View.VISIBLE);
@@ -475,19 +475,19 @@ public class HomeActivity extends AppCompatActivity {
 
     private void updateLastCall() {
         if (lastCallCard == null) {
-            AppGlobals.log(this,"returning from updateLastCall");
+            AppGlobals.log(this, "returning from updateLastCall");
             return;
         }
         CallDetails call = AppGlobals.getDataBaseHelper(this).getLastCall();
-        if(call!=null){
+        if (call != null) {
             lastCallCard.setVisibility(View.VISIBLE);
-            if(call.getCachedContactName() != null && !call.getCachedContactName().isEmpty()) {
+            if (call.getCachedContactName() != null && !call.getCachedContactName().isEmpty()) {
                 lastCallNumber.setText(call.getCachedContactName());
             } else {
                 lastCallNumber.setText(call.getPhoneNumber());
             }
             lastCallType.setText(call.getCostAndCallTypeString());
-            if(AppGlobals.isMinuteMode) {
+            if (AppGlobals.isMinuteMode) {
                 lastCallDuration.setText(DateTimeUtils.timeToRoundedString(call.getDuration()));
             } else {
                 lastCallDuration.setText(DateTimeUtils.timeToString(call.getDuration()));
@@ -495,15 +495,15 @@ public class HomeActivity extends AppCompatActivity {
             lastCallNumber.startAnimation(fadein);
             lastCallType.startAnimation(fadein);
             lastCallDuration.startAnimation(fadein);
-        }else{
+        } else {
             lastCallCard.setVisibility(View.GONE);
         }
     }
 
     private void updateCallCards() {
         Date cycleDates[] = AppGlobals.getCurrentBillCycleDates();
-        mIncomingCard.setCycleAndType(cycleDates,CallType.INCOMING);
-        mOutgoingCard.setCycleAndType(cycleDates,CallType.OUTGOING);
+        mIncomingCard.setCycleAndType(cycleDates, CallType.INCOMING);
+        mOutgoingCard.setCycleAndType(cycleDates, CallType.OUTGOING);
         mIncomingCard.updateCallMinutesCard();
         mOutgoingCard.updateCallMinutesCard();
     }
@@ -562,7 +562,7 @@ public class HomeActivity extends AppCompatActivity {
             mHandler.removeMessages(SHOW_CUG_DIALOG);
             mHandler = null;
         }
-        if(mLogHistorySimpleAdapter != null)
+        if (mLogHistorySimpleAdapter != null)
             mLogHistorySimpleAdapter.dismissDialog();
     }
 

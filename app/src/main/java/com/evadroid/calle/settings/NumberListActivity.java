@@ -36,12 +36,12 @@ import java.util.ArrayList;
 
 public class NumberListActivity extends AppCompatActivity {
 
-    final int TYPE_LOCAL_LIST=200;
-    final int TYPE_EXCLUDED_LIST=201;
-    final int TYPE_STD_LIST=202;
+    final int TYPE_LOCAL_LIST = 200;
+    final int TYPE_EXCLUDED_LIST = 201;
+    final int TYPE_STD_LIST = 202;
 
-    final int TYPE_UNKNOW=-199;
-    int activityType =TYPE_UNKNOW;
+    final int TYPE_UNKNOW = -199;
+    int activityType = TYPE_UNKNOW;
     CostType costType;
 
     ListView numbersListView;
@@ -60,22 +60,22 @@ public class NumberListActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_number_list);
 
-        if(!AppGlobals.isTablet(this)) {
+        if (!AppGlobals.isTablet(this)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
         String action = getIntent().getAction();
 
-        if(action.equals("com.evadroid.action.EXCLUDED_NUMBERS")){
-            activityType =TYPE_EXCLUDED_LIST;
+        if (action.equals("com.evadroid.action.EXCLUDED_NUMBERS")) {
+            activityType = TYPE_EXCLUDED_LIST;
             costType = CostType.FREE;
             setTitle(getResources().getString(R.string.title_excluded_numbers));
-        }else if(action.equals("com.evadroid.action.STD_NUMBERS")){
-            activityType =TYPE_STD_LIST;
+        } else if (action.equals("com.evadroid.action.STD_NUMBERS")) {
+            activityType = TYPE_STD_LIST;
             costType = CostType.STD;
             setTitle(getResources().getString(R.string.title_std_numbers));
-        }else if(action.equals("com.evadroid.action.LOCAL_NUMBERS")){
-            activityType =TYPE_LOCAL_LIST;
+        } else if (action.equals("com.evadroid.action.LOCAL_NUMBERS")) {
+            activityType = TYPE_LOCAL_LIST;
             costType = CostType.LOCAL;
             setTitle(getResources().getString(R.string.title_local_numbers));
         }
@@ -84,15 +84,15 @@ public class NumberListActivity extends AppCompatActivity {
         noItemsTextView = (TextView) findViewById(R.id.no_items_text_view);
 
         numberList = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,numberList);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, numberList);
         numbersListView.setAdapter(adapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ActionBar actionbar = getSupportActionBar ();
-        actionbar.setDisplayHomeAsUpEnabled ( true );
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
         updateListView();
     }
 
@@ -102,9 +102,9 @@ public class NumberListActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.number_list_menu, menu);
         modifyListMenuButton = menu.findItem(R.id.action_modify_list);
 
-        if(numberList==null || numberList.isEmpty()){
-                modifyListMenuButton.setVisible(false);
-        } else{
+        if (numberList == null || numberList.isEmpty()) {
+            modifyListMenuButton.setVisible(false);
+        } else {
             modifyListMenuButton.setVisible(true);
         }
         return true;
@@ -119,12 +119,11 @@ public class NumberListActivity extends AppCompatActivity {
         if (id == R.id.action_add_a_number) {
             showAddNumberDialog(this);
             return true;
-        }
-        else if( id == R.id.action_modify_list) {
-            Intent i = new Intent(this,ModifyNumberListActivity.class);
+        } else if (id == R.id.action_modify_list) {
+            Intent i = new Intent(this, ModifyNumberListActivity.class);
             i.putExtra("activity_type", activityType);
             startActivity(i);
-        }else if(id == android.R.id.home) {
+        } else if (id == android.R.id.home) {
             this.finish();
             return true;
         }
@@ -217,7 +216,7 @@ public class NumberListActivity extends AppCompatActivity {
                         if (c != null && c.moveToFirst()) {
                             String number = c.getString(0);
                             int type = c.getInt(1);
-                            if(promptsView != null) {
+                            if (promptsView != null) {
                                 EditText userInput = (EditText) promptsView.findViewById(R.id.number_edit_text);
                                 userInput.setText(number);
                             }
@@ -232,21 +231,21 @@ public class NumberListActivity extends AppCompatActivity {
         }
     }
 
-    public void updateListView(){
+    public void updateListView() {
         numberList.clear();
         numberList.addAll(AppGlobals.getDataBaseHelper().getUserSpecifiedNumbers(costType));
         adapter.notifyDataSetChanged();
         numbersListView.invalidate();
 
-        if(numberList==null || numberList.isEmpty()){
+        if (numberList == null || numberList.isEmpty()) {
             noItemsTextView.setVisibility(View.VISIBLE);
             numbersListView.setVisibility(View.GONE);
-            if(modifyListMenuButton!=null)
+            if (modifyListMenuButton != null)
                 modifyListMenuButton.setVisible(false);
         } else {
             noItemsTextView.setVisibility(View.GONE);
             numbersListView.setVisibility(View.VISIBLE);
-            if(modifyListMenuButton!=null)
+            if (modifyListMenuButton != null)
                 modifyListMenuButton.setVisible(true);
         }
         invalidateOptionsMenu();

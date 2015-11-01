@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
-public class CallDetails implements Parcelable{
+public class CallDetails implements Parcelable {
     public long callID;
     public String phoneNumber;
     public String nationalNumber;  //for grouping purpose
@@ -21,11 +21,12 @@ public class CallDetails implements Parcelable{
     public long date;
     public boolean isHidden;
 
-    public CallDetails() {}
+    public CallDetails() {
+    }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        Log.v(AppGlobals.LOG_TAG,this.getClass().getSimpleName()+ ": writeToParcel..." + flags);
+        Log.v(AppGlobals.LOG_TAG, this.getClass().getSimpleName() + ": writeToParcel..." + flags);
         dest.writeLong(callID);
         dest.writeString(phoneNumber);
         dest.writeString(cachedContactName);
@@ -39,8 +40,8 @@ public class CallDetails implements Parcelable{
     }
 
     public CallDetails(Parcel source) {
-        this.callID=source.readLong();
-        this.phoneNumber =source.readString();
+        this.callID = source.readLong();
+        this.phoneNumber = source.readString();
         this.cachedContactName = source.readString();
         this.callType = (CallType) source.readSerializable();
         this.isRoaming = source.readByte() != 0;
@@ -136,8 +137,8 @@ public class CallDetails implements Parcelable{
 
     public String getCostTypeString() {
         Resources res = AppGlobals.mContext.getResources();
-        if(res == null) {
-            AppGlobals.log(this,"getCostTypeString: resources null");
+        if (res == null) {
+            AppGlobals.log(this, "getCostTypeString: resources null");
             return "";
         }
         switch (costType) {
@@ -187,11 +188,11 @@ public class CallDetails implements Parcelable{
     public String getCostAndCallTypeString() {
         StringBuffer sb = new StringBuffer();
         Resources res = AppGlobals.mContext.getResources();
-        if(res == null) {
-            AppGlobals.log(this,"getCostAndCallTypeString: resources null");
+        if (res == null) {
+            AppGlobals.log(this, "getCostAndCallTypeString: resources null");
             return "";
         }
-        if(isRoaming){
+        if (isRoaming) {
             sb.append(res.getString(R.string.roaming));
         } else if (costType == CostType.LOCAL) {
             sb.append(res.getString(R.string.local));
@@ -201,11 +202,11 @@ public class CallDetails implements Parcelable{
             sb.append(res.getString(R.string.isd));
         } else if (costType == CostType.UNKNOWN) {
             sb.append(res.getString(R.string.unknown));
-        } else if(costType == CostType.FREE) {
+        } else if (costType == CostType.FREE) {
             sb.append(res.getString(R.string.free));
         }
         sb.append(" ");
-        if(callType == CallType.INCOMING) {
+        if (callType == CallType.INCOMING) {
             sb.append(res.getString(R.string.incoming));
         } else if (callType == CallType.OUTGOING) {
             sb.append(res.getString(R.string.outgoing));
@@ -218,8 +219,8 @@ public class CallDetails implements Parcelable{
 
     public String getPhoneNumberTypeToDisplay() {
         Resources res = AppGlobals.mContext.getResources();
-        if(res == null) {
-            AppGlobals.log(this,"getPhoneNumberTypeToDisplay: resources null");
+        if (res == null) {
+            AppGlobals.log(this, "getPhoneNumberTypeToDisplay: resources null");
             return "";
         }
         switch (phoneNumberType) {
@@ -245,7 +246,7 @@ public class CallDetails implements Parcelable{
     }
 
     public String getNumberRegionToDisplay() {
-        if(numberLocation == null || numberLocation.isEmpty()) {
+        if (numberLocation == null || numberLocation.isEmpty()) {
             return AppGlobals.mContext.getString(R.string.unknown);
         }
         return numberLocation;
@@ -253,7 +254,7 @@ public class CallDetails implements Parcelable{
 
     @Override
     public String toString() {
-        return "["+callID+","+phoneNumber+","+nationalNumber+","+cachedContactName+","+callType.toString()+","+isRoaming+","+phoneNumberType.toString()+
-                ","+ numberLocation +","+costType+","+duration+","+date+","+isHidden;
+        return "[" + callID + "," + phoneNumber + "," + nationalNumber + "," + cachedContactName + "," + callType.toString() + "," + isRoaming + "," + phoneNumberType.toString() +
+                "," + numberLocation + "," + costType + "," + duration + "," + date + "," + isHidden;
     }
 }

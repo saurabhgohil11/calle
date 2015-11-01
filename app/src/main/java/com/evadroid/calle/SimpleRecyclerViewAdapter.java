@@ -32,7 +32,7 @@ public class SimpleRecyclerViewAdapter extends
 
     boolean showCostType;
 
-    SimpleRecyclerViewAdapter(Context context,List<CallDetails> modelData,boolean showCostType) {
+    SimpleRecyclerViewAdapter(Context context, List<CallDetails> modelData, boolean showCostType) {
         if (modelData == null) {
             throw new IllegalArgumentException(
                     "modelData must not be null");
@@ -58,7 +58,7 @@ public class SimpleRecyclerViewAdapter extends
         CallDetails call = items.get(position);
         viewHolder.data = call;
 
-        if(showCostType) {
+        if (showCostType) {
             viewHolder.type.setVisibility(View.VISIBLE);
             viewHolder.number.setVisibility(View.GONE);
         } else {
@@ -68,7 +68,7 @@ public class SimpleRecyclerViewAdapter extends
 
         viewHolder.number.setText(call.getPhoneNumber());
 
-        if(call.getCachedContactName() != null && !call.getCachedContactName().isEmpty()) {
+        if (call.getCachedContactName() != null && !call.getCachedContactName().isEmpty()) {
             viewHolder.name.setText(call.getCachedContactName());
             viewHolder.contactImageButton.setText(String.valueOf(call.getCachedContactName().toUpperCase().charAt(0)));
             viewHolder.phoneNumberType.setVisibility(View.VISIBLE);
@@ -76,7 +76,7 @@ public class SimpleRecyclerViewAdapter extends
             viewHolder.name.setText(call.getPhoneNumber());
             viewHolder.contactImageButton.setText("?");
             viewHolder.number.setVisibility(View.GONE);
-            if(showCostType) {
+            if (showCostType) {
                 viewHolder.phoneNumberType.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.phoneNumberType.setVisibility(View.GONE);
@@ -86,31 +86,31 @@ public class SimpleRecyclerViewAdapter extends
         viewHolder.backgroundIndex = getRandomBackgroundIndex();
         viewHolder.contactImageButton.setBackgroundResource(AppGlobals.bgColoredImages[viewHolder.backgroundIndex]);
 
-        if(call.getPhoneNumberType() == PhoneNumberUtil.PhoneNumberType.MOBILE) {
+        if (call.getPhoneNumberType() == PhoneNumberUtil.PhoneNumberType.MOBILE) {
             viewHolder.phoneNumberType.setImageResource(R.drawable.ic_type_mobile);
         } else {
             viewHolder.phoneNumberType.setImageResource(R.drawable.ic_type_fixedline);
         }
 
         String time = DateTimeUtils.timeToRelativeString(call.getDate());
-        if(time != null)
+        if (time != null)
             viewHolder.time.setText(time);
         else
             viewHolder.time.setText("");
 
         String duration;
-        if(AppGlobals.isMinuteMode) {
+        if (AppGlobals.isMinuteMode) {
             duration = DateTimeUtils.timeToRoundedString(call.getDuration());
         } else {
             duration = DateTimeUtils.timeToString(call.getDuration());
         }
-        if(duration != null)
+        if (duration != null)
             viewHolder.duration.setText(duration);
         else
             viewHolder.duration.setText("");
 
         String type = call.getCostAndCallTypeString();
-        if(type != null)
+        if (type != null)
             viewHolder.type.setText(type);
         else
             viewHolder.type.setText("");
@@ -119,13 +119,13 @@ public class SimpleRecyclerViewAdapter extends
         viewHolder.upperLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLogDetailDialog(viewHolder.data,viewHolder.backgroundIndex);
+                showLogDetailDialog(viewHolder.data, viewHolder.backgroundIndex);
             }
         });
     }
 
     private int getRandomBackgroundIndex() {
-        return (int) (0 + Math.random()*AppGlobals.bgColoredImages.length);
+        return (int) (0 + Math.random() * AppGlobals.bgColoredImages.length);
     }
 
     @Override
@@ -135,11 +135,11 @@ public class SimpleRecyclerViewAdapter extends
 
 
     public void dismissDialog() {
-        if(logDetailDialog!=null)
+        if (logDetailDialog != null)
             logDetailDialog.dismiss();
     }
 
-    public void showLogDetailDialog(final CallDetails callDetails,int bgIndex) {
+    public void showLogDetailDialog(final CallDetails callDetails, int bgIndex) {
         final CostType userSpecifiedCostType = AppGlobals.getDataBaseHelper().getUserSpecifiedNumberType(callDetails.getPhoneNumber());
 
         //AppGlobals.log(this, "showLogDetailDialog: " + callDetails.toString());
@@ -181,7 +181,8 @@ public class SimpleRecyclerViewAdapter extends
 
         //String costType = DateTimeUtils.toDisplayCase(callDetails.getCostType().toString().toLowerCase());
         StringBuffer costString = new StringBuffer();
-        if(userSpecifiedCostType!=null) costString.append(mContext.getResources().getString(R.string.user_specified)+" ");
+        if (userSpecifiedCostType != null)
+            costString.append(mContext.getResources().getString(R.string.user_specified) + " ");
         costString.append(callDetails.getCostAndCallTypeString());
         mCostType.setText(costString);
 
@@ -223,7 +224,7 @@ public class SimpleRecyclerViewAdapter extends
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(mContext, mMenuButton);
                 popup.getMenuInflater().inflate(R.menu.log_detail_dialog_menu, popup.getMenu());
-                if(userSpecifiedCostType!=null){
+                if (userSpecifiedCostType != null) {
                     switch (userSpecifiedCostType) {
                         case LOCAL:
                             popup.getMenu().getItem(1).setTitle(R.string.action_remove_from_local);
@@ -289,12 +290,12 @@ public class SimpleRecyclerViewAdapter extends
                                 break;
                             case R.id.action_delete_log:
                                 int rowsDeleted = AppGlobals.getDataBaseHelper().deleteNumberFromLogs(callDetails.callID);
-                                if(rowsDeleted > 0) {
-                                    Toast.makeText(mContext,R.string.delete_success,Toast.LENGTH_SHORT).show();
+                                if (rowsDeleted > 0) {
+                                    Toast.makeText(mContext, R.string.delete_success, Toast.LENGTH_SHORT).show();
                                     AppGlobals.sendUpdateMessage();
                                     dismissDialog();
                                 } else {
-                                    Toast.makeText(mContext,R.string.delete_failed,Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, R.string.delete_failed, Toast.LENGTH_SHORT).show();
                                 }
 
                                 break;
@@ -309,12 +310,12 @@ public class SimpleRecyclerViewAdapter extends
                                 clipboard.setPrimaryClip(clip);
                                 Toast.makeText(mContext, R.string.copy_successful, Toast.LENGTH_SHORT).show();
                                 break;
-                            }
                         }
-                    });
-                    popup.show();
-                }
-            });
+                    }
+                });
+                popup.show();
+            }
+        });
     }
 
     public final static class ListItemViewHolder extends RecyclerView.ViewHolder {
@@ -336,7 +337,7 @@ public class SimpleRecyclerViewAdapter extends
             upperLayout = (RelativeLayout) itemView.findViewById(R.id.log_upper_item_container);
             name = (TextView) itemView.findViewById(R.id.nameorNumberItem);
             number = (TextView) itemView.findViewById(R.id.phoneNumberItem);
-            phoneNumberType =  (ImageView) itemView.findViewById(R.id.phoneNumeberTypeItem);
+            phoneNumberType = (ImageView) itemView.findViewById(R.id.phoneNumeberTypeItem);
             contactImageButton = (Button) itemView.findViewById(R.id.contactImageButton);
             time = (TextView) itemView.findViewById(R.id.timeItem);
             duration = (TextView) itemView.findViewById(R.id.durationItem);

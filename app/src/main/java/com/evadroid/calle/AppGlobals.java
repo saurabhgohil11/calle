@@ -40,10 +40,10 @@ public class AppGlobals {
 
     public static final String LOG_TAG = "Call-E";
 
-    public static final String PKEY_BILL_CYCLE="bill_cycle";
-    public static final String PKEY_USER_CIRCLE="user_circle";
-    public static final String PKEY_INSTALLATION_DATE="installation_date";
-    public static final String PKEY_MODE_OF_CALCULATION="mode_of_calcualation";
+    public static final String PKEY_BILL_CYCLE = "bill_cycle";
+    public static final String PKEY_USER_CIRCLE = "user_circle";
+    public static final String PKEY_INSTALLATION_DATE = "installation_date";
+    public static final String PKEY_MODE_OF_CALCULATION = "mode_of_calcualation";
     public static final String PKEY_FIRST_TIME = "first_time";
     public static final String PKEY_CUG_DIALOG_SHOWN = "cug_dialog_shown";
     public static final String PKEY_COUNTRY_CODE_NUMBER = "country_code_number";
@@ -53,36 +53,36 @@ public class AppGlobals {
 
     private static SharedPreferences preferences;
 
-    public static int funkyColors [] ={ R.color.funky_blue, R.color.funky_green, R.color.funky_grey,
-                                        R.color.funky_orange, R.color.funky_pink, R.color.funky_purple,
-                                        R.color.funky_red,R.color.funky_violet};
+    public static int funkyColors[] = {R.color.funky_blue, R.color.funky_green, R.color.funky_grey,
+            R.color.funky_orange, R.color.funky_pink, R.color.funky_purple,
+            R.color.funky_red, R.color.funky_violet};
 
 
-    public static int bgColoredImages []= {
+    public static int bgColoredImages[] = {
             R.drawable.contact_image_bg_blue, R.drawable.contact_image_bg_green, R.drawable.contact_image_bg_grey,
-            R. drawable.contact_image_bg_orange, R.drawable.contact_image_bg_pink, R.drawable.contact_image_bg_purple,
+            R.drawable.contact_image_bg_orange, R.drawable.contact_image_bg_pink, R.drawable.contact_image_bg_purple,
             R.drawable.contact_image_bg_red, R.drawable.contact_image_bg_violet};
 
-    public static HashMap<String,String> circleNameMap = new HashMap<>();
-    public static HashMap<String,String[]> includedRegionsMap = new HashMap<>();
-    public static HashMap<String,String[]> excludedRegionsMap = new HashMap<>();
+    public static HashMap<String, String> circleNameMap = new HashMap<>();
+    public static HashMap<String, String[]> includedRegionsMap = new HashMap<>();
+    public static HashMap<String, String[]> excludedRegionsMap = new HashMap<>();
 
 
     public static AppGlobals getInstance(Context c) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new AppGlobals(c);
         }
         mContext = c; //update context when ever your homeactivity is relaunched else the context will be dead and
-                        //we can't create new dialogs with dead activity context
-        if(dbHelper != null)
+        //we can't create new dialogs with dead activity context
+        if (dbHelper != null)
             dbHelper = new DataBaseHelper(c);
         return instance;
     }
 
     public static AppGlobals getInstance() {
-        if(instance == null) {
-            if(mContext == null) {
-                Log.d(LOG_TAG,"AppGlobals : mContext null here");
+        if (instance == null) {
+            if (mContext == null) {
+                Log.d(LOG_TAG, "AppGlobals : mContext null here");
             }
             instance = new AppGlobals(mContext);
         }
@@ -90,7 +90,7 @@ public class AppGlobals {
     }
 
     public static DataBaseHelper getDataBaseHelper(Context c) {
-        if(dbHelper != null) {
+        if (dbHelper != null) {
             return dbHelper;
         }
         dbHelper = new DataBaseHelper(c);
@@ -98,10 +98,10 @@ public class AppGlobals {
     }
 
     public static DataBaseHelper getDataBaseHelper() {
-        if(dbHelper != null) {
+        if (dbHelper != null) {
             return dbHelper;
         }
-        if(mContext != null) {
+        if (mContext != null) {
             dbHelper = new DataBaseHelper(mContext);
             return dbHelper;
         } else {
@@ -110,13 +110,13 @@ public class AppGlobals {
         }
     }
 
-    AppGlobals(Context context){
+    AppGlobals(Context context) {
         mContext = context;
         dbHelper = new DataBaseHelper(context);
         preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         //initialize userstate,dualsim from shared pref
 
-        isDualSim=false;
+        isDualSim = false;
         isMinuteMode = AppGlobals.MODE_MINUTES.equals(preferences.getString(AppGlobals.PKEY_MODE_OF_CALCULATION, AppGlobals.MODE_MINUTES));
 
         initUserCountryCode();
@@ -128,11 +128,11 @@ public class AppGlobals {
     public void initUserCountryCode() {
         SharedPreferences.Editor e = preferences.edit();
         AppGlobals.userCountryCode = preferences.getString(AppGlobals.PKEY_COUNTRY_CODE, "XX");
-        if(AppGlobals.userCountryCode.equals("XX")) {
+        if (AppGlobals.userCountryCode.equals("XX")) {
             try {
                 TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
                 userCountryCode = manager.getSimCountryIso().toUpperCase();
-                if(userCountryCode == null || userCountryCode.isEmpty()) {
+                if (userCountryCode == null || userCountryCode.isEmpty()) {
                     userCountryCode = "IN";
                     Toast.makeText(mContext, "Error retrieving Network info setting Country to India", Toast.LENGTH_SHORT).show();
                 }
@@ -162,7 +162,7 @@ public class AppGlobals {
             userCountryCodeNumber = preferences.getInt(AppGlobals.PKEY_COUNTRY_CODE_NUMBER, -1);
             userCountryCodeNumberString = String.valueOf(userCountryCodeNumber);
         }
-        userState = preferences.getString("user_circle","NULL");
+        userState = preferences.getString("user_circle", "NULL");
         TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
         simOperator = manager.getSimOperatorName().toUpperCase();
     }
@@ -174,15 +174,15 @@ public class AppGlobals {
         final String[] included_list = res.getStringArray(R.array.included_regions);
         final String[] excluded_list = res.getStringArray(R.array.excluded_regions);
 
-        for(int i=0;i<operator_states.length;i++){
-            circleNameMap.put(operator_state_codes[i],operator_states[i]);
+        for (int i = 0; i < operator_states.length; i++) {
+            circleNameMap.put(operator_state_codes[i], operator_states[i]);
             String[] included = included_list[i].split(",");
             String[] excluded = excluded_list[i].split(",");
-            if(included.length>0) {
-                includedRegionsMap.put(operator_state_codes[i],included);
+            if (included.length > 0) {
+                includedRegionsMap.put(operator_state_codes[i], included);
             }
-            if(!excluded_list[i].isEmpty() && excluded.length>0) {
-                excludedRegionsMap.put(operator_state_codes[i],excluded);
+            if (!excluded_list[i].isEmpty() && excluded.length > 0) {
+                excludedRegionsMap.put(operator_state_codes[i], excluded);
             }
         }
     }
@@ -196,7 +196,7 @@ public class AppGlobals {
     }
 
     public static String getBillCycleString(Date cycleDates[]) {
-        if (cycleDates[0] == null || cycleDates[1]==null)
+        if (cycleDates[0] == null || cycleDates[1] == null)
             return "";
         Date startDate = cycleDates[0];
         Date endDate = cycleDates[1];
@@ -205,16 +205,16 @@ public class AppGlobals {
     }
 
     public static Date[] getCurrentBillCycleDates() {
-        int startDay=preferences.getInt(PKEY_BILL_CYCLE, -1);
+        int startDay = preferences.getInt(PKEY_BILL_CYCLE, -1);
         Calendar c = Calendar.getInstance();
         int curDay = c.get(Calendar.DATE);
-        if (curDay<startDay)
+        if (curDay < startDay)
             c.add(Calendar.MONTH, -1);
         c.set(Calendar.DATE, startDay);
-        c.set(Calendar.HOUR_OF_DAY,0);  //HOUR is stricly 12 Hours
-        c.set(Calendar.MINUTE,0);
-        c.set(Calendar.SECOND,0);
-        c.set(Calendar.MILLISECOND,0);
+        c.set(Calendar.HOUR_OF_DAY, 0);  //HOUR is stricly 12 Hours
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
 
         Date dates[] = new Date[2];
         dates[0] = new Date(c.getTimeInMillis());
@@ -222,35 +222,35 @@ public class AppGlobals {
         c.add(Calendar.MONTH, 1);
         c.add(Calendar.DATE, -1);
         c.set(Calendar.HOUR_OF_DAY, 23);  //HOUR is stricly 12 Hours
-        c.set(Calendar.MINUTE,59);
-        c.set(Calendar.SECOND,59);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
         c.set(Calendar.MILLISECOND, 999);
         dates[1] = new Date(c.getTimeInMillis());
         return dates;
     }
 
-    public static ArrayList<Date []> getUsageCycleArray() {
-        ArrayList<Date []> cycles = new ArrayList<>();
-        long installationDate  = preferences.getLong(PKEY_INSTALLATION_DATE, -1);
+    public static ArrayList<Date[]> getUsageCycleArray() {
+        ArrayList<Date[]> cycles = new ArrayList<>();
+        long installationDate = preferences.getLong(PKEY_INSTALLATION_DATE, -1);
         long temp;
-        if((temp=dbHelper.getOldestLogDate())!=-1) {
+        if ((temp = dbHelper.getOldestLogDate()) != -1) {
             installationDate = temp;
         }
         //installationDate = 1417478878000L;  //Tue, 02 Dec 2014 00:07:58 GMT
-        if(installationDate == -1) {
+        if (installationDate == -1) {
             return cycles;
         }
 
-        int startDay=preferences.getInt(PKEY_BILL_CYCLE, -1);
+        int startDay = preferences.getInt(PKEY_BILL_CYCLE, -1);
         Calendar c = Calendar.getInstance();
         int curDay = c.get(Calendar.DATE);
-        boolean firstloop=true;
+        boolean firstloop = true;
         if (showLogs)
-            Log.d("AppGlobals","getUsageCycleArray installationdate:" +installationDate+", currentDate="+c.getTimeInMillis()+", startDay"+startDay+", curDay"+curDay);
-        while (c.getTimeInMillis()>installationDate) {
-            if (curDay<startDay && firstloop) {
+            Log.d("AppGlobals", "getUsageCycleArray installationdate:" + installationDate + ", currentDate=" + c.getTimeInMillis() + ", startDay" + startDay + ", curDay" + curDay);
+        while (c.getTimeInMillis() > installationDate) {
+            if (curDay < startDay && firstloop) {
                 c.add(Calendar.MONTH, -1);
-                firstloop=false;
+                firstloop = false;
             }
             c.set(Calendar.DATE, startDay);
             c.set(Calendar.HOUR_OF_DAY, 0);  //HOUR is stricly 12 Hours
@@ -270,14 +270,14 @@ public class AppGlobals {
             dates[1] = new Date(c.getTimeInMillis());
             cycles.add(dates);
             if (showLogs)
-                Log.d("AppGlobals","getUsageCycleArray cycle:"+getBillCycleString(dates));
+                Log.d("AppGlobals", "getUsageCycleArray cycle:" + getBillCycleString(dates));
             c.add(Calendar.MONTH, -1);
-            if (c.get(Calendar.DATE)<startDay) {
+            if (c.get(Calendar.DATE) < startDay) {
                 c.add(Calendar.MONTH, -1);
             }
         }
 
-        if (c.get(Calendar.DATE)<startDay) { //add one more last cycle if list is more that 1
+        if (c.get(Calendar.DATE) < startDay) { //add one more last cycle if list is more that 1
             c.set(Calendar.DATE, startDay);
             c.set(Calendar.HOUR_OF_DAY, 0);  //HOUR is stricly 12 Hours
             c.set(Calendar.MINUTE, 0);
@@ -306,10 +306,10 @@ public class AppGlobals {
         DisplayMetrics metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        float yInches= metrics.heightPixels/metrics.ydpi;
-        float xInches= metrics.widthPixels/metrics.xdpi;
-        double diagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
-        if (diagonalInches < 6.5){
+        float yInches = metrics.heightPixels / metrics.ydpi;
+        float xInches = metrics.widthPixels / metrics.xdpi;
+        double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
+        if (diagonalInches < 6.5) {
             return false;
         }
         return true;
@@ -328,34 +328,34 @@ public class AppGlobals {
         isMinuteMode = true;
     }
 
-    public static void log(Object o,String msg){
-        Log.d(LOG_TAG,o.getClass().getSimpleName()+": "+msg);
+    public static void log(Object o, String msg) {
+        Log.d(LOG_TAG, o.getClass().getSimpleName() + ": " + msg);
     }
 
     public static void sendUpdateMessage() {
-        if(HomeActivity.mHandler != null)
+        if (HomeActivity.mHandler != null)
             HomeActivity.mHandler.sendEmptyMessage(HomeActivity.UPDATE_VIEWS);
-        if(LogListActivity.mHandler != null)
+        if (LogListActivity.mHandler != null)
             LogListActivity.mHandler.sendEmptyMessage(LogListActivity.UPDATE_VIEWS);
     }
 
     public static boolean isEnableToast(Context c) {
-        if(mContext == null) {
+        if (mContext == null) {
             mContext = c;
         }
-        if(mContext != null) {
+        if (mContext != null) {
             return PreferenceManager.getDefaultSharedPreferences(mContext).getBoolean("enable_mins_toast", false);
         } else {
-            Log.d(LOG_TAG,"AppGlobals : mContext null in isEnableToast");
+            Log.d(LOG_TAG, "AppGlobals : mContext null in isEnableToast");
             return false;
         }
     }
 
     public static boolean checkForPermissions(Context context) {
-        return  ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(context,Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(context,Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(context,Manifest.permission.PROCESS_OUTGOING_CALLS) == PackageManager.PERMISSION_GRANTED ;
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(context, Manifest.permission.PROCESS_OUTGOING_CALLS) == PackageManager.PERMISSION_GRANTED;
     }
 
 }

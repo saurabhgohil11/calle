@@ -44,7 +44,6 @@ import com.evadroid.calle.R;
 import java.util.Date;
 
 
-
 public class SetupActivity extends AppCompatActivity {
 
     private ViewPager mPager;
@@ -69,7 +68,7 @@ public class SetupActivity extends AppCompatActivity {
             requestPermissions();
         }
 
-        if(!AppGlobals.isTablet(this)) {
+        if (!AppGlobals.isTablet(this)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
@@ -88,13 +87,16 @@ public class SetupActivity extends AppCompatActivity {
 
         mPager.setPageTransformer(true, new FloatViewsTransform());
 
-        final ImageButton nextButton = (ImageButton)findViewById(R.id.next_button);
+        final ImageButton nextButton = (ImageButton) findViewById(R.id.next_button);
 
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            final RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radiogroup);
-            public void onPageScrollStateChanged(int state) {}
+            final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radiogroup);
+
+            public void onPageScrollStateChanged(int state) {
+            }
+
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if(position < (mPagerAdapter.getCount() -1) && position < (colors.length - 1)) {
+                if (position < (mPagerAdapter.getCount() - 1) && position < (colors.length - 1)) {
                     mPager.setBackgroundColor((Integer) argbEvaluator.evaluate(positionOffset, colors[position], colors[position + 1]));
                 } else {
                     mPager.setBackgroundColor(colors[colors.length - 1]);
@@ -102,7 +104,7 @@ public class SetupActivity extends AppCompatActivity {
             }
 
             public void onPageSelected(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         radioGroup.check(R.id.radioButton1);
                         break;
@@ -113,7 +115,7 @@ public class SetupActivity extends AppCompatActivity {
                         radioGroup.check(R.id.radioButton3);
                         break;
                 }
-                if(position==mPagerAdapter.getCount()-1) {
+                if (position == mPagerAdapter.getCount() - 1) {
                     nextButton.setVisibility(View.GONE);
                     radioGroup.setVisibility(View.GONE);
                 } else {
@@ -125,7 +127,7 @@ public class SetupActivity extends AppCompatActivity {
     }
 
     private void requestPermissions() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(SetupActivity.this,Manifest.permission.READ_CALL_LOG)) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(SetupActivity.this, Manifest.permission.READ_CALL_LOG)) {
             ActivityCompat.requestPermissions(SetupActivity.this,
                     new String[]{Manifest.permission.READ_CALL_LOG,
                             Manifest.permission.READ_PHONE_STATE,
@@ -141,7 +143,7 @@ public class SetupActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case AppGlobals.MY_PERMISSIONS_REQUEST: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -172,41 +174,41 @@ public class SetupActivity extends AppCompatActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         EditText mobileNumber = (EditText) findViewById(R.id.mobile_number_edit_text);
         Spinner state = (Spinner) findViewById(R.id.spinner_state);
-        Spinner date =  (Spinner) findViewById(R.id.spinner_date);
+        Spinner date = (Spinner) findViewById(R.id.spinner_date);
         RadioGroup mode = (RadioGroup) findViewById(R.id.group_mode);
         CheckBox tncCheckBox = (CheckBox) findViewById(R.id.tnc_checkbox);
 
-        if(mobileNumber.getText().toString().length()<10) {
+        if (mobileNumber.getText().toString().length() < 10) {
             Toast.makeText(this, R.string.enter_a_valid_mobile_number, Toast.LENGTH_LONG).show();
             return;
         }
 
-        if(!tncCheckBox.isChecked()) {
+        if (!tncCheckBox.isChecked()) {
             Toast.makeText(this, R.string.please_accept_tnc, Toast.LENGTH_LONG).show();
             return;
         }
 
         SharedPreferences.Editor e = sp.edit();
 
-        e.putString(AppGlobals.PKEY_USER_CIRCLE,stateIDs[state.getSelectedItemPosition()]);
+        e.putString(AppGlobals.PKEY_USER_CIRCLE, stateIDs[state.getSelectedItemPosition()]);
         e.putInt(AppGlobals.PKEY_BILL_CYCLE, Integer.parseInt(date.getSelectedItem().toString()));
-        if(((RadioButton)(mode.getChildAt(0))).isChecked()){
+        if (((RadioButton) (mode.getChildAt(0))).isChecked()) {
             e.putString(AppGlobals.PKEY_MODE_OF_CALCULATION, AppGlobals.MODE_MINUTES);
-        }else{
+        } else {
             e.putString(AppGlobals.PKEY_MODE_OF_CALCULATION, AppGlobals.MODE_SECONDS);
         }
         e.putBoolean(AppGlobals.PKEY_FIRST_TIME, true);
         e.putLong(AppGlobals.PKEY_INSTALLATION_DATE, new Date().getTime());
         e.commit();
-        startActivity(new Intent(this,LogAnalyzerActivity.class));
+        startActivity(new Intent(this, LogAnalyzerActivity.class));
         finish();
     }
 
     public void onNextClicked(View v) {
         int i = mPager.getCurrentItem();
-        AppGlobals.log(this, "onNextClicked()"+i);
-        if(i+1<mPagerAdapter.getCount())
-            mPager.setCurrentItem(i+1);
+        AppGlobals.log(this, "onNextClicked()" + i);
+        if (i + 1 < mPagerAdapter.getCount())
+            mPager.setCurrentItem(i + 1);
     }
 
     public void onShowMinutesHelp(View v) {
@@ -230,7 +232,7 @@ public class SetupActivity extends AppCompatActivity {
     public static class SetupWizardFragment extends Fragment {
         private static final String FRAGNO = "frag_no";
         private static final int FRAG_WELCOME = 0;
-        private static final int  FRAG_CIRCLE_CYCLE_MODE= 2;
+        private static final int FRAG_CIRCLE_CYCLE_MODE = 2;
         private static final int FRAG_INFO_1 = 1;
 
         int fragmentNum;
@@ -259,7 +261,7 @@ public class SetupActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = null;
-            switch(fragmentNum){
+            switch (fragmentNum) {
                 case FRAG_WELCOME:
                     rootView = inflater.inflate(R.layout.fragment_setup_welcome, container, false);
                     break;
@@ -268,7 +270,7 @@ public class SetupActivity extends AppCompatActivity {
                     break;
                 case FRAG_CIRCLE_CYCLE_MODE:
                     rootView = inflater.inflate(R.layout.fragment_setup_plan, container, false);
-                    if(rootView == null) break;
+                    if (rootView == null) break;
 
                     final EditText mobileNumber = (EditText) rootView.findViewById(R.id.mobile_number_edit_text);
                     final Spinner stateSpinner = (Spinner) rootView.findViewById(R.id.spinner_state);
@@ -277,30 +279,32 @@ public class SetupActivity extends AppCompatActivity {
 
                     mobileNumber.addTextChangedListener(new TextWatcher() {
                         @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
 
                         @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) { }
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        }
 
                         @Override
                         public void afterTextChanged(Editable s) {
                             String number = mobileNumber.getText().toString();
-                            if(number!=null && number.length()>=4) {
+                            if (number != null && number.length() >= 4) {
 
-                                if(dbHelper == null) {
+                                if (dbHelper == null) {
                                     dbHelper = new DataBaseHelper(getActivity());
                                 }
                                 String numberState = dbHelper.getMobileNumberState(Long.parseLong(number));
                                 if (numberState != null && !numberState.isEmpty()) {
                                     int index = -1;
-                                    for(int i=0;i<stateIDs.length;i++){
-                                        if(numberState.equals(stateIDs[i])){
+                                    for (int i = 0; i < stateIDs.length; i++) {
+                                        if (numberState.equals(stateIDs[i])) {
                                             index = i;
                                             break;
                                         }
                                     }
-                                    if(index>-1) {
-                                        stateSpinner.setSelection(index,true);
+                                    if (index > -1) {
+                                        stateSpinner.setSelection(index, true);
                                     }
                                 }
                             }
@@ -349,25 +353,25 @@ public class SetupActivity extends AppCompatActivity {
                 //lower float value gives faster transition
 
                 //page 1
-                TextView w1=(TextView)view.findViewById(R.id.setup_page_1_app_name);
-                TextView w2=(TextView)view.findViewById(R.id.setup_page_1_text);
+                TextView w1 = (TextView) view.findViewById(R.id.setup_page_1_app_name);
+                TextView w2 = (TextView) view.findViewById(R.id.setup_page_1_text);
                 ImageView v1 = (ImageView) view.findViewById(R.id.welcome_image);
-                if(v1!=null) v1.setAlpha(1-Math.abs(position));
-                if(w1!=null) w1.setTranslationX((position) * (pageWidth / 1));
-                if(w2!=null) w2.setTranslationX((position) * (pageWidth / 0.4f));
+                if (v1 != null) v1.setAlpha(1 - Math.abs(position));
+                if (w1 != null) w1.setTranslationX((position) * (pageWidth / 1));
+                if (w2 != null) w2.setTranslationX((position) * (pageWidth / 0.4f));
 
                 //page 2
-                TextView page2title=(TextView)view.findViewById(R.id.info_title_page2);
-                TextView page2text=(TextView)view.findViewById(R.id.info_text_page2);
+                TextView page2title = (TextView) view.findViewById(R.id.info_title_page2);
+                TextView page2text = (TextView) view.findViewById(R.id.info_text_page2);
                 ImageView page2Image = (ImageView) view.findViewById(R.id.info_image_page2);
-                if(page2Image!=null) page2Image.setAlpha(0.8f-Math.abs(position));
-                if(page2title!=null) page2title.setTranslationX((position) * (pageWidth / 0.5f));
-                if(page2text!=null) page2text.setTranslationX((position) * (pageWidth / 0.4f));
+                if (page2Image != null) page2Image.setAlpha(0.8f - Math.abs(position));
+                if (page2title != null) page2title.setTranslationX((position) * (pageWidth / 0.5f));
+                if (page2text != null) page2text.setTranslationX((position) * (pageWidth / 0.4f));
 
                 //page 3
                 LinearLayout finish = (LinearLayout) view.findViewById(R.id.finish_button);
-                if(finish!=null) {
-                    finish.setAlpha(1-Math.abs(position));
+                if (finish != null) {
+                    finish.setAlpha(1 - Math.abs(position));
                     finish.setTranslationX((position) * (pageWidth / 0.3f));
                 }
 

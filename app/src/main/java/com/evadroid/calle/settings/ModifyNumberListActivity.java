@@ -21,13 +21,13 @@ import com.evadroid.calle.R;
 
 import java.util.ArrayList;
 
-public class ModifyNumberListActivity extends AppCompatActivity implements ListView.OnItemClickListener{
+public class ModifyNumberListActivity extends AppCompatActivity implements ListView.OnItemClickListener {
 
     int activityType;
     CostType costType;
-    final int TYPE_LOCAL_LIST=200;
-    final int TYPE_EXCLUDED_LIST=201;
-    final int TYPE_STD_LIST=202;
+    final int TYPE_LOCAL_LIST = 200;
+    final int TYPE_EXCLUDED_LIST = 201;
+    final int TYPE_STD_LIST = 202;
 
     ArrayAdapter<String> adapter;
 
@@ -38,18 +38,18 @@ public class ModifyNumberListActivity extends AppCompatActivity implements ListV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!AppGlobals.isTablet(this)) {
+        if (!AppGlobals.isTablet(this)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         setContentView(R.layout.activity_modify_number_list);
         activityType = getIntent().getExtras().getInt("activity_type");
-        if(activityType ==TYPE_EXCLUDED_LIST) {
+        if (activityType == TYPE_EXCLUDED_LIST) {
             costType = CostType.FREE;
             setTitle(getResources().getString(R.string.title_delete_excluded_numbers));
-        }else if(activityType ==TYPE_STD_LIST) {
+        } else if (activityType == TYPE_STD_LIST) {
             costType = CostType.STD;
             setTitle(getResources().getString(R.string.title_delete_std_numbers));
-        }else if(activityType ==TYPE_LOCAL_LIST) {
+        } else if (activityType == TYPE_LOCAL_LIST) {
             costType = CostType.LOCAL;
             setTitle(getResources().getString(R.string.title_delete_local_numbers));
         }
@@ -61,15 +61,15 @@ public class ModifyNumberListActivity extends AppCompatActivity implements ListV
     @Override
     protected void onResume() {
         super.onResume();
-        ActionBar actionbar = getSupportActionBar ();
-        actionbar.setDisplayHomeAsUpEnabled ( true );
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
         ArrayList<String> list;
 
         list = AppGlobals.getDataBaseHelper(this).getUserSpecifiedNumbers(costType);
         if (list == null || list.isEmpty()) {
 
         } else {
-            adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_multiple_choice,list);
+            adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, list);
             numberListView.setAdapter(adapter);
             numberListView.setOnItemClickListener(this);
         }
@@ -83,11 +83,10 @@ public class ModifyNumberListActivity extends AppCompatActivity implements ListV
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        int selectedCount=numberListView.getCheckedItemCount();
-        if(selectedCount==0){
+        int selectedCount = numberListView.getCheckedItemCount();
+        if (selectedCount == 0) {
             menu.findItem(R.id.action_delete_items).setEnabled(false);
-        }
-        else{
+        } else {
             menu.findItem(R.id.action_delete_items).setEnabled(true);
         }
         return super.onPrepareOptionsMenu(menu);
@@ -97,7 +96,7 @@ public class ModifyNumberListActivity extends AppCompatActivity implements ListV
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_delete_items) {
-            switch (activityType){
+            switch (activityType) {
                 case TYPE_LOCAL_LIST:
                 case TYPE_STD_LIST:
                 case TYPE_EXCLUDED_LIST:
@@ -105,7 +104,7 @@ public class ModifyNumberListActivity extends AppCompatActivity implements ListV
                     break;
             }
             return true;
-        }else if(id == android.R.id.home) {
+        } else if (id == android.R.id.home) {
             this.finish();
             return true;
         }
@@ -130,28 +129,28 @@ public class ModifyNumberListActivity extends AppCompatActivity implements ListV
     private void deleteSelectedItems() {
         int count = numberListView.getCount();
         SparseBooleanArray sparseBooleanArray = numberListView.getCheckedItemPositions();
-        for(int i=0;i<count ; i++){
-            if(sparseBooleanArray.get(i)){
+        for (int i = 0; i < count; i++) {
+            if (sparseBooleanArray.get(i)) {
                 AppGlobals.getDataBaseHelper(this).deleteUserSpecifiedNumber(numberListView.getItemAtPosition(i).toString());
             }
         }
         this.finish();
     }
 
-    public void onSelectAllClicked(View v){
-        if(selectAllCheck.isChecked()){
+    public void onSelectAllClicked(View v) {
+        if (selectAllCheck.isChecked()) {
             selectAllCheck.setChecked(false);
             int size = numberListView.getCount();
-            while(size>0){
+            while (size > 0) {
                 size--;
-                numberListView.setItemChecked(size,false);
+                numberListView.setItemChecked(size, false);
             }
-        }else{
+        } else {
             selectAllCheck.setChecked(true);
             int size = numberListView.getCount();
-            while(size>0){
+            while (size > 0) {
                 size--;
-                numberListView.setItemChecked(size,true);
+                numberListView.setItemChecked(size, true);
             }
         }
         invalidateOptionsMenu();
@@ -160,9 +159,9 @@ public class ModifyNumberListActivity extends AppCompatActivity implements ListV
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         //AppGlobals.log(this, "onItemClicked:" + String.valueOf(position));
-        if(numberListView.getCheckedItemCount()==numberListView.getCount()){
+        if (numberListView.getCheckedItemCount() == numberListView.getCount()) {
             selectAllCheck.setChecked(true);
-        }else{
+        } else {
             selectAllCheck.setChecked(false);
         }
         invalidateOptionsMenu();

@@ -75,7 +75,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
@@ -101,11 +101,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     });
 
             final AlertDialog alertDialog = alertDialogBuilder.create();
-            if (dbHelper == null ) {
+            if (dbHelper == null) {
                 new DataBaseHelper(getActivity()).updateLogsOnCircleChange();
                 alertDialog.show();
             } else {
-                progressDialog = ProgressDialog.show(getActivity(), "Please wait!","Updating...",true);
+                progressDialog = ProgressDialog.show(getActivity(), "Please wait!", "Updating...", true);
                 progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
@@ -122,7 +122,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                             e.printStackTrace();
                         }
                         progressDialog.dismiss();
-                        if(HomeActivity.mHandler!=null)
+                        if (HomeActivity.mHandler != null)
                             HomeActivity.mHandler.sendEmptyMessage(HomeActivity.UPDATE_VIEWS);
                     }
                 }.start();
@@ -132,15 +132,15 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             AppGlobals.isMinuteMode = AppGlobals.MODE_MINUTES.equals(sharedPreferences.getString(AppGlobals.PKEY_MODE_OF_CALCULATION, AppGlobals.MODE_MINUTES));
         }
 
-        if(HomeActivity.mHandler!=null)
+        if (HomeActivity.mHandler != null)
             HomeActivity.mHandler.sendEmptyMessage(HomeActivity.UPDATE_VIEWS);
     }
 
-    private void updatePreference(Preference p,String key) {
-         if(p instanceof ListPreference){
+    private void updatePreference(Preference p, String key) {
+        if (p instanceof ListPreference) {
             ListPreference listPref = (ListPreference) p;
             p.setSummary(getResources().getString(R.string.summary_user_circle) + listPref.getEntry());
-            AppGlobals.userState=listPref.getValue();
+            AppGlobals.userState = listPref.getValue();
         }
     }
 
@@ -150,7 +150,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         String key = preference.getKey();
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         AlertDialog alertDialog;
-        if(key != null) {
+        if (key != null) {
             switch (key) {
                 case "reset_app":
                     Resources res = getResources();
@@ -169,7 +169,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                                     startActivity(new Intent(getActivity(), HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                 }
                             });
-                    alertDialogBuilder.setNegativeButton(res.getString(R.string.cancel),null);
+                    alertDialogBuilder.setNegativeButton(res.getString(R.string.cancel), null);
                     alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
                     break;
@@ -236,7 +236,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                                             cd.phoneNumberType = n.getPhoneNumberType();
                                             cd.numberLocation = n.getPhoneNumberLocation();
 
-                                            AppGlobals.getDataBaseHelper().addToLogsHistory(cd,true);
+                                            AppGlobals.getDataBaseHelper().addToLogsHistory(cd, true);
                                         }
 
                                     }

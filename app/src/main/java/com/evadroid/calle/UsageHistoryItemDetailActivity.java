@@ -20,7 +20,7 @@ public class UsageHistoryItemDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usage_history_item_detail);
 
-        if(!AppGlobals.isTablet(this)) {
+        if (!AppGlobals.isTablet(this)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
@@ -48,7 +48,7 @@ public class UsageHistoryItemDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == android.R.id.home) {
+        if (id == android.R.id.home) {
             this.finish();
             return true;
         }

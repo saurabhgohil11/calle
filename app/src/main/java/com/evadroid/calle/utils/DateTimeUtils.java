@@ -10,55 +10,55 @@ import java.util.concurrent.TimeUnit;
 public class DateTimeUtils {
 
     public static Date getNextCycleDate(long timeInMillis) {
-        if(timeInMillis < 0) {
+        if (timeInMillis < 0) {
             throw new IllegalArgumentException("timeInMillis must be greater than zero!");
         }
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(timeInMillis);
-        c.add(Calendar.MONTH,1);
-        c.add(Calendar.DATE,-1);
+        c.add(Calendar.MONTH, 1);
+        c.add(Calendar.DATE, -1);
         return new Date(c.getTimeInMillis());
     }
 
     public static Date getNextCycleDate(Date date) {
-        if(date == null) {
+        if (date == null) {
             throw new IllegalArgumentException("date must not be null!");
         }
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        c.add(Calendar.MONTH,1);
-        c.add(Calendar.DATE,-1);
+        c.add(Calendar.MONTH, 1);
+        c.add(Calendar.DATE, -1);
         return new Date(c.getTimeInMillis());
     }
 
     public static String timeToRelativeString(long timeInMillis) {  //returns some mins ago
-        return DateUtils.getRelativeTimeSpanString (timeInMillis, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString();
+        return DateUtils.getRelativeTimeSpanString(timeInMillis, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString();
     }
 
     public static String timeToString(int timeInSecs) {  //returns 0 mins 1 secs
-        if(timeInSecs < 0) {
+        if (timeInSecs < 0) {
             throw new IllegalArgumentException("Duration must be greater than zero!");
         }
         return timeToString((long) timeInSecs * 1000);
     }
 
     public static String timeToRoundedString(long timeInSecs) {  //returns 1 mins
-        if(timeInSecs < 0) {
+        if (timeInSecs < 0) {
             throw new IllegalArgumentException("Duration must be greater than zero!");
         }
-        if(timeInSecs==0)
+        if (timeInSecs == 0)
             return "0 Mins";
-        if(timeInSecs%60==0)
-            return timeToString(timeInSecs*1000,false);  //for exact 60 sec it should show 1 min
-        return timeToString((timeInSecs/60+1)*60*1000,false);
+        if (timeInSecs % 60 == 0)
+            return timeToString(timeInSecs * 1000, false);  //for exact 60 sec it should show 1 min
+        return timeToString((timeInSecs / 60 + 1) * 60 * 1000, false);
     }
 
     public static String timeToString(long timeInMillis) {
-        return timeToString(timeInMillis,true);
+        return timeToString(timeInMillis, true);
     }
 
-    public static String timeToString(long timeInMillis,boolean showSeconds) {  //returns 0 mins 1 secs
-        if(timeInMillis < 0) {
+    public static String timeToString(long timeInMillis, boolean showSeconds) {  //returns 0 mins 1 secs
+        if (timeInMillis < 0) {
             throw new IllegalArgumentException("Duration must be greater than zero!");
         }
         /*long days = TimeUnit.MILLISECONDS.toDays(timeInMillis);
@@ -78,16 +78,16 @@ public class DateTimeUtils {
             sb.append(hours);
             sb.append(" Hours ");
         }*/
-        if(/*days > 0 || hours > 0 ||*/ minutes > 0) {
+        if (/*days > 0 || hours > 0 ||*/ minutes > 0) {
             sb.append(minutes);
             sb.append(" Mins ");
         }
-        if(showSeconds) {
+        if (showSeconds) {
             sb.append(seconds);
             sb.append(" Secs");
         }
 
-        return(sb.toString());
+        return (sb.toString());
     }
 
     public static String timeToDateString(long timeInMillis) {

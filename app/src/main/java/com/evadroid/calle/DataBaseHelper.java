@@ -56,26 +56,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        AppGlobals.log(this,"onCreate()");
+        AppGlobals.log(this, "onCreate()");
         String CREATE_MOBILE_STATE_TABLE = "CREATE TABLE " + TABLE_MOBILE_STATES + "(" +
-                        KEY_STATE + " TEXT" + ")";
+                KEY_STATE + " TEXT" + ")";
 
-        String CREATE_LOGS_HISTORY_TABLE = "CREATE TABLE "+ TABLE_LOGS_HISTORY +" ("+
-                        KEY_CALL_ID+" INTEGER PRIMARY KEY, " +
-                        KEY_CACHED_CONTACT_NAME+" TEXT, "+
-                        KEY_PHONE_NUMBER +" TEXT, " +
-                        KEY_NATIONAL_NUMBER +" TEXT, " +
-                        KEY_CALL_TYPE+" INTEGER, " +
-                        KEY_COST_TYPE+" INTEGER, " +
-                        KEY_IS_ROAMING+" BOOL, " +
-                        KEY_PHONE_NUMBER_TYPE+" INTEGER, "+
-                        KEY_CALL_DURATION+" INTEGER, "+
-                        KEY_DATE+" DATETIME, "+
-                        KEY_IS_HIDDEN+" BOOL, "+
-                        KEY_GEO_LOCATION+" TEXT )";  // default date is saved which means when entry is created that is log time
+        String CREATE_LOGS_HISTORY_TABLE = "CREATE TABLE " + TABLE_LOGS_HISTORY + " (" +
+                KEY_CALL_ID + " INTEGER PRIMARY KEY, " +
+                KEY_CACHED_CONTACT_NAME + " TEXT, " +
+                KEY_PHONE_NUMBER + " TEXT, " +
+                KEY_NATIONAL_NUMBER + " TEXT, " +
+                KEY_CALL_TYPE + " INTEGER, " +
+                KEY_COST_TYPE + " INTEGER, " +
+                KEY_IS_ROAMING + " BOOL, " +
+                KEY_PHONE_NUMBER_TYPE + " INTEGER, " +
+                KEY_CALL_DURATION + " INTEGER, " +
+                KEY_DATE + " DATETIME, " +
+                KEY_IS_HIDDEN + " BOOL, " +
+                KEY_GEO_LOCATION + " TEXT )";  // default date is saved which means when entry is created that is log time
 
-        String CREATE_USER_SPECIFIED_NUMBERS_TABLE = "CREATE TABLE "+TABLE_USER_SPECIFIED_NUMBERS+" ("+
-                KEY_PHONE_NUMBER +" TEXT PRIMARY KEY, "+
+        String CREATE_USER_SPECIFIED_NUMBERS_TABLE = "CREATE TABLE " + TABLE_USER_SPECIFIED_NUMBERS + " (" +
+                KEY_PHONE_NUMBER + " TEXT PRIMARY KEY, " +
                 KEY_COST_TYPE + " INTEGER )";
 
         db.execSQL(CREATE_MOBILE_STATE_TABLE);
@@ -90,9 +90,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Resources res = mContext.getResources();
         String[] states = res.getStringArray(R.array.states);
 
-        String sql="INSERT INTO "+TABLE_MOBILE_STATES+" VALUES(?)";
-        for(int i=0;i<states.length;i++) {
-            db.execSQL(sql,new String[]{states[i]});
+        String sql = "INSERT INTO " + TABLE_MOBILE_STATES + " VALUES(?)";
+        for (int i = 0; i < states.length; i++) {
+            db.execSQL(sql, new String[]{states[i]});
         }
         AppGlobals.log(this, "DB Created successfully with " + states.length + " entries");
     }
@@ -106,37 +106,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public String getMobileNumberState (long phoneNumber) {
-        String state=null;
+    public String getMobileNumberState(long phoneNumber) {
+        String state = null;
         while (phoneNumber > 9999) {
             // while "more than 4 digits", "throw out last digit"
             phoneNumber /= 10;
         }
-        phoneNumber-=6999;
-        String selectQuery = "SELECT * FROM "+TABLE_MOBILE_STATES+" WHERE ROWID=? ";
+        phoneNumber -= 6999;
+        String selectQuery = "SELECT * FROM " + TABLE_MOBILE_STATES + " WHERE ROWID=? ";
         Cursor c = db.rawQuery(selectQuery, new String[]{String.valueOf(phoneNumber)});
         if (c.moveToFirst()) {
             state = c.getString(0);
         }
         //db.close();
-        if(AppGlobals.showLogs)
-            AppGlobals.log(this,"trimmed Number = "+phoneNumber+ ", state = "+ state);
+        if (AppGlobals.showLogs)
+            AppGlobals.log(this, "trimmed Number = " + phoneNumber + ", state = " + state);
         c.close();
         return state;
     }
 
-    public void addUserSpecifiedNumber(String number,CostType costType){
+    public void addUserSpecifiedNumber(String number, CostType costType) {
         ContentValues values = new ContentValues();
         values.put(KEY_PHONE_NUMBER, number);
-        values.put(KEY_COST_TYPE,costType.ordinal());
+        values.put(KEY_COST_TYPE, costType.ordinal());
         String existingNumber = isUserSpecifiedNumberExists(number);
-        if(AppGlobals.showLogs)
-            AppGlobals.log(this, "addUserSpecifiedNumber existingNumber"+existingNumber);
-        if(existingNumber!=null){
+        if (AppGlobals.showLogs)
+            AppGlobals.log(this, "addUserSpecifiedNumber existingNumber" + existingNumber);
+        if (existingNumber != null) {
             ContentValues newValues = new ContentValues();
             newValues.put(KEY_PHONE_NUMBER, number);
             newValues.put(KEY_COST_TYPE, costType.ordinal());
-            db.update(TABLE_USER_SPECIFIED_NUMBERS, newValues, KEY_PHONE_NUMBER+"='"+existingNumber+"'", null);
+            db.update(TABLE_USER_SPECIFIED_NUMBERS, newValues, KEY_PHONE_NUMBER + "='" + existingNumber + "'", null);
         } else {
             db.insert(TABLE_USER_SPECIFIED_NUMBERS, null, values);
         }
@@ -164,16 +164,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void deleteUserSpecifiedNumber(String phoneNumber) {
         db.delete(TABLE_USER_SPECIFIED_NUMBERS, KEY_PHONE_NUMBER + " = ?", new String[]{phoneNumber});
-        PhoneNumber n = new PhoneNumber(mContext,this,phoneNumber);
+        PhoneNumber n = new PhoneNumber(mContext, this, phoneNumber);
         updateLogsHistory(phoneNumber, n.getCostType());
     }
 
     public ArrayList<String> getUserSpecifiedNumbers(CostType costType) {
-        String selectQuery = "SELECT * FROM "+TABLE_USER_SPECIFIED_NUMBERS+
-                             " WHERE "+KEY_COST_TYPE+" = "+costType.ordinal();
+        String selectQuery = "SELECT * FROM " + TABLE_USER_SPECIFIED_NUMBERS +
+                " WHERE " + KEY_COST_TYPE + " = " + costType.ordinal();
         Cursor c = db.rawQuery(selectQuery, null);
-        ArrayList<String> list=new ArrayList<>(c.getCount());
-        if(c.getCount()>0){
+        ArrayList<String> list = new ArrayList<>(c.getCount());
+        if (c.getCount() > 0) {
             if (c.moveToFirst()) {
                 do {
                     list.add(c.getString(0));
@@ -196,9 +196,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String nationalNumber = String.valueOf(phoneNumber.getNationalNumber());
         String withCountryCode = phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164);
 
-        String selectQuery = "SELECT * FROM "+TABLE_USER_SPECIFIED_NUMBERS+" WHERE "+ KEY_PHONE_NUMBER +" IN(?,?,?) ";
-        Cursor c = db.rawQuery(selectQuery, new String[] { nationalNumber,"0"+nationalNumber,withCountryCode });
-        if(c.getCount()>0) {
+        String selectQuery = "SELECT * FROM " + TABLE_USER_SPECIFIED_NUMBERS + " WHERE " + KEY_PHONE_NUMBER + " IN(?,?,?) ";
+        Cursor c = db.rawQuery(selectQuery, new String[]{nationalNumber, "0" + nationalNumber, withCountryCode});
+        if (c.getCount() > 0) {
             c.moveToFirst();
             CostType costType = CostType.values()[c.getInt(1)];
             c.close();
@@ -209,7 +209,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public String isUserSpecifiedNumberExists(String numberStr){  //returns in which format usernumber exists
+    public String isUserSpecifiedNumberExists(String numberStr) {  //returns in which format usernumber exists
 
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         Phonenumber.PhoneNumber phoneNumber;
@@ -223,9 +223,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String nationalNumber = String.valueOf(phoneNumber.getNationalNumber());
         String withCountryCode = phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164);
 
-        String selectQuery = "SELECT * FROM "+TABLE_USER_SPECIFIED_NUMBERS+" WHERE "+ KEY_PHONE_NUMBER +" IN(?,?,?) ";
-        Cursor c = db.rawQuery(selectQuery, new String[] { nationalNumber,"0"+nationalNumber,withCountryCode });
-        if(c.getCount()>0) {
+        String selectQuery = "SELECT * FROM " + TABLE_USER_SPECIFIED_NUMBERS + " WHERE " + KEY_PHONE_NUMBER + " IN(?,?,?) ";
+        Cursor c = db.rawQuery(selectQuery, new String[]{nationalNumber, "0" + nationalNumber, withCountryCode});
+        if (c.getCount() > 0) {
             c.moveToFirst();
             String number = c.getString(0);
             c.close();
@@ -239,43 +239,43 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void addToLogsHistory(CallDetails callDetails, boolean checkDupe) {
         if (checkDupe && isDuplicateLog(callDetails)) {
-            if(AppGlobals.showLogs)
-                AppGlobals.log(this,"Do not add duplicate log");
+            if (AppGlobals.showLogs)
+                AppGlobals.log(this, "Do not add duplicate log");
             return;
         }
         ContentValues cv = new ContentValues();
-        cv.put(KEY_PHONE_NUMBER,callDetails.getPhoneNumber());
-        cv.put(KEY_NATIONAL_NUMBER,callDetails.getNationalNumber());
-        cv.put(KEY_PHONE_NUMBER_TYPE,callDetails.getPhoneNumberType().ordinal());
-        cv.put(KEY_CALL_DURATION,callDetails.getDuration());
-        cv.put(KEY_COST_TYPE,callDetails.getCostType().ordinal());
-        cv.put(KEY_CALL_TYPE,callDetails.getCallType().ordinal());
-        cv.put(KEY_IS_ROAMING,callDetails.isRoaming());
+        cv.put(KEY_PHONE_NUMBER, callDetails.getPhoneNumber());
+        cv.put(KEY_NATIONAL_NUMBER, callDetails.getNationalNumber());
+        cv.put(KEY_PHONE_NUMBER_TYPE, callDetails.getPhoneNumberType().ordinal());
+        cv.put(KEY_CALL_DURATION, callDetails.getDuration());
+        cv.put(KEY_COST_TYPE, callDetails.getCostType().ordinal());
+        cv.put(KEY_CALL_TYPE, callDetails.getCallType().ordinal());
+        cv.put(KEY_IS_ROAMING, callDetails.isRoaming());
         cv.put(KEY_CACHED_CONTACT_NAME, callDetails.getCachedContactName());
-        cv.put(KEY_DATE,callDetails.getDate());
-        cv.put(KEY_IS_HIDDEN,callDetails.isHidden());
-        cv.put(KEY_GEO_LOCATION,callDetails.getNumberLocation());
+        cv.put(KEY_DATE, callDetails.getDate());
+        cv.put(KEY_IS_HIDDEN, callDetails.isHidden());
+        cv.put(KEY_GEO_LOCATION, callDetails.getNumberLocation());
         db.insert(TABLE_LOGS_HISTORY, null, cv);
         AppGlobals.sendUpdateMessage();
     }
 
     private boolean isDuplicateLog(CallDetails c) {
-        String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY + " WHERE " + KEY_DATE + "=" + c.getDate()
+        String selectQuery = "SELECT * FROM " + TABLE_LOGS_HISTORY + " WHERE " + KEY_DATE + "=" + c.getDate()
                 + " AND " + KEY_NATIONAL_NUMBER + "=" + c.getNationalNumber()
                 + " AND " + KEY_CALL_DURATION + "=" + c.getDuration()
                 + " AND " + KEY_CALL_TYPE + " = " + c.getCallType().ordinal();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        if(cursor.getCount()>0)
+        if (cursor.getCount() > 0)
             return true;
         return false;
     }
 
     //retrives logs for HomeActivity
-    public ArrayList<CallDetails> getLogsHistory(){
-        String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY + " WHERE " + KEY_IS_HIDDEN + "=0"+" ORDER BY "+KEY_DATE+" DESC";
-        Cursor c = db.rawQuery(selectQuery,null);
+    public ArrayList<CallDetails> getLogsHistory() {
+        String selectQuery = "SELECT * FROM " + TABLE_LOGS_HISTORY + " WHERE " + KEY_IS_HIDDEN + "=0" + " ORDER BY " + KEY_DATE + " DESC";
+        Cursor c = db.rawQuery(selectQuery, null);
         ArrayList<CallDetails> list = new ArrayList<>();
-        if(c.moveToFirst()){
+        if (c.moveToFirst()) {
             do {
                 CallDetails cd = new CallDetails();
                 cd.setCallID(c.getInt(0));
@@ -288,7 +288,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 cd.setPhoneNumberType(PhoneNumberUtil.PhoneNumberType.values()[c.getInt(7)]);
                 cd.setDuration(c.getInt(8));
                 cd.setDate(c.getLong(9));
-                cd.setHidden(c.getInt(10)==1);
+                cd.setHidden(c.getInt(10) == 1);
                 cd.setNumberLocation(c.getString(11));
                 list.add(cd);
             } while (c.moveToNext());
@@ -298,12 +298,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<CallDetails> getUnknownLogsHistory() {
-        String selectQuery = "SELECT DISTINCT "+KEY_NATIONAL_NUMBER+","+ KEY_PHONE_NUMBER+","+ KEY_CACHED_CONTACT_NAME+" FROM "+TABLE_LOGS_HISTORY+
-                             " WHERE "+ KEY_COST_TYPE +" = "+CostType.UNKNOWN.ordinal()+" AND "+KEY_CALL_DURATION+">0";
-        Cursor c = db.rawQuery(selectQuery,null);
+        String selectQuery = "SELECT DISTINCT " + KEY_NATIONAL_NUMBER + "," + KEY_PHONE_NUMBER + "," + KEY_CACHED_CONTACT_NAME + " FROM " + TABLE_LOGS_HISTORY +
+                " WHERE " + KEY_COST_TYPE + " = " + CostType.UNKNOWN.ordinal() + " AND " + KEY_CALL_DURATION + ">0";
+        Cursor c = db.rawQuery(selectQuery, null);
 
         ArrayList<CallDetails> list = new ArrayList<>();
-        if(c.moveToFirst()) {
+        if (c.moveToFirst()) {
             do {
                 CallDetails cd = new CallDetails();
                 cd.setNationalNumber(c.getString(0));
@@ -323,14 +323,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 && lastCallLog.duration == c.duration
                 && lastCallLog.nationalNumber.equals(c.nationalNumber);
         if (AppGlobals.showLogs)
-            AppGlobals.log(this,"isDuplicatewithLastLog:\n1."+c+"\n2."+lastCallLog+"\nisEqual"+isEqual);
+            AppGlobals.log(this, "isDuplicatewithLastLog:\n1." + c + "\n2." + lastCallLog + "\nisEqual" + isEqual);
         return isEqual;
     }
 
-    public CallDetails getLastCall(){
-        String selectQuery = "SELECT * FROM "+ TABLE_LOGS_HISTORY + " WHERE " + KEY_IS_HIDDEN + "=0" +" ORDER BY "+KEY_DATE+" DESC";
-        Cursor c = db.rawQuery(selectQuery,null);
-        if (c.getCount()>0 && c.moveToFirst()) {
+    public CallDetails getLastCall() {
+        String selectQuery = "SELECT * FROM " + TABLE_LOGS_HISTORY + " WHERE " + KEY_IS_HIDDEN + "=0" + " ORDER BY " + KEY_DATE + " DESC";
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.getCount() > 0 && c.moveToFirst()) {
             CallDetails cd = new CallDetails();
             cd.setCallID(c.getInt(0));
             cd.setCachedContactName(c.getString(1));
@@ -342,7 +342,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             cd.setPhoneNumberType(PhoneNumberUtil.PhoneNumberType.values()[c.getInt(7)]);
             cd.setDuration(c.getInt(8));
             cd.setDate(c.getLong(9));
-            cd.setHidden(c.getInt(10)==1);
+            cd.setHidden(c.getInt(10) == 1);
             cd.setNumberLocation(c.getString(11));
             c.close();
             return cd;
@@ -360,23 +360,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         boolean isValid = phoneUtil.isValidNumber(phoneNumber);
 
-        if(!isValid) {
+        if (!isValid) {
             AppGlobals.log(this, "getMobileCostType() phoneNumber is not valid:" + phoneNumber.getRawInput());
         }
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
         String userState = sp.getString(AppGlobals.PKEY_USER_CIRCLE, null);
         String numberState = getMobileNumberState(phoneNumber.getNationalNumber());
-        if(numberState == null || userState == null || numberState.isEmpty() || userState.isEmpty()) {
+        if (numberState == null || userState == null || numberState.isEmpty() || userState.isEmpty()) {
             return CostType.UNKNOWN;
         } else if (userState.equals(numberState)) {
             return CostType.LOCAL;
-        }else {
+        } else {
             return CostType.STD;
         }
     }
 
-    public int getTotalSeconds(long startDate,long endDate,CallType callType,CostType costType) { //if costtype is null give total
+    public int getTotalSeconds(long startDate, long endDate, CallType callType, CostType costType) { //if costtype is null give total
         boolean isMinuteMode = AppGlobals.isMinuteMode;
 
         StringBuffer query = new StringBuffer();
@@ -386,38 +386,38 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             query.append("SELECT sum(" + KEY_CALL_DURATION + ")/60+1 FROM " + TABLE_LOGS_HISTORY);
         }*/
 
-        query.append("SELECT "+KEY_CALL_DURATION+" FROM "+TABLE_LOGS_HISTORY);
+        query.append("SELECT " + KEY_CALL_DURATION + " FROM " + TABLE_LOGS_HISTORY);
 
-        query.append(" WHERE "+KEY_DATE+" BETWEEN "
-                +startDate+" AND "+endDate+" AND "+KEY_CALL_TYPE+"="+callType.ordinal());
+        query.append(" WHERE " + KEY_DATE + " BETWEEN "
+                + startDate + " AND " + endDate + " AND " + KEY_CALL_TYPE + "=" + callType.ordinal());
 
-        if(costType == null) { //total except free for outgoing
-            if(callType == CallType.OUTGOING)
+        if (costType == null) { //total except free for outgoing
+            if (callType == CallType.OUTGOING)
                 query.append(" AND " + KEY_COST_TYPE + "<>" + CostType.FREE.ordinal());
-        } else if(costType == CostType.ROAMING){
-            query.append(" AND "+KEY_IS_ROAMING+"="+1);
+        } else if (costType == CostType.ROAMING) {
+            query.append(" AND " + KEY_IS_ROAMING + "=" + 1);
         } else {
-            query.append(" AND "+KEY_COST_TYPE+"="+costType.ordinal()+" AND "+KEY_IS_ROAMING+"="+0);
+            query.append(" AND " + KEY_COST_TYPE + "=" + costType.ordinal() + " AND " + KEY_IS_ROAMING + "=" + 0);
         }
 
-        query.append(" AND "+KEY_CALL_DURATION+">0");
+        query.append(" AND " + KEY_CALL_DURATION + ">0");
 
         Cursor c = db.rawQuery(query.toString(), null);
-        if(c.getCount()>0) {
+        if (c.getCount() > 0) {
             c.moveToFirst();
-            if(isMinuteMode) {
-                int minutes=0;
+            if (isMinuteMode) {
+                int minutes = 0;
                 do {
-                    minutes += c.getInt(0)/60;
-                    if(c.getInt(0)%60!=0) minutes++;
-                }while (c.moveToNext());
+                    minutes += c.getInt(0) / 60;
+                    if (c.getInt(0) % 60 != 0) minutes++;
+                } while (c.moveToNext());
                 c.close();
-                return minutes*60;
+                return minutes * 60;
             } else {
-                int seconds=0;
+                int seconds = 0;
                 do {
                     seconds += c.getInt(0);
-                }while (c.moveToNext());
+                } while (c.moveToNext());
                 c.close();
                 return seconds;
                 /*if(seconds%60==0)
@@ -432,35 +432,35 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     //retrives log list for LogListActivity
-    public ArrayList<CallDetails>  getLogList(long startDate,long endDate,CallType callType,CostType costType) { //if costtype is null give total
+    public ArrayList<CallDetails> getLogList(long startDate, long endDate, CallType callType, CostType costType) { //if costtype is null give total
         boolean isMinuteMode = AppGlobals.isMinuteMode;
 
         StringBuffer query = new StringBuffer();
-        if(isMinuteMode) {
-            query.append("SELECT * FROM "+TABLE_LOGS_HISTORY);
+        if (isMinuteMode) {
+            query.append("SELECT * FROM " + TABLE_LOGS_HISTORY);
         } else {
-            query.append("SELECT * FROM "+TABLE_LOGS_HISTORY);
+            query.append("SELECT * FROM " + TABLE_LOGS_HISTORY);
         }
 
-        query.append(" WHERE "+ KEY_IS_HIDDEN + "=0 AND "+KEY_DATE+" BETWEEN "
-                +startDate+" AND "+endDate+" AND "+KEY_CALL_TYPE+"="+callType.ordinal());
+        query.append(" WHERE " + KEY_IS_HIDDEN + "=0 AND " + KEY_DATE + " BETWEEN "
+                + startDate + " AND " + endDate + " AND " + KEY_CALL_TYPE + "=" + callType.ordinal());
 
-        if(costType == null) { //total except free for outgoing
-            if(callType == CallType.OUTGOING)
+        if (costType == null) { //total except free for outgoing
+            if (callType == CallType.OUTGOING)
                 query.append(" AND " + KEY_COST_TYPE + "<>" + CostType.FREE.ordinal());
-        } else if(costType == CostType.ROAMING){
-            query.append(" AND "+KEY_IS_ROAMING+"="+1);
+        } else if (costType == CostType.ROAMING) {
+            query.append(" AND " + KEY_IS_ROAMING + "=" + 1);
         } else {
-            query.append(" AND "+KEY_COST_TYPE+"="+costType.ordinal()+" AND "+KEY_IS_ROAMING+"="+0);
+            query.append(" AND " + KEY_COST_TYPE + "=" + costType.ordinal() + " AND " + KEY_IS_ROAMING + "=" + 0);
         }
 
-        query.append(" AND "+KEY_CALL_DURATION+">0");
+        query.append(" AND " + KEY_CALL_DURATION + ">0");
 
-        query.append(" ORDER BY "+KEY_DATE+" DESC");
+        query.append(" ORDER BY " + KEY_DATE + " DESC");
 
-        Cursor c = db.rawQuery(query.toString(),null);
+        Cursor c = db.rawQuery(query.toString(), null);
         ArrayList<CallDetails> list = new ArrayList<>();
-        if(c.moveToFirst()){
+        if (c.moveToFirst()) {
             do {
                 CallDetails cd = new CallDetails();
                 cd.setCallID(c.getInt(0));
@@ -473,7 +473,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 cd.setPhoneNumberType(PhoneNumberUtil.PhoneNumberType.values()[c.getInt(7)]);
                 cd.setDuration(c.getInt(8));
                 cd.setDate(c.getLong(9));
-                cd.setHidden(c.getInt(10)==1);
+                cd.setHidden(c.getInt(10) == 1);
                 cd.setNumberLocation(c.getString(11));
                 list.add(cd);
             } while (c.moveToNext());
@@ -483,7 +483,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public int getTotalSeconds(long startDate,long endDate,CallType callType,CostType costType,PhoneNumberUtil.PhoneNumberType phoneNumberType) {
+    public int getTotalSeconds(long startDate, long endDate, CallType callType, CostType costType, PhoneNumberUtil.PhoneNumberType phoneNumberType) {
         boolean isMinuteMode = AppGlobals.isMinuteMode;
 
         StringBuffer query = new StringBuffer();
@@ -497,36 +497,36 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     +startDate+" AND "+endDate+" AND "+KEY_IS_ROAMING+"=0 AND "+KEY_COST_TYPE+"="+costType.ordinal()+
                     " AND "+KEY_CALL_TYPE+"="+callType.ordinal());
         }*/
-        query.append("SELECT "+KEY_CALL_DURATION+" FROM "+TABLE_LOGS_HISTORY+" WHERE "+KEY_DATE+" BETWEEN "
-                +startDate+" AND "+endDate+" AND "+KEY_IS_ROAMING+"=0 AND "+KEY_COST_TYPE+"="+costType.ordinal()+
-                " AND "+KEY_CALL_TYPE+"="+callType.ordinal());
+        query.append("SELECT " + KEY_CALL_DURATION + " FROM " + TABLE_LOGS_HISTORY + " WHERE " + KEY_DATE + " BETWEEN "
+                + startDate + " AND " + endDate + " AND " + KEY_IS_ROAMING + "=0 AND " + KEY_COST_TYPE + "=" + costType.ordinal() +
+                " AND " + KEY_CALL_TYPE + "=" + callType.ordinal());
 
-        if(phoneNumberType == null) { //get other not mobile not fixed
+        if (phoneNumberType == null) { //get other not mobile not fixed
             query.append(" AND " + KEY_PHONE_NUMBER_TYPE + "<>" + PhoneNumberUtil.PhoneNumberType.MOBILE.ordinal() +
                     " AND " + KEY_PHONE_NUMBER_TYPE + "<>" + PhoneNumberUtil.PhoneNumberType.FIXED_LINE.ordinal());
 
         } else { //for mobile or fixed line
-            query.append(" AND "+KEY_PHONE_NUMBER_TYPE+"="+phoneNumberType.ordinal());
+            query.append(" AND " + KEY_PHONE_NUMBER_TYPE + "=" + phoneNumberType.ordinal());
         }
 
-        query.append(" AND "+KEY_CALL_DURATION+">0");
+        query.append(" AND " + KEY_CALL_DURATION + ">0");
 
         Cursor c = db.rawQuery(query.toString(), null);
-        if(c.getCount()>0) {
+        if (c.getCount() > 0) {
             c.moveToFirst();
-            if(isMinuteMode) {
-                int minutes=0;
+            if (isMinuteMode) {
+                int minutes = 0;
                 do {
-                    minutes += c.getInt(0)/60;
-                    if(c.getInt(0)%60!=0) minutes++;
-                }while (c.moveToNext());
+                    minutes += c.getInt(0) / 60;
+                    if (c.getInt(0) % 60 != 0) minutes++;
+                } while (c.moveToNext());
                 c.close();
-                return minutes*60;
+                return minutes * 60;
             } else {
-                int seconds=0;
+                int seconds = 0;
                 do {
                     seconds += c.getInt(0);
-                }while (c.moveToNext());
+                } while (c.moveToNext());
                 c.close();
                 return seconds;
                 /*if(seconds%60==0)
@@ -541,9 +541,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public long getOldestLogDate() {
-        String query = "SELECT "+KEY_DATE+" FROM "+TABLE_LOGS_HISTORY+" ORDER BY "+KEY_DATE+" LIMIT 1";
+        String query = "SELECT " + KEY_DATE + " FROM " + TABLE_LOGS_HISTORY + " ORDER BY " + KEY_DATE + " LIMIT 1";
         Cursor c = db.rawQuery(query, null);
-        if(c.getCount()>0) {
+        if (c.getCount() > 0) {
             c.moveToFirst();
             long date = c.getLong(0);
             c.close();
@@ -556,33 +556,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<UsageDetail> getUsageHistoryList() {
         ArrayList<UsageDetail> list = new ArrayList<>();
-        ArrayList<Date []> cycleList = AppGlobals.getUsageCycleArray();
-        for(Date dates[] :cycleList) {
+        ArrayList<Date[]> cycleList = AppGlobals.getUsageCycleArray();
+        for (Date dates[] : cycleList) {
             UsageDetail u = new UsageDetail();
             u.cycleDates = dates;
-            u.outgoingSeconds = getTotalSeconds(dates[0].getTime(),dates[1].getTime(),CallType.OUTGOING,null);
-            u.incomingSeconds = getTotalSeconds(dates[0].getTime(),dates[1].getTime(),CallType.INCOMING,null);
+            u.outgoingSeconds = getTotalSeconds(dates[0].getTime(), dates[1].getTime(), CallType.OUTGOING, null);
+            u.incomingSeconds = getTotalSeconds(dates[0].getTime(), dates[1].getTime(), CallType.INCOMING, null);
             list.add(u);
         }
         return list;
     }
 
     public void updateLogsOnCircleChange() {
-        String selectQuery = "SELECT DISTINCT "+ KEY_PHONE_NUMBER+" FROM "+TABLE_LOGS_HISTORY;
+        String selectQuery = "SELECT DISTINCT " + KEY_PHONE_NUMBER + " FROM " + TABLE_LOGS_HISTORY;
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if(c.moveToFirst()){
+        if (c.moveToFirst()) {
             do {
                 String phoneNumber = c.getString(0);
-                PhoneNumber n = new PhoneNumber(mContext,this,phoneNumber);
-                updateLogsHistory(phoneNumber,n.getCostType());
+                PhoneNumber n = new PhoneNumber(mContext, this, phoneNumber);
+                updateLogsHistory(phoneNumber, n.getCostType());
             } while (c.moveToNext());
         }
         c.close();
     }
 
-    public void finalize() throws Throwable{
-        if(null != db)
+    public void finalize() throws Throwable {
+        if (null != db)
             db.close();
         super.finalize();
     }

@@ -13,7 +13,8 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
     Context mContext;
     DataBaseHelper dbHelper;
     CallDetails lastCallLog;
-    MissingLogsWorker(Context c){
+
+    MissingLogsWorker(Context c) {
         mContext = c;
         dbHelper = AppGlobals.getDataBaseHelper(c);
         lastCallLog = dbHelper.getLastCall();
@@ -22,19 +23,19 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         if (mContext == null) {
-            AppGlobals.log(this,"mContext null Here");
+            AppGlobals.log(this, "mContext null Here");
             return null;
         }
         if (lastCallLog == null) {
-            AppGlobals.log(this,"lastLog null Here");
+            AppGlobals.log(this, "lastLog null Here");
             return null;
         }
-        if(AppGlobals.showLogs)
-            AppGlobals.log(this,"Adding Missing Logs");
+        if (AppGlobals.showLogs)
+            AppGlobals.log(this, "Adding Missing Logs");
         CallDetails callDetails = new CallDetails();
         Uri contacts = CallLog.Calls.CONTENT_URI;
-        String whereClause = CallLog.Calls.DATE+">"+lastCallLog.date;
-        String sortOrder = CallLog.Calls.DATE+ " ASC";
+        String whereClause = CallLog.Calls.DATE + ">" + lastCallLog.date;
+        String sortOrder = CallLog.Calls.DATE + " ASC";
         Cursor managedCursor = mContext.getContentResolver().query(contacts, null, whereClause, null, sortOrder);
         int numberid = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
         int typeid = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
@@ -42,7 +43,7 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
         int cachedNameid = managedCursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
         int durationid = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
 
-        AppGlobals.log(this," total logs to be read:"+managedCursor.getCount());
+        AppGlobals.log(this, " total logs to be read:" + managedCursor.getCount());
 
 
         while (managedCursor.moveToNext()) {
@@ -75,7 +76,7 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
                     callDetails.callType = CallType.MISSED;
                     break;
             }
-            PhoneNumber n = new PhoneNumber(mContext,dbHelper, callDetails.phoneNumber);
+            PhoneNumber n = new PhoneNumber(mContext, dbHelper, callDetails.phoneNumber);
             callDetails.costType = n.getCostType();
             callDetails.nationalNumber = n.getNationalNumber();
             callDetails.phoneNumberType = n.getPhoneNumberType();
@@ -86,7 +87,7 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
             remember this missing logs are found very rarely*/
             TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
             callDetails.isRoaming = manager.isNetworkRoaming();
-            dbHelper.addToLogsHistory(callDetails,true);
+            dbHelper.addToLogsHistory(callDetails, true);
         }
         managedCursor.close();
         return null;

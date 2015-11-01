@@ -42,7 +42,7 @@ public class UnknownListViewAdapter extends BaseAdapter implements AdapterView.O
         TextView nameOrNumber = (TextView) rowView.findViewById(R.id.nameorNumberItem);
         TextView number = (TextView) rowView.findViewById(R.id.phoneNumberItem);
 
-        if(data.get(position).getCachedContactName()!=null && !data.get(position).getCachedContactName().isEmpty()) {
+        if (data.get(position).getCachedContactName() != null && !data.get(position).getCachedContactName().isEmpty()) {
             nameOrNumber.setText(data.get(position).getCachedContactName());
             number.setVisibility(View.VISIBLE);
             number.setText(data.get(position).getPhoneNumber());
@@ -63,6 +63,7 @@ public class UnknownListViewAdapter extends BaseAdapter implements AdapterView.O
             OnButtonClickListener(int position) {
                 this.position = position;
             }
+
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
@@ -98,7 +99,7 @@ public class UnknownListViewAdapter extends BaseAdapter implements AdapterView.O
             }
         }
 
-        OnButtonClickListener onClickListener =  new OnButtonClickListener(position);
+        OnButtonClickListener onClickListener = new OnButtonClickListener(position);
         free.setOnClickListener(onClickListener);
         local.setOnClickListener(onClickListener);
         std.setOnClickListener(onClickListener);

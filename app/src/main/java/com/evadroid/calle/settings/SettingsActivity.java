@@ -13,6 +13,7 @@ import com.evadroid.calle.AppGlobals;
 public class SettingsActivity extends AppCompatActivity {
 
     private SettingsFragment mFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,17 +30,17 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled ( true );
+        actionbar.setDisplayHomeAsUpEnabled(true);
 
-        if(!AppGlobals.isTablet(this)) {
+        if (!AppGlobals.isTablet(this)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       int id = item.getItemId();
-       if(id == android.R.id.home) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
             this.finish();
             return true;
         }
