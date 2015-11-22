@@ -163,7 +163,7 @@ public class NumberListActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(userInput.getWindowToken(), 0);
-                        String number = userInput.getText().toString();
+                        String number = userInput.getText().toString().replaceAll("\\s","");
                         if (number == null || number.isEmpty()) {
                             Toast.makeText(context, R.string.number_too_short, Toast.LENGTH_SHORT).show();
                             return;
@@ -218,7 +218,7 @@ public class NumberListActivity extends AppCompatActivity {
                             int type = c.getInt(1);
                             if (promptsView != null) {
                                 EditText userInput = (EditText) promptsView.findViewById(R.id.number_edit_text);
-                                userInput.setText(number);
+                                userInput.setText(number.replaceAll("\\s",""));
                             }
                         }
                     } finally {

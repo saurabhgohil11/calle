@@ -62,7 +62,7 @@ public class PhoneNumber {
             nationalNumber = String.valueOf(phoneNumber.getNationalNumber());
             findCostType();
         }
-
+        nationalNumber = nationalNumber.replaceAll("\\s","");
 
     }
 
