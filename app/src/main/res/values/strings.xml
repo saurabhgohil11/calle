@@ -3,6 +3,7 @@
     <string name="app_name">Call-E</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_resync">Re-Sync Logs</string>
     <string name="title_activity_unknown_numbers">Categorize Unknown Numbers</string>
     <string name="action_modify_list">Modify List</string>
     <string name="action_add_a_number">Add a Number</string>

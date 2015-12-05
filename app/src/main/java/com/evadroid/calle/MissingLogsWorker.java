@@ -13,11 +13,19 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
     Context mContext;
     DataBaseHelper dbHelper;
     CallDetails lastCallLog;
+    boolean isResyncTask;
 
-    MissingLogsWorker(Context c) {
+    MissingLogsWorker(Context c, boolean reSync) {
         mContext = c;
         dbHelper = AppGlobals.getDataBaseHelper(c);
         lastCallLog = dbHelper.getLastCall();
+        isResyncTask = reSync;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        HomeActivity.mHandler.sendEmptyMessage(HomeActivity.DISMISS_PROGRESS_DIALOG);
     }
 
     @Override
@@ -26,7 +34,7 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
             AppGlobals.log(this, "mContext null Here");
             return null;
         }
-        if (lastCallLog == null) {
+        if (lastCallLog == null && !isResyncTask) {
             AppGlobals.log(this, "lastLog null Here");
             return null;
         }
@@ -34,7 +42,12 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
             AppGlobals.log(this, "Adding Missing Logs");
         CallDetails callDetails = new CallDetails();
         Uri contacts = CallLog.Calls.CONTENT_URI;
-        String whereClause = CallLog.Calls.DATE + ">" + lastCallLog.date;
+
+        String whereClause = null;
+        if (!isResyncTask) {
+            whereClause = CallLog.Calls.DATE + ">" + lastCallLog.date;
+        }
+
         String sortOrder = CallLog.Calls.DATE + " ASC";
         Cursor managedCursor = mContext.getContentResolver().query(contacts, null, whereClause, null, sortOrder);
         int numberid = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -62,6 +66,7 @@ public class HomeActivity extends AppCompatActivity {
     public static final int UPDATE_FLIPPERS = 302;
     public static final int UPDATE_LAST_CALL = 303;
     public static final int SHOW_CUG_DIALOG = 304;
+    public static final int DISMISS_PROGRESS_DIALOG = 305;
 
     LinearLayout tabContainer;
     LinearLayout tabs;
@@ -112,6 +117,7 @@ public class HomeActivity extends AppCompatActivity {
     //----this month tab ends-----
 
     boolean permissionGranted;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +165,10 @@ public class HomeActivity extends AppCompatActivity {
                             AppGlobals.log(this, "in HandleMessage : msg =SHOW_CUG_DIALOG");
                             showFirstTimeCUGDialog();
                             break;
+                        case DISMISS_PROGRESS_DIALOG:
+                            AppGlobals.log(this, "in HandleMessage : msg =DISMISS_PROGRESS_DIALOG");
+                            dismissProgressDialog();
+                            break;
                     }
                 }
             };
@@ -187,9 +197,30 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            onSettingsClicked(null);
+            return true;
+        } else if (id == R.id.action_resync) {
+            reSyncLogs();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void addMissingLogsAfterLastLog() {
         if (permissionGranted)
-            new MissingLogsWorker(this).execute();
+            new MissingLogsWorker(this, false).execute();
     }
 
     public static List<CallDetails> getLogsHistoryData() {
@@ -249,6 +280,9 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void initUI() {
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         thisMonthButton = (Button) findViewById(R.id.this_month_tab_button);
         logsButton = (Button) findViewById(R.id.logs_tab_button);
@@ -553,6 +587,17 @@ public class HomeActivity extends AppCompatActivity {
 
         alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    private void reSyncLogs() {
+        progressDialog = ProgressDialog.show(this, "Please wait!", "Updating Logs...", true);
+        new MissingLogsWorker(this, true).execute();
+    }
+
+    private void dismissProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 
     @Override

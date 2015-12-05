@@ -116,9 +116,9 @@ public class CallStateReceiver extends BroadcastReceiver {
         }
 
         if (missingLogsWorker == null)
-            missingLogsWorker = new MissingLogsWorker(context);
+            missingLogsWorker = new MissingLogsWorker(context, false);
         if (missingLogsWorker.getStatus() == AsyncTask.Status.FINISHED)
-            missingLogsWorker = new MissingLogsWorker(context);
+            missingLogsWorker = new MissingLogsWorker(context, false);
 
         if (intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
             isOutgoing = true;
