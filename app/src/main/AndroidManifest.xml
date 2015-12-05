@@ -35,10 +35,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.evadroid.calle.settings.ModifyNumberListActivity"
-            android:label="@string/title_activity_modify_number_list" >
-        </activity>
-        <activity
             android:name="com.evadroid.calle.settings.SettingsActivity"
             android:label="@string/action_settings"
             android:theme="@style/AppThemePreference" >

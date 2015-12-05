@@ -24,6 +24,9 @@
 
         <item name="android:spinnerDropDownItemStyle">@style/RobotoSpinnerItemStyle</item>
         <item name="android:radioButtonStyle">@style/RobotoRadioButtonStyle</item>
+
+        <item name="actionModeBackground">@color/action_bar_primary_dark_color</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
     <!-- Base application theme. -->
     <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">

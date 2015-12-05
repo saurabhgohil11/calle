@@ -6,18 +6,25 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -25,13 +32,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.evadroid.calle.AppGlobals;
-import com.evadroid.calle.CallDetails;
 import com.evadroid.calle.CostType;
 import com.evadroid.calle.R;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class NumberListActivity extends AppCompatActivity {
@@ -44,7 +51,7 @@ public class NumberListActivity extends AppCompatActivity {
     int activityType = TYPE_UNKNOW;
     CostType costType;
 
-    ListView numbersListView;
+    ListView numberListView;
     TextView noItemsTextView;
 
     View promptsView;
@@ -52,7 +59,10 @@ public class NumberListActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     MenuItem modifyListMenuButton;
     ArrayList<String> numberList;
-    ArrayList<CallDetails> callDetailList;
+    SparseBooleanArray mCheckedItems;
+    CheckedTextView mSelectAllCheck;
+    ActionBarCallBack mActionBarCallback;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +90,24 @@ public class NumberListActivity extends AppCompatActivity {
             setTitle(getResources().getString(R.string.title_local_numbers));
         }
 
-        numbersListView = (ListView) findViewById(R.id.numberListView);
+        numberListView = (ListView) findViewById(R.id.numberListView);
         noItemsTextView = (TextView) findViewById(R.id.no_items_text_view);
+        mSelectAllCheck = (CheckedTextView) findViewById(R.id.select_all_check);
 
+        mCheckedItems = new SparseBooleanArray();
         numberList = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, numberList);
-        numbersListView.setAdapter(adapter);
+        adapter = new NumberListAdapter(this, R.layout.number_list_item, numberList);
+        numberListView.setAdapter(adapter);
+        numberListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mCheckedItems = new SparseBooleanArray(numberListView.getCount());
+                mCheckedItems.put(position, true);
+                mActionBarCallback = new ActionBarCallBack();
+                startActionMode(mActionBarCallback);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -120,9 +142,9 @@ public class NumberListActivity extends AppCompatActivity {
             showAddNumberDialog(this);
             return true;
         } else if (id == R.id.action_modify_list) {
-            Intent i = new Intent(this, ModifyNumberListActivity.class);
-            i.putExtra("activity_type", activityType);
-            startActivity(i);
+            mCheckedItems = new SparseBooleanArray(numberListView.getCount());
+            mActionBarCallback = new ActionBarCallBack();
+            startActionMode(mActionBarCallback);
         } else if (id == android.R.id.home) {
             this.finish();
             return true;
@@ -163,7 +185,7 @@ public class NumberListActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(userInput.getWindowToken(), 0);
-                        String number = userInput.getText().toString().replaceAll("\\s","");
+                        String number = userInput.getText().toString().replaceAll("\\s", "");
                         if (number == null || number.isEmpty()) {
                             Toast.makeText(context, R.string.number_too_short, Toast.LENGTH_SHORT).show();
                             return;
@@ -218,7 +240,7 @@ public class NumberListActivity extends AppCompatActivity {
                             int type = c.getInt(1);
                             if (promptsView != null) {
                                 EditText userInput = (EditText) promptsView.findViewById(R.id.number_edit_text);
-                                userInput.setText(number.replaceAll("\\s",""));
+                                userInput.setText(number.replaceAll("\\s", ""));
                             }
                         }
                     } finally {
@@ -231,26 +253,196 @@ public class NumberListActivity extends AppCompatActivity {
         }
     }
 
+    public void onSelectAllClicked(View v) {
+        if (mSelectAllCheck.isChecked()) {
+            mSelectAllCheck.setChecked(false);
+            mCheckedItems.clear();
+        } else {
+            mSelectAllCheck.setChecked(true);
+            int size = numberListView.getCount();
+            while (size > 0) {
+                size--;
+                mCheckedItems.put(size, true);
+            }
+        }
+        adapter.notifyDataSetInvalidated();
+        mActionBarCallback.actionMode.invalidate();
+    }
+
     public void updateListView() {
         numberList.clear();
         numberList.addAll(AppGlobals.getDataBaseHelper().getUserSpecifiedNumbers(costType));
         adapter.notifyDataSetChanged();
-        numbersListView.invalidate();
+        numberListView.invalidate();
 
         if (numberList == null || numberList.isEmpty()) {
             noItemsTextView.setVisibility(View.VISIBLE);
-            numbersListView.setVisibility(View.GONE);
+            numberListView.setVisibility(View.GONE);
             if (modifyListMenuButton != null)
                 modifyListMenuButton.setVisible(false);
         } else {
             noItemsTextView.setVisibility(View.GONE);
-            numbersListView.setVisibility(View.VISIBLE);
+            numberListView.setVisibility(View.VISIBLE);
             if (modifyListMenuButton != null)
                 modifyListMenuButton.setVisible(true);
         }
         invalidateOptionsMenu();
     }
 
+    //adapter to handle checkedTextView states
+    public class NumberListAdapter extends ArrayAdapter<String> {
+
+        List<String> items;
+        int itemResource;
+        LayoutInflater inflater;
+        Drawable checkIndicator;
+
+        public NumberListAdapter(Context ctx, int resource, List<String> objects) {
+            super(ctx, resource, objects);
+            this.items = objects;
+            this.itemResource = resource;
+            this.inflater = ((NumberListActivity) ctx).getLayoutInflater();
+        }
+
+        @Override
+        public View getView(int pos, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = inflater.inflate(itemResource, parent, false);
+            }
+            CheckedTextView checkView = (CheckedTextView) convertView;
+
+            checkView.setText(items.get(pos));
+            if (mCheckedItems.get(pos))
+                checkView.setChecked(true);
+            else
+                checkView.setChecked(false);
+
+            int[] attrs = {android.R.attr.listChoiceIndicatorMultiple};
+            TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
+            checkIndicator = ta.getDrawable(0);
+            ta.recycle();
+            if (mActionBarCallback != null)
+                checkView.setCheckMarkDrawable(checkIndicator);
+            else
+                checkView.setCheckMarkDrawable(null);
+
+            return convertView;
+        }
+    }
+
+    //action mode to delete items
+    public class ActionBarCallBack implements ListView.OnItemClickListener,
+            ActionMode.Callback {
+
+        ActionMode actionMode;
+        AdapterView.OnItemClickListener previousListener;
+        AdapterView.OnItemLongClickListener previousLongClickListener;
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            actionMode = mode;
+            mode.getMenuInflater().inflate(R.menu.modify_number_list_menu, menu);
+            previousListener = numberListView.getOnItemClickListener();
+            previousLongClickListener = numberListView.getOnItemLongClickListener();
+            numberListView.setOnItemClickListener(this);
+            numberListView.setOnItemLongClickListener(null);
+            mSelectAllCheck.setVisibility(View.VISIBLE);
+            int selectedCount = mCheckedItems.size();
+            if (selectedCount == 0) {
+                menu.findItem(R.id.action_delete_items).setEnabled(false);
+            } else {
+                menu.findItem(R.id.action_delete_items).setEnabled(true);
+            }
+            if (selectedCount == numberListView.getCount()) {
+                mSelectAllCheck.setChecked(true);
+            } else {
+                mSelectAllCheck.setChecked(false);
+            }
+            actionMode.setTitle(selectedCount + " Items selected");
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            int selectedCount = mCheckedItems.size();
+
+            if (selectedCount == 0) {
+                menu.findItem(R.id.action_delete_items).setEnabled(false);
+            } else {
+                menu.findItem(R.id.action_delete_items).setEnabled(true);
+            }
+            actionMode.setTitle(selectedCount + " Items selected");
+            return true;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.action_delete_items:
+                    showConfirmationDialog1();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mSelectAllCheck.setVisibility(View.GONE);
+            numberListView.setOnItemClickListener(previousListener);
+            numberListView.setOnItemLongClickListener(previousLongClickListener);
+            mCheckedItems.clear();
+            mActionBarCallback = null;
+            updateListView();
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view,
+                                int position, long id) {
+            CheckedTextView checkView = (CheckedTextView) view;
+            boolean state = checkView.isChecked();
+            checkView.setChecked(!state);
+
+            if (!mCheckedItems.get(position))
+                mCheckedItems.put(position, true);
+            else
+                mCheckedItems.delete(position);
+
+            if (mCheckedItems.size() == numberListView.getCount()) {
+                mSelectAllCheck.setChecked(true);
+            } else {
+                mSelectAllCheck.setChecked(false);
+            }
+            actionMode.invalidate();
+        }
+
+        private void showConfirmationDialog1() {
+            new AlertDialog.Builder(NumberListActivity.this)
+                    .setTitle("Delete Numbers")
+                    .setMessage(mCheckedItems.size() + " Number(s) will be deleted.")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteSelectedItems();
+                        }
+
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        }
+
+        private void deleteSelectedItems() {
+            int count = numberListView.getCount();
+            for (int i = 0; i < count; i++) {
+                if (mCheckedItems.get(i)) {
+                    AppGlobals.getDataBaseHelper(getApplicationContext()).deleteUserSpecifiedNumber(numberListView.getItemAtPosition(i).toString());
+                }
+            }
+            actionMode.finish();
+        }
+    }
 }
+
+
 
 

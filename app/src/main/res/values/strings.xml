@@ -8,7 +8,6 @@
     <string name="action_modify_list">Modify List</string>
     <string name="action_add_a_number">Add a Number</string>
     <string name="select_all">Select All</string>
-    <string name="title_activity_modify_number_list">Select Numbers to Delete</string>
     <string name="bill_cycle">Bill Cycle</string>
     <string name="title_activity_help">Help</string>
     <string name="no_items_in_list">No Items In The List</string>
