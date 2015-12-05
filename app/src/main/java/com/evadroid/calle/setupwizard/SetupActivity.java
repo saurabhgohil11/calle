@@ -3,6 +3,7 @@ package com.evadroid.calle.setupwizard;
 import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -305,6 +307,13 @@ public class SetupActivity extends AppCompatActivity {
                                     }
                                     if (index > -1) {
                                         stateSpinner.setSelection(index, true);
+                                    }
+                                }
+                                if (number.length() == 10) {
+                                    View view = getActivity().getCurrentFocus();
+                                    if (view != null) {
+                                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                                     }
                                 }
                             }
