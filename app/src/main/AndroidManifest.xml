@@ -90,6 +90,9 @@
                 <data android:scheme="com.evadroid.calle.terms"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MostContactedListActivity"
+            android:label="@string/most_talked_contacts"></activity>
     </application>
 
 </manifest>

@@ -173,8 +173,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
 
-            <!-- For version 2.0 most talked contacts feature -->
-            <!--LinearLayout
+            <LinearLayout
                 android:id="@+id/home_frequent_contacts"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -207,22 +206,27 @@
                             android:id="@+id/frequent_caller_2"
                             layout="@layout/circular_caller_item"/>
                         <include
-                            android:id="@+id/frequent_caller_2"
+                            android:id="@+id/frequent_caller_3"
                             layout="@layout/circular_caller_item"/>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="#aaaaaa" />
+                    android:layout_marginLeft="@dimen/cards_padding_side"
+                    android:layout_marginRight="@dimen/cards_padding_side"
+                    android:background="#c6c6c6" />
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/cards_padding_side"
+                    android:paddingRight="@dimen/cards_padding_side"
                     android:gravity="left|center_vertical"
                     android:textColor="#777"
                     android:background="?android:attr/selectableItemBackground"
                     android:text="@string/more_info"
-                    android:drawableLeft="@drawable/ic_next_arrow"/>
-            </LinearLayout-->
+                    android:drawableLeft="@drawable/ic_next_arrow"
+                    android:onClick="onMoreInfoMostContactedClicked"/>
+            </LinearLayout>
 
         </LinearLayout>
 

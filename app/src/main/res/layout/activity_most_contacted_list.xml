@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.evadroid.calle.MostContactedListActivity">
+
+    <ListView
+        android:id="@+id/most_contacted_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@drawable/line_divider"
+        android:scrollbars="vertical"
+        tools:context=".HomeActivity"
+        tools:listitem="@layout/list_item_most_contacted" />
+
+</RelativeLayout>

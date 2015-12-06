@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/log_list_item_padding_top_bottom"
+    android:paddingLeft="@dimen/log_list_item_padding_side"
+    android:paddingRight="@dimen/log_list_item_padding_side"
+    android:paddingTop="@dimen/log_list_item_padding_top_bottom">
+
+    <Button
+        android:id="@+id/contactImageButton"
+        android:layout_width="@dimen/log_list_item_contact_image_size"
+        android:layout_height="@dimen/log_list_item_contact_image_size"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/contact_image_bg_purple"
+        android:clickable="false"
+        android:fontFamily="sans-serif-thin"
+        android:text="S"
+        android:textColor="@color/text_color_white"
+        android:textSize="@dimen/log_list_item_contact_image_text_size" />
+
+    <TextView
+        android:id="@+id/nameorNumberItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:layout_toEndOf="@+id/contactImageButton"
+        android:layout_toRightOf="@+id/contactImageButton"
+        android:ellipsize="end"
+        android:maxWidth="@dimen/log_item_name_max_width"
+        android:singleLine="true"
+        android:text="Name bjdskldsjlfkjdsljdslkjlfdsklkfsl"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/log_list_item_name_text_size" />
+
+    <TextView
+        android:id="@+id/total_mins_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="1dp"
+        android:layout_toEndOf="@+id/nameorNumberItem"
+        android:layout_toRightOf="@+id/nameorNumberItem"
+        android:ellipsize="end"
+        android:gravity="right|end"
+        android:maxWidth="@dimen/log_item_name_max_width"
+        android:singleLine="true"
+        android:text="Total"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/log_list_item_name_text_size" />
+
+    <TextView
+        android:id="@+id/outgoing_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nameorNumberItem"
+        android:layout_toEndOf="@+id/contactImageButton"
+        android:layout_toRightOf="@+id/contactImageButton"
+        android:text="OUTGOING" />
+
+    <TextView
+        android:id="@+id/incoming_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/nameorNumberItem"
+        android:text="INCOMING" />
+</RelativeLayout>

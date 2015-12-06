@@ -113,6 +113,11 @@ public class HomeActivity extends AppCompatActivity {
     private TextView secondModeText;
 
     //most contacted persons
+    private LinearLayout mostContactedLayout;
+    private LinearLayout mostContactPerson1;
+    private LinearLayout mostContactPerson2;
+    private LinearLayout mostContactPerson3;
+    private static ArrayList<SummarizedCallDetail> mTopTenContacts;
 
     //----this month tab ends-----
 
@@ -183,6 +188,7 @@ public class HomeActivity extends AppCompatActivity {
             initUI();
             updateLastCall();
             updateCallCards();
+            updateMostContactPersons();
 
             fadein.setDuration(900);
             fadeout.setDuration(900);
@@ -317,6 +323,11 @@ public class HomeActivity extends AppCompatActivity {
 
         mIncomingCard = (CallMinutesCardView) findViewById(R.id.home_incoming_card);
         mOutgoingCard = (CallMinutesCardView) findViewById(R.id.home_outgoing_card);
+
+        mostContactedLayout = (LinearLayout) findViewById(R.id.home_frequent_contacts);
+        mostContactPerson1 = (LinearLayout) findViewById(R.id.frequent_caller_1);
+        mostContactPerson2 = (LinearLayout) findViewById(R.id.frequent_caller_2);
+        mostContactPerson3 = (LinearLayout) findViewById(R.id.frequent_caller_3);
 
         minuteModeText = (TextView) findViewById(R.id.mode_minutes_text);
         secondModeText = (TextView) findViewById(R.id.mode_seconds_text);
@@ -474,6 +485,7 @@ public class HomeActivity extends AppCompatActivity {
         updateLastCall();
         updateCallCards();
         updateUsageHistory();
+        updateMostContactPersons();
     }
 
     private void updateUsageHistory() {
@@ -540,6 +552,63 @@ public class HomeActivity extends AppCompatActivity {
         mOutgoingCard.setCycleAndType(cycleDates, CallType.OUTGOING);
         mIncomingCard.updateCallMinutesCard();
         mOutgoingCard.updateCallMinutesCard();
+    }
+
+    public static ArrayList<SummarizedCallDetail> getTopTenContacts() {
+        return mTopTenContacts;
+    }
+
+    private void updateMostContactPersons() {
+        Date cycleDates[] = AppGlobals.getCurrentBillCycleDates();
+        mTopTenContacts = AppGlobals.getDataBaseHelper(this).getTopTenSummary(cycleDates[0].getTime(), cycleDates[1].getTime());
+        if (mTopTenContacts.size() == 0) {
+            mostContactedLayout.setVisibility(View.GONE);
+        } else {
+            mostContactedLayout.setVisibility(View.VISIBLE);
+        }
+
+        if (mTopTenContacts.size() > 0) {
+            mostContactPerson1.setVisibility(View.VISIBLE);
+            setMostContactDetails(mostContactPerson1, mTopTenContacts.get(0));
+        } else {
+            mostContactPerson1.setVisibility(View.GONE);
+        }
+
+        if (mTopTenContacts.size() > 1) {
+            mostContactPerson2.setVisibility(View.VISIBLE);
+            setMostContactDetails(mostContactPerson2, mTopTenContacts.get(1));
+        } else {
+            mostContactPerson2.setVisibility(View.GONE);
+        }
+
+        if (mTopTenContacts.size() > 2) {
+            mostContactPerson3.setVisibility(View.VISIBLE);
+            setMostContactDetails(mostContactPerson3, mTopTenContacts.get(2));
+        } else {
+            mostContactPerson3.setVisibility(View.GONE);
+        }
+    }
+
+    private void setMostContactDetails(LinearLayout parent, SummarizedCallDetail details) {
+        TextView name;  //shows name or number if name is not avialable
+        TextView totalDuration;
+        Button contactImageButton; //shows name text
+        name = (TextView) parent.findViewById(R.id.caller_name);
+        totalDuration = (TextView) parent.findViewById(R.id.total_minutes);
+        contactImageButton = (Button) parent.findViewById(R.id.callerImage);
+
+        if (details.cachedContactName == null || details.cachedContactName.isEmpty()) {
+            contactImageButton.setText("?");
+            name.setText(details.nationalNumber);
+        } else {
+            contactImageButton.setText(String.valueOf(details.cachedContactName.toUpperCase().charAt(0)));
+            name.setText(details.cachedContactName);
+        }
+        totalDuration.setText(DateTimeUtils.timeToRoundedString(details.incomingDuration+details.outgoingDuration));
+    }
+
+    public void onMoreInfoMostContactedClicked(View v) {
+        startActivity(new Intent(this,MostContactedListActivity.class));
     }
 
     private void showFirstTimeCUGDialog() {

@@ -20,18 +20,21 @@
         android:id="@+id/caller_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxLength="10"
+        android:ellipsize="end"
+        android:layout_marginTop="2dp"
         android:textColor="@android:color/black" />
 
     <TextView
-        android:id="@+id/outgoing_minutes"
+        android:id="@+id/total_minutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12dp"/>
 
-    <TextView
+    <!--TextView
         android:id="@+id/incoming_minutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12dp"/>
+        android:textSize="12dp"/-->
 
 </LinearLayout>

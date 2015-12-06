@@ -540,6 +540,48 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public ArrayList<SummarizedCallDetail> getTopTenSummary(long startDate, long endDate) {
+        StringBuffer query = new StringBuffer();
+        query.append("SELECT " + KEY_CACHED_CONTACT_NAME + "," + KEY_NATIONAL_NUMBER + "," + KEY_PHONE_NUMBER +
+                ", sum(" + KEY_CALL_DURATION +  ") AS TOTAL_DUR" +
+                " FROM " + TABLE_LOGS_HISTORY + " WHERE " + KEY_DATE + " BETWEEN " + startDate + " AND " + endDate +
+                " GROUP BY " + KEY_NATIONAL_NUMBER + " HAVING TOTAL_DUR>0 ORDER BY TOTAL_DUR DESC");
+
+        Cursor c = db.rawQuery(query.toString(), null);
+        ArrayList<SummarizedCallDetail> list = new ArrayList<>();
+        if (c.moveToFirst()) {
+            do {
+                SummarizedCallDetail summarizedCallDetail = new SummarizedCallDetail();
+                summarizedCallDetail.cycleDates = new Date[2];
+                summarizedCallDetail.cycleDates[0] = new Date(startDate);
+                summarizedCallDetail.cycleDates[1] = new Date(endDate);
+                summarizedCallDetail.cachedContactName = c.getString(0);
+                summarizedCallDetail.nationalNumber = c.getString(1);
+                summarizedCallDetail.phoneNumber = c.getString(2);
+                summarizedCallDetail.incomingDuration = getDurationForNumber(startDate, endDate, summarizedCallDetail.nationalNumber, CallType.INCOMING);
+                summarizedCallDetail.outgoingDuration = getDurationForNumber(startDate, endDate, summarizedCallDetail.nationalNumber, CallType.OUTGOING);
+                list.add(summarizedCallDetail);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return list;
+    }
+
+    private int getDurationForNumber(long startDate, long endDate, String nationalNumber, CallType callType) {
+        StringBuffer query = new StringBuffer();
+        query.append("SELECT sum(" + KEY_CALL_DURATION +  ")" +
+                " FROM " + TABLE_LOGS_HISTORY + " WHERE " + KEY_DATE + " BETWEEN " + startDate +
+                        " AND " + endDate + " AND " + KEY_CALL_TYPE + "=" + callType.ordinal() +
+                        " AND " + KEY_NATIONAL_NUMBER + "=" + nationalNumber);
+        Cursor c = db.rawQuery(query.toString(), null);
+        int duration = 0;
+        if (c.moveToFirst()) {
+             duration = c.getInt(0);
+        }
+        c.close();
+        return duration;
+    }
+
     public long getOldestLogDate() {
         String query = "SELECT " + KEY_DATE + " FROM " + TABLE_LOGS_HISTORY + " ORDER BY " + KEY_DATE + " LIMIT 1";
         Cursor c = db.rawQuery(query, null);
