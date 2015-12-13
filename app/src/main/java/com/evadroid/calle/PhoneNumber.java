@@ -100,6 +100,11 @@ public class PhoneNumber {
         excludedRegions = AppGlobals.excludedRegionsMap.get(AppGlobals.userState);
         String phoneNumberRegion = phoneNumberLocation.toLowerCase();
 
+        if(includedRegions == null) {
+            costType = CostType.UNKNOWN;
+            return;
+        }
+
         boolean isLocal = false;
         for (String s : includedRegions) {
             if (phoneNumberRegion.contains(s)) {
