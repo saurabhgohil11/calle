@@ -28,7 +28,8 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        HomeActivity.mHandler.sendEmptyMessage(HomeActivity.DISMISS_PROGRESS_DIALOG);
+        if (HomeActivity.mHandler != null)
+            HomeActivity.mHandler.sendEmptyMessage(HomeActivity.DISMISS_PROGRESS_DIALOG);
         if (mContext != null && isResyncTask)
             Toast.makeText(mContext, R.string.logs_resynced, Toast.LENGTH_SHORT).show();
     }
