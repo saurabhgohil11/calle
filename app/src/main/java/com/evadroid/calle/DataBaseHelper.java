@@ -197,7 +197,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         try {
             phoneNumber = phoneUtil.parse(numberStr, AppGlobals.userCountryCode);
         } catch (NumberParseException e) {
+            AppGlobals.log(mContext, "NumberParseException was thrown: " + phoneNumber + e.toString());
             e.printStackTrace();
+            return null;
         }
 
         String nationalNumber = String.valueOf(phoneNumber.getNationalNumber());
