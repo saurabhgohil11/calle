@@ -2,9 +2,14 @@ package com.evadroid.calle;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +18,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -122,6 +126,110 @@ public class SimpleRecyclerViewAdapter extends
                 showLogDetailDialog(viewHolder.data, viewHolder.backgroundIndex);
             }
         });
+        viewHolder.upperLayout.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                showContextMenu(viewHolder.data);
+                return true;
+            }
+        });
+    }
+
+    private void showContextMenu(final CallDetails callDetails) {
+        final CostType userSpecifiedCostType = AppGlobals.getDataBaseHelper().getUserSpecifiedNumberType(callDetails.getPhoneNumber());
+        AlertDialog.Builder b = new AlertDialog.Builder(mContext);
+        Resources res = mContext.getResources();
+        CharSequence fakeMneuItems[] = new CharSequence[]{
+                res.getString(R.string.action_delete),
+                res.getString(R.string.action_add_to_local),
+                res.getString(R.string.action_add_to_std),
+                res.getString(R.string.action_add_to_free),
+                res.getString(R.string.action_copy_number)};
+        if (userSpecifiedCostType != null) {
+            switch (userSpecifiedCostType) {
+                case LOCAL:
+                    fakeMneuItems[1] = res.getString(R.string.action_remove_from_local);
+                    break;
+                case STD:
+                    fakeMneuItems[2] = res.getString(R.string.action_remove_from_std);
+                    break;
+                case FREE:
+                    fakeMneuItems[3] = res.getString(R.string.action_remove_from_free);
+                    break;
+            }
+        }
+
+        b.setItems(fakeMneuItems, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onOptionsItemSelected(which);
+            }
+
+            private void onOptionsItemSelected(int item) {
+                String msg;
+                String userSpecifiedNumber = AppGlobals.getDataBaseHelper().isUserSpecifiedNumberExists(callDetails.getPhoneNumber());
+                switch (item) {
+                    case 3:  //action_add_to_free
+                        if (userSpecifiedCostType == CostType.FREE) {
+                            AppGlobals.getDataBaseHelper().deleteUserSpecifiedNumber(userSpecifiedNumber);
+                            msg = String.format(mContext.getResources().getString(R.string.removed_from_free), callDetails.getPhoneNumber());
+                        } else {
+                            AppGlobals.getDataBaseHelper().addUserSpecifiedNumber(callDetails.getPhoneNumber(), CostType.FREE);
+                            msg = String.format(mContext.getResources().getString(R.string.added_to_free), callDetails.getPhoneNumber());
+                        }
+
+                        Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
+                        AppGlobals.sendUpdateMessage();
+                        break;
+                    case 1:  //action_add_to_local
+                        if (userSpecifiedCostType == CostType.LOCAL) {
+                            AppGlobals.getDataBaseHelper().deleteUserSpecifiedNumber(userSpecifiedNumber);
+                            msg = String.format(mContext.getResources().getString(R.string.removed_from_local), callDetails.getPhoneNumber());
+                        } else {
+                            AppGlobals.getDataBaseHelper().addUserSpecifiedNumber(callDetails.getPhoneNumber(), CostType.LOCAL);
+                            msg = String.format(mContext.getResources().getString(R.string.added_to_local), callDetails.getPhoneNumber());
+                        }
+                        Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
+                        AppGlobals.sendUpdateMessage();
+                        break;
+                    case 2:  //action_add_to_std
+                        if (userSpecifiedCostType == CostType.STD) {
+                            AppGlobals.getDataBaseHelper().deleteUserSpecifiedNumber(userSpecifiedNumber);
+                            msg = String.format(mContext.getResources().getString(R.string.removed_from_std), callDetails.getPhoneNumber());
+                        } else {
+                            AppGlobals.getDataBaseHelper().addUserSpecifiedNumber(callDetails.getPhoneNumber(), CostType.STD);
+                            msg = String.format(mContext.getResources().getString(R.string.added_to_std), callDetails.getPhoneNumber());
+                        }
+                        Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
+                        AppGlobals.sendUpdateMessage();
+                        break;
+                    case 0:  //action_delete
+                        int rowsDeleted = AppGlobals.getDataBaseHelper().deleteNumberFromLogs(callDetails.callID);
+                        if (rowsDeleted > 0) {
+                            Toast.makeText(mContext, R.string.delete_success, Toast.LENGTH_SHORT).show();
+                            AppGlobals.sendUpdateMessage();
+                        } else {
+                            Toast.makeText(mContext, R.string.delete_failed, Toast.LENGTH_SHORT).show();
+                        }
+
+                        break;
+                    case 4:  //action_copy_number
+                        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) AppGlobals.mContext
+                                .getSystemService(Context.CLIPBOARD_SERVICE);
+                        android.content.ClipData clip = android.content.ClipData
+                                .newPlainText("phonenumber", callDetails.getPhoneNumber());
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(mContext, R.string.copy_successful, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+        String title = (callDetails.getCachedContactName() == null || callDetails.getCachedContactName().isEmpty()) ?
+                callDetails.getNationalNumber() : callDetails.getCachedContactName();
+        b.setTitle(Html.fromHtml("<font color='#00796B'>" + title + "</font>"));
+        b.show();
     }
 
     @Override

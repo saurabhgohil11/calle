@@ -155,7 +155,7 @@
     <string name="action_remove_from_std">Remove from STD Numbers</string>
     <string name="action_remove_from_free">Remove from Free Numbers</string>
     <string name="action_remove_from_local">Remove from Local Numbers</string>
-    <string name="action_delete">Delete</string>
+    <string name="action_delete">Delete Log</string>
     <string name="action_copy_number">Copy Number</string>
     <string name="copy_successful">Copied to Clipboard</string>
     <string name="added_to_std">Added %s to STD Numbers</string>
