@@ -358,4 +358,8 @@ public class AppGlobals {
                 ContextCompat.checkSelfPermission(context, Manifest.permission.PROCESS_OUTGOING_CALLS) == PackageManager.PERMISSION_GRANTED;
     }
 
+    public static int getRandomBackgroundIndex() {
+        return (int) (0 + Math.random() * AppGlobals.bgColoredImages.length);
+    }
+
 }

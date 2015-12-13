@@ -62,6 +62,12 @@
     <PreferenceCategory
         android:title="@string/other">
 
+        <CheckBoxPreference
+            android:id="@+id/show_most_contacted"
+            android:key="show_most_contacted"
+            android:defaultValue="true"
+            android:title="@string/title_show_most_contacted"
+            android:summary="@string/summary_show_most_contacted" />
         <Preference
             android:id="@+id/reset_app"
             android:key="reset_app"

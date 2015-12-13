@@ -42,6 +42,9 @@
     <string name="summary_modify_cycle">Your minutes will reset on date %d of every month</string>
     <string name="dialog_title_modify_cycle">Select Start Date of Your Bill Cycle</string>
 
+    <string name="title_show_most_contacted">Show Frequent Contacts</string>
+    <string name="summary_show_most_contacted">Enable/Disable display of Frequent Contacts on Home Page</string>
+
     <string name="summary_reset_application">Delete all data and settings of this application</string>
     <string name="title_reset_application">Reset Application</string>
 
@@ -109,7 +112,7 @@
     <string name="last_call_details">Last Call Details</string>
     <string name="current_bill_cycle">Current Bill Cycle</string>
     <string name="click_item_for_more_info">Click on below items for detailed Log info</string>
-    <string name="most_talked_contacts">Most Talked Contacts</string>
+    <string name="most_talked_contacts">Frequent Contacts</string>
     <string name="more_info">More Info</string>
 
 

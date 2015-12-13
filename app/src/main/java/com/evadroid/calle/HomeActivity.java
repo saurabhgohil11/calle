@@ -559,9 +559,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void updateMostContactPersons() {
+        boolean isFrequentContactsEnable = sp.getBoolean("show_most_contacted",true);
         Date cycleDates[] = AppGlobals.getCurrentBillCycleDates();
         mTopTenContacts = AppGlobals.getDataBaseHelper(this).getTopTenSummary(cycleDates[0].getTime(), cycleDates[1].getTime());
-        if (mTopTenContacts.size() == 0) {
+        if (mTopTenContacts.size() == 0 || !isFrequentContactsEnable) {
             mostContactedLayout.setVisibility(View.GONE);
         } else {
             mostContactedLayout.setVisibility(View.VISIBLE);
@@ -596,6 +597,7 @@ public class HomeActivity extends AppCompatActivity {
         name = (TextView) parent.findViewById(R.id.caller_name);
         totalDuration = (TextView) parent.findViewById(R.id.total_minutes);
         contactImageButton = (Button) parent.findViewById(R.id.callerImage);
+        contactImageButton.setBackgroundResource(AppGlobals.bgColoredImages[AppGlobals.getRandomBackgroundIndex()]);
 
         if (details.cachedContactName == null || details.cachedContactName.isEmpty()) {
             contactImageButton.setText("?");

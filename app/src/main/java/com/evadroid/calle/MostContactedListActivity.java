@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.evadroid.calle.utils.DateTimeUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MostContactedListActivity extends AppCompatActivity {
 
@@ -35,6 +36,11 @@ public class MostContactedListActivity extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.most_contacted_list_view);
         listView.setAdapter(new MostContactedListViewAdapter(this, HomeActivity.getTopTenContacts()));
+        TextView billCycle = (TextView) findViewById(R.id.bill_cycle);
+        if (HomeActivity.getTopTenContacts() != null && HomeActivity.getTopTenContacts().size() > 0) {
+            Date[] cycleDates = HomeActivity.getTopTenContacts().get(0).cycleDates;
+            billCycle.setText(AppGlobals.getBillCycleString(cycleDates));
+        }
     }
 
     @Override
@@ -90,6 +96,9 @@ public class MostContactedListActivity extends AppCompatActivity {
             totalMins.setText(DateTimeUtils.timeToRoundedString(details.outgoingDuration + details.incomingDuration));
             outgoingMins.setText(outgoingStr + " " + DateTimeUtils.timeToRoundedString(details.outgoingDuration));
             incomingMins.setText(incomingStr + " " + DateTimeUtils.timeToRoundedString(details.incomingDuration));
+
+            int backgroundIndex = AppGlobals.getRandomBackgroundIndex();
+            contactImageButton.setBackgroundResource(AppGlobals.bgColoredImages[backgroundIndex]);
 
             return rowView;
         }

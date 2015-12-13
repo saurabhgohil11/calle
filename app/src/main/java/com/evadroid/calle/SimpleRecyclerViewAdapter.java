@@ -83,7 +83,7 @@ public class SimpleRecyclerViewAdapter extends
             }
         }
 
-        viewHolder.backgroundIndex = getRandomBackgroundIndex();
+        viewHolder.backgroundIndex = AppGlobals.getRandomBackgroundIndex();
         viewHolder.contactImageButton.setBackgroundResource(AppGlobals.bgColoredImages[viewHolder.backgroundIndex]);
 
         if (call.getPhoneNumberType() == PhoneNumberUtil.PhoneNumberType.MOBILE) {
@@ -122,10 +122,6 @@ public class SimpleRecyclerViewAdapter extends
                 showLogDetailDialog(viewHolder.data, viewHolder.backgroundIndex);
             }
         });
-    }
-
-    private int getRandomBackgroundIndex() {
-        return (int) (0 + Math.random() * AppGlobals.bgColoredImages.length);
     }
 
     @Override

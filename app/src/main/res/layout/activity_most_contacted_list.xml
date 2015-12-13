@@ -5,10 +5,36 @@
     android:layout_height="match_parent"
     tools:context="com.evadroid.calle.MostContactedListActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/top_text_margin_side"
+        android:padding="@dimen/top_text_padding"
+        android:text="@string/bill_cycle"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/log_list_subtitle_text_size" />
+
+    <TextView
+        android:id="@+id/bill_cycle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/top_text_margin_side"
+        android:padding="@dimen/top_text_padding"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/log_list_subtitle_text_size" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_below="@id/bill_cycle"
+        android:background="#c6c6c6" />
+
     <ListView
         android:id="@+id/most_contacted_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/bill_cycle"
         android:divider="@drawable/line_divider"
         android:scrollbars="vertical"
         tools:context=".HomeActivity"
