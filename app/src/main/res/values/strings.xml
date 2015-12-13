@@ -4,6 +4,13 @@
 
     <string name="action_settings">Settings</string>
     <string name="action_resync">Re-Sync Logs</string>
+    <string name="action_rate_app">Rate Us</string>
+    <string name="action_share_app">Share This App</string>
+    <string name="share_via">Share via</string>
+    <string name="share_text_msg">Save and Manage Post-paid Bills!!\n
+            Manage your STD, Local, Roaming Minutes automatically with this amazing Call Timer designed only for Indian users.\n
+            Download "Call-E Smart Call Timer" - \n
+            http://play.google.com/store/apps/details?id=com.evadroid.calle</string>
     <string name="title_activity_unknown_numbers">Categorize Unknown Numbers</string>
     <string name="action_modify_list">Modify List</string>
     <string name="action_add_a_number">Add a Number</string>
@@ -170,6 +177,11 @@
     <string name="delete_success">Log deleted successfully</string>
     <string name="delete_failed">Log deletion failed :(</string>
 
+    <!--app rater-->
+    <string name="rate">Rate</string>
+    <string name="rate_msg">If %s really helped you, please take a moment to rate it.\nThanks for your support!</string>
+    <string name="remind_me_later">Remind me\nlater</string>
+    <string name="no_thanks">No,\nThanks</string>
 
     <!--other-->
     <string name="added_toast">Added %s to </string>

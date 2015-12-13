@@ -44,6 +44,7 @@ import android.widget.Toast;
 import com.evadroid.calle.settings.NumberListActivity;
 import com.evadroid.calle.settings.SettingsActivity;
 import com.evadroid.calle.setupwizard.SetupActivity;
+import com.evadroid.calle.utils.AppRater;
 import com.evadroid.calle.utils.DateTimeUtils;
 import com.evadroid.calle.widget.SimpleDividerItemDecoration;
 
@@ -201,6 +202,8 @@ public class HomeActivity extends AppCompatActivity {
         if (!permissionGranted) {
             requestPermissions();
         }
+
+        AppRater.app_launched(this);
     }
 
     @Override
@@ -218,6 +221,16 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_resync) {
             reSyncLogs();
+            return true;
+        } else if (id == R.id.action_rate_app) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + AppRater.APP_PNAME)));
+            return true;
+        } else if (id == R.id.action_share_app) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getText(R.string.share_text_msg));
+            sendIntent.setType("text/plain");
+            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share_via)));
             return true;
         }
 
@@ -559,7 +572,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void updateMostContactPersons() {
-        boolean isFrequentContactsEnable = sp.getBoolean("show_most_contacted",true);
+        boolean isFrequentContactsEnable = sp.getBoolean("show_most_contacted", true);
         Date cycleDates[] = AppGlobals.getCurrentBillCycleDates();
         mTopTenContacts = AppGlobals.getDataBaseHelper(this).getTopTenSummary(cycleDates[0].getTime(), cycleDates[1].getTime());
         if (mTopTenContacts.size() == 0 || !isFrequentContactsEnable) {
@@ -606,11 +619,11 @@ public class HomeActivity extends AppCompatActivity {
             contactImageButton.setText(String.valueOf(details.cachedContactName.toUpperCase().charAt(0)));
             name.setText(details.cachedContactName);
         }
-        totalDuration.setText(DateTimeUtils.timeToRoundedString(details.incomingDuration+details.outgoingDuration));
+        totalDuration.setText(DateTimeUtils.timeToRoundedString(details.incomingDuration + details.outgoingDuration));
     }
 
     public void onMoreInfoMostContactedClicked(View v) {
-        startActivity(new Intent(this,MostContactedListActivity.class));
+        startActivity(new Intent(this, MostContactedListActivity.class));
     }
 
     private void showFirstTimeCUGDialog() {

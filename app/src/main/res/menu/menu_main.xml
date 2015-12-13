@@ -9,7 +9,17 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_resync"
-        android:orderInCategory="100"
+        android:orderInCategory="101"
         android:title="@string/action_resync"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_rate_app"
+        android:orderInCategory="102"
+        android:title="@string/action_rate_app"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_share_app"
+        android:orderInCategory="103"
+        android:title="@string/action_share_app"
         app:showAsAction="never" />
 </menu>
