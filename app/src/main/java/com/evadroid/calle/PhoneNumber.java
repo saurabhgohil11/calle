@@ -19,7 +19,7 @@ public class PhoneNumber {
     String phoneNumberLocation;
     String nationalNumber; //for ISD it is kept with ISD code other numbers are without country code
 
-    public PhoneNumber(Context c, DataBaseHelper dbHelper, String numberStr) {
+    public PhoneNumber(Context c, DataBaseHelper dbHelper, String numberStr) throws NumberParseException{
         this.mdbHelper = dbHelper;
         costType = CostType.UNKNOWN;
         phoneNumberType = PhoneNumberUtil.PhoneNumberType.UNKNOWN;
@@ -30,12 +30,7 @@ public class PhoneNumber {
         //AppGlobals.log(this,"-----------------PhoneNumber is:"+numberStr);
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
 
-        try {
-            this.phoneNumber = phoneUtil.parse(numberStr, AppGlobals.userCountryCode);
-        } catch (NumberParseException e) {
-            AppGlobals.log(this, "NumberParseException was thrown: " + numberStr + e.toString());
-            return;
-        }
+        this.phoneNumber = phoneUtil.parse(numberStr, AppGlobals.userCountryCode);
 
         if (phoneUtil.isValidNumber(phoneNumber)) {
             phoneNumberType = phoneUtil.getNumberType(phoneNumber);

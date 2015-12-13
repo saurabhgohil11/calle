@@ -29,6 +29,7 @@ import com.evadroid.calle.DataBaseHelper;
 import com.evadroid.calle.HomeActivity;
 import com.evadroid.calle.PhoneNumber;
 import com.evadroid.calle.R;
+import com.google.i18n.phonenumbers.NumberParseException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -230,7 +231,15 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                                             if (numbertype.contains("o"))
                                                 cd.callType = CallType.OUTGOING;
 
-                                            PhoneNumber n = new PhoneNumber(getActivity(), AppGlobals.getDataBaseHelper(), cd.phoneNumber);
+                                            PhoneNumber n = null;
+                                            try {
+                                                n = new PhoneNumber(getActivity(), AppGlobals.getDataBaseHelper(), cd.phoneNumber);
+
+                                            } catch (NumberParseException e) {
+                                                AppGlobals.log(getActivity(), "NumberParseException was thrown: " + cd.phoneNumber + e.toString());
+                                                e.printStackTrace();
+                                                return;
+                                            }
                                             cd.costType = n.getCostType();
                                             cd.nationalNumber = n.getNationalNumber();
                                             cd.phoneNumberType = n.getPhoneNumberType();

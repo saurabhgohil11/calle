@@ -17,6 +17,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.evadroid.calle.utils.DateTimeUtils;
+import com.google.i18n.phonenumbers.NumberParseException;
 
 public class CallStateReceiver extends BroadcastReceiver {
     private static final int UPDATE_LOGS_DB = 10101;
@@ -229,7 +230,14 @@ public class CallStateReceiver extends BroadcastReceiver {
             TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
             callDetails.isRoaming = manager.isNetworkRoaming();
 
-            PhoneNumber n = new PhoneNumber(mContext, dbHelper, callDetails.phoneNumber);
+            PhoneNumber n = null;
+            try {
+                n = new PhoneNumber(mContext, dbHelper, callDetails.phoneNumber);
+            } catch (NumberParseException e) {
+                AppGlobals.log(mContext, "NumberParseException was thrown: " + callDetails.phoneNumber + e.toString());
+                e.printStackTrace();
+                return null;
+            }
             callDetails.costType = n.getCostType();
             callDetails.nationalNumber = n.getNationalNumber();
             callDetails.phoneNumberType = n.getPhoneNumberType();

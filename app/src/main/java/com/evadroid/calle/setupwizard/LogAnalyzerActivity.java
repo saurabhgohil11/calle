@@ -23,6 +23,7 @@ import com.evadroid.calle.DataBaseHelper;
 import com.evadroid.calle.HomeActivity;
 import com.evadroid.calle.PhoneNumber;
 import com.evadroid.calle.R;
+import com.google.i18n.phonenumbers.NumberParseException;
 
 import java.util.ArrayList;
 
@@ -139,7 +140,14 @@ class LogsWorker extends AsyncTask<Void, Integer, Void> {
                     callDetails.callType = CallType.MISSED;
                     break;
             }
-            PhoneNumber n = new PhoneNumber(parent, dbHelper, callDetails.phoneNumber);
+            PhoneNumber n = null;
+            try {
+                n = new PhoneNumber(parent, dbHelper, callDetails.phoneNumber);
+            } catch (NumberParseException e) {
+                AppGlobals.log(parent, "NumberParseException was thrown: " + callDetails.phoneNumber + e.toString());
+                e.printStackTrace();
+                continue;
+            }
             callDetails.costType = n.getCostType();
             callDetails.nationalNumber = n.getNationalNumber();
             callDetails.phoneNumberType = n.getPhoneNumberType();

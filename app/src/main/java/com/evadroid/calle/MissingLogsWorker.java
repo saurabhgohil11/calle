@@ -6,6 +6,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.CallLog;
 import android.telephony.TelephonyManager;
+import android.widget.Toast;
+
+import com.google.i18n.phonenumbers.NumberParseException;
 
 /*class that adds missing logs if any logs are not added after the last log
   missing logs happens to be very rare.. this worker has very less work*/
@@ -26,6 +29,8 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         HomeActivity.mHandler.sendEmptyMessage(HomeActivity.DISMISS_PROGRESS_DIALOG);
+        if (mContext != null && isResyncTask)
+            Toast.makeText(mContext, R.string.logs_resynced, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -89,7 +94,14 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
                     callDetails.callType = CallType.MISSED;
                     break;
             }
-            PhoneNumber n = new PhoneNumber(mContext, dbHelper, callDetails.phoneNumber);
+            PhoneNumber n = null;
+            try {
+                n = new PhoneNumber(mContext, dbHelper, callDetails.phoneNumber);
+            } catch (NumberParseException e) {
+                AppGlobals.log(mContext, "NumberParseException was thrown: " + callDetails.phoneNumber + e.toString());
+                e.printStackTrace();
+                continue;
+            }
             callDetails.costType = n.getCostType();
             callDetails.nationalNumber = n.getNationalNumber();
             callDetails.phoneNumberType = n.getPhoneNumberType();

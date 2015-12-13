@@ -164,7 +164,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void deleteUserSpecifiedNumber(String phoneNumber) {
         db.delete(TABLE_USER_SPECIFIED_NUMBERS, KEY_PHONE_NUMBER + " = ?", new String[]{phoneNumber});
-        PhoneNumber n = new PhoneNumber(mContext, this, phoneNumber);
+        PhoneNumber n = null;
+        try {
+            n = new PhoneNumber(mContext, this, phoneNumber);
+        } catch (NumberParseException e) {
+            AppGlobals.log(mContext, "NumberParseException was thrown: " + phoneNumber + e.toString());
+            e.printStackTrace();
+            return;
+        }
         updateLogsHistory(phoneNumber, n.getCostType());
     }
 
@@ -543,7 +550,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public ArrayList<SummarizedCallDetail> getTopTenSummary(long startDate, long endDate) {
         StringBuffer query = new StringBuffer();
         query.append("SELECT " + KEY_CACHED_CONTACT_NAME + "," + KEY_NATIONAL_NUMBER + "," + KEY_PHONE_NUMBER +
-                ", sum(" + KEY_CALL_DURATION +  ") AS TOTAL_DUR" +
+                ", sum(" + KEY_CALL_DURATION + ") AS TOTAL_DUR" +
                 " FROM " + TABLE_LOGS_HISTORY + " WHERE " + KEY_DATE + " BETWEEN " + startDate + " AND " + endDate +
                 " GROUP BY " + KEY_NATIONAL_NUMBER + " HAVING TOTAL_DUR>0 ORDER BY TOTAL_DUR DESC");
 
@@ -569,14 +576,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     private int getDurationForNumber(long startDate, long endDate, String nationalNumber, CallType callType) {
         StringBuffer query = new StringBuffer();
-        query.append("SELECT sum(" + KEY_CALL_DURATION +  ")" +
+        query.append("SELECT sum(" + KEY_CALL_DURATION + ")" +
                 " FROM " + TABLE_LOGS_HISTORY + " WHERE " + KEY_DATE + " BETWEEN " + startDate +
-                        " AND " + endDate + " AND " + KEY_CALL_TYPE + "=" + callType.ordinal() +
-                        " AND " + KEY_NATIONAL_NUMBER + "=" + nationalNumber);
+                " AND " + endDate + " AND " + KEY_CALL_TYPE + "=" + callType.ordinal() +
+                " AND " + KEY_NATIONAL_NUMBER + "=" + nationalNumber);
         Cursor c = db.rawQuery(query.toString(), null);
         int duration = 0;
         if (c.moveToFirst()) {
-             duration = c.getInt(0);
+            duration = c.getInt(0);
         }
         c.close();
         return duration;
@@ -616,7 +623,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 String phoneNumber = c.getString(0);
-                PhoneNumber n = new PhoneNumber(mContext, this, phoneNumber);
+                PhoneNumber n = null;
+                try {
+                    n = new PhoneNumber(mContext, this, phoneNumber);
+                } catch (NumberParseException e) {
+                    AppGlobals.log(mContext, "NumberParseException was thrown: " + phoneNumber + e.toString());
+                    e.printStackTrace();
+                    continue;
+                }
                 updateLogsHistory(phoneNumber, n.getCostType());
             } while (c.moveToNext());
         }
