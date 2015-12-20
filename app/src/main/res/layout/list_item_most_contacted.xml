@@ -55,19 +55,17 @@
         android:textSize="@dimen/log_list_item_name_text_size" />
 
     <TextView
-        android:id="@+id/outgoing_item"
+        android:id="@+id/incoming_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/nameorNumberItem"
         android:layout_toEndOf="@+id/contactImageButton"
-        android:layout_toRightOf="@+id/contactImageButton"
-        android:text="OUTGOING" />
+        android:layout_toRightOf="@+id/contactImageButton" />
 
     <TextView
-        android:id="@+id/incoming_item"
+        android:id="@+id/outgoing_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/nameorNumberItem"
-        android:text="INCOMING" />
+        android:layout_below="@id/nameorNumberItem" />
 </RelativeLayout>

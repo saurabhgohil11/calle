@@ -581,7 +581,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         query.append("SELECT sum(" + KEY_CALL_DURATION + ")" +
                 " FROM " + TABLE_LOGS_HISTORY + " WHERE " + KEY_DATE + " BETWEEN " + startDate +
                 " AND " + endDate + " AND " + KEY_CALL_TYPE + "=" + callType.ordinal() +
-                " AND " + KEY_NATIONAL_NUMBER + "=" + nationalNumber);
+                " AND " + KEY_NATIONAL_NUMBER + "='" + nationalNumber + "'");
         Cursor c = db.rawQuery(query.toString(), null);
         int duration = 0;
         if (c.moveToFirst()) {
