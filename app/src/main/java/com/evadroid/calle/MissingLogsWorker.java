@@ -111,8 +111,10 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
             /*currently assuming the next call user recives/dials is in very short time
             like lesser time than he moves into / out from roaming area so adding missing logs accordingly
             remember this missing logs are found very rarely*/
-            TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-            callDetails.isRoaming = manager.isNetworkRoaming();
+            if (!isResyncTask) {
+                TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+                callDetails.isRoaming = manager.isNetworkRoaming();
+            }
             dbHelper.addToLogsHistory(callDetails, true);
         }
         managedCursor.close();
