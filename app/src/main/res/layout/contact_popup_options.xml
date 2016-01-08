@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/popup_background"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/call_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:drawableTop="@drawable/ic_call_black"
+        android:paddingTop="4dp"
+        android:text="@string/call_button" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:background="#aaaaaa" />
+
+    <Button
+        android:id="@+id/msg_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:drawableTop="@drawable/ic_message_black"
+        android:paddingTop="4dp"
+        android:text="@string/message_button" />
+</LinearLayout>

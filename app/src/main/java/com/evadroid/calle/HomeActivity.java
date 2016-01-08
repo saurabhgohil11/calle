@@ -44,6 +44,7 @@ import com.evadroid.calle.settings.SettingsActivity;
 import com.evadroid.calle.setupwizard.SetupActivity;
 import com.evadroid.calle.utils.AppRater;
 import com.evadroid.calle.utils.DateTimeUtils;
+import com.evadroid.calle.widget.ContactOptionsPopup;
 import com.evadroid.calle.widget.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -607,7 +608,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void setMostContactDetails(LinearLayout parent, SummarizedCallDetail details) {
+    private void setMostContactDetails(LinearLayout parent, final SummarizedCallDetail details) {
         TextView name;  //shows name or number if name is not avialable
         TextView totalDuration;
         Button contactImageButton; //shows name text
@@ -624,6 +625,12 @@ public class HomeActivity extends AppCompatActivity {
             name.setText(details.cachedContactName);
         }
         totalDuration.setText(DateTimeUtils.timeToRoundedString(details.incomingDuration + details.outgoingDuration));
+        parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContactOptionsPopup.getInstance(getBaseContext()).show(v, details.phoneNumber, false);
+            }
+        });
     }
 
     public void onMoreInfoMostContactedClicked(View v) {

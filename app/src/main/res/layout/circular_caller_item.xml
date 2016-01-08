@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:gravity="center"
-    android:layout_weight="1">
+    android:layout_weight="1"
+    android:background="?attr/selectableItemBackground">
 
     <Button
         android:id="@+id/callerImage"
@@ -14,7 +15,8 @@
         android:layout_gravity="center"
         android:textSize="@dimen/log_list_item_contact_image_text_size"
         android:textColor="@color/text_color_white"
-        android:fontFamily="sans-serif-thin"/>
+        android:fontFamily="sans-serif-thin"
+        android:clickable="false"/>
 
     <TextView
         android:id="@+id/caller_name"

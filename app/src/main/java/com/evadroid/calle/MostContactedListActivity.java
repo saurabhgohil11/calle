@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.evadroid.calle.utils.DateTimeUtils;
+import com.evadroid.calle.widget.ContactOptionsPopup;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -83,7 +84,7 @@ public class MostContactedListActivity extends AppCompatActivity {
             TextView totalMins = (TextView) rowView.findViewById(R.id.total_mins_item);
             Button contactImageButton = (Button) rowView.findViewById(R.id.contactImageButton);
 
-            SummarizedCallDetail details = data.get(position);
+            final SummarizedCallDetail details = data.get(position);
 
             if (details.cachedContactName == null || details.cachedContactName.isEmpty()) {
                 contactImageButton.setText("?");
@@ -100,6 +101,12 @@ public class MostContactedListActivity extends AppCompatActivity {
             int backgroundIndex = AppGlobals.getRandomBackgroundIndex();
             contactImageButton.setBackgroundResource(AppGlobals.bgColoredImages[backgroundIndex]);
 
+            rowView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ContactOptionsPopup.getInstance(getBaseContext()).show(v, details.phoneNumber, true);
+                }
+            });
             return rowView;
         }
 

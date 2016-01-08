@@ -5,7 +5,8 @@
     android:paddingBottom="@dimen/log_list_item_padding_top_bottom"
     android:paddingLeft="@dimen/log_list_item_padding_side"
     android:paddingRight="@dimen/log_list_item_padding_side"
-    android:paddingTop="@dimen/log_list_item_padding_top_bottom">
+    android:paddingTop="@dimen/log_list_item_padding_top_bottom"
+    android:background="?attr/selectableItemBackground">
 
     <Button
         android:id="@+id/contactImageButton"
