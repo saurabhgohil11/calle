@@ -30,8 +30,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
@@ -96,6 +94,7 @@ public class HomeActivity extends AppCompatActivity {
     private TextView simCircle;
     private TextView currentBillCycle;
 
+    /** Disable Last Call Feature as it seems not useful **
     //Last call Log card
     private LinearLayout lastCallCard;
     private TextView lastCallNumber;
@@ -104,6 +103,7 @@ public class HomeActivity extends AppCompatActivity {
 
     final Animation fadein = new AlphaAnimation(0.0f, 1.0f);
     final Animation fadeout = new AlphaAnimation(1.0f, 0.0f);
+    **/
 
     CallMinutesCardView mIncomingCard;
     CallMinutesCardView mOutgoingCard;
@@ -165,7 +165,7 @@ public class HomeActivity extends AppCompatActivity {
                             break;
                         case UPDATE_LAST_CALL:
                             AppGlobals.log(this, "in HandleMessage : msg =UPDATE_LAST_CALL");
-                            updateLastCall();
+                            //updateLastCall();
                             break;
                         case SHOW_CUG_DIALOG:
                             AppGlobals.log(this, "in HandleMessage : msg =SHOW_CUG_DIALOG");
@@ -187,12 +187,12 @@ public class HomeActivity extends AppCompatActivity {
 
             mLogsHistoryData = AppGlobals.getDataBaseHelper(this).getLogsHistory();
             initUI();
-            updateLastCall();
+            //updateLastCall();
             updateCallCards();
             updateMostContactPersons();
 
-            fadein.setDuration(900);
-            fadeout.setDuration(900);
+            //fadein.setDuration(900);
+            //fadeout.setDuration(900);
 
             if (!AppGlobals.isTablet(this)) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -328,12 +328,12 @@ public class HomeActivity extends AppCompatActivity {
         currentBillCycle = (TextView) findViewById(R.id.bill_cycle_dates);
         simOperator = (TextView) findViewById(R.id.sim_operator);
         simCircle = (TextView) findViewById(R.id.sim_circle);
-
+        /** Disable Last Call Feature as it seems not useful **
         lastCallCard = (LinearLayout) findViewById(R.id.home_last_call_card);
         lastCallNumber = (TextView) findViewById(R.id.last_number);
         lastCallType = (TextView) findViewById(R.id.last_call_type);
         lastCallDuration = (TextView) findViewById(R.id.last_duration);
-
+        **/
         mIncomingCard = (CallMinutesCardView) findViewById(R.id.home_incoming_card);
         mOutgoingCard = (CallMinutesCardView) findViewById(R.id.home_outgoing_card);
 
@@ -495,7 +495,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void updateViews() {
         updateLogHistoryList();
-        updateLastCall();
+        //updateLastCall();
         updateCallCards();
         updateUsageHistory();
         updateMostContactPersons();
@@ -531,7 +531,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-
+    /** Disable Last Call Feature as it seems not useful **
     private void updateLastCall() {
         if (lastCallCard == null) {
             AppGlobals.log(this, "returning from updateLastCall");
@@ -558,6 +558,7 @@ public class HomeActivity extends AppCompatActivity {
             lastCallCard.setVisibility(View.GONE);
         }
     }
+    **/
 
     private void updateCallCards() {
         Date cycleDates[] = AppGlobals.getCurrentBillCycleDates();

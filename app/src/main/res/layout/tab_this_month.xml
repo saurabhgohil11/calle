@@ -66,8 +66,8 @@
                     android:textColor="@android:color/black"
                     android:text="5 Oct - 4 Sep"/>
             </RelativeLayout>
-
-            <LinearLayout
+            <!-- Disable Last Call Feature as it seems not useful -->
+            <!--LinearLayout
                 android:id="@+id/home_last_call_card"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
                             android:text="5 mins 2 Secs"/>
                     </TableRow>
                 </TableLayout>
-            </LinearLayout>
+            </LinearLayout-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
