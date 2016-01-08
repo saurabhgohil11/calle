@@ -57,6 +57,11 @@
             android:defaultValue="true"
             android:title="@string/title_notification_toast"
             android:summary="@string/summary_notification_toast"/>
+        <CheckBoxPreference
+            android:key="enable_limit_cross_warning"
+            android:defaultValue="true"
+            android:title="@string/title_notification_limit_cross"
+            android:summary="@string/summary_notification_limit_cross"/>
     </PreferenceCategory>
 
     <PreferenceCategory

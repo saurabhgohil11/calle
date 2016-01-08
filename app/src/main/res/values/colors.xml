@@ -6,6 +6,7 @@
     <color name="transparent">#00000000</color>
     <color name="text_color_white">#fefefe</color>
     <color name="almost_black">#111</color>
+    <color name="green_accent">#00796B</color>
 
     <color name="app_background">#ffffff</color>
 
@@ -36,5 +37,6 @@
     <color name="color1">#ccD9F6FF</color>
     <color name="color2">#aa74c8C4</color>
     <color name="color3">#cfF5FBCC</color>
+    <color name="warning_red">#B40404</color>
 
 </resources>

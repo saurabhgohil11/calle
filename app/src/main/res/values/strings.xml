@@ -66,6 +66,9 @@
     <string name="title_notification_toast">Enable Minutes Toast</string>
     <string name="summary_notification_toast">Shows toast after calls of how many minutes are used.</string>
 
+    <string name="title_notification_limit_cross">Show Limit Cross Warning</string>
+    <string name="summary_notification_limit_cross">Shows notification after calls if warning limits are crossed for outgoing calls.</string>
+
     <string name="title_mode_of_use">Mode of Use (Min/Sec)</string>
     <string name="summary_mode_of_use">Select whether to calculate call in Minutes or in Seconds</string>
 
@@ -148,7 +151,15 @@
     <string name="seconds">Seconds</string>
     <string name="minutes">Minutes</string>
     <string name="free_mins_not_added">Free minutes are not added in Outgoing total</string>
-
+    <string name="set_warning_limits">Set Warning Limits</string>
+    <string name="modify_warning_limits">Modify Warning Limits</string>
+    <string name="std_local_hint">STD+Local Free Mins</string>
+    <string name="std_hint">STD Free Mins</string>
+    <string name="local_hint">Local Free Mins</string>
+    <string name="roaming_hint">Roaming Free Mins</string>
+    <string name="isd_hint">ISD Free Mins</string>
+    <string name="please_enter_correct_mins">Please enter valid minutes in </string>
+    <string name="warning_can_not_set_both_std_local">You can set STD+LOCAL or STD and Local Mins, but not both</string>
 
     <!--log detail dialog-->
     <string name="number_type">Phone Type : </string>
@@ -189,6 +200,7 @@
     <string name="finish">FINISH</string>
     <string name="done">DONE</string>
     <string name="ok">OK</string>
+    <string name="set">SET</string>
     <string name="cancel">CANCEL</string>
     <string name="add_now">ADD NOW</string>
     <string name="add_later">ADD LATER</string>
@@ -196,5 +208,17 @@
     <string name="permission_error">One or More Permissions are required to Call-E app</string>
     <string name="permission_notification_title">Call-E Permission is required</string>
     <string name="permission_notification_msg">Tap Here to go to Permissions</string>
+
+    <!-- Warning notifier -->
+    <string name="warning_notification_title_std_local">STD Local limit is reached</string>
+    <string name="warning_notification_title_local">Local Minutes limit is reached</string>
+    <string name="warning_notification_title_std">STD minutes limit is reached</string>
+    <string name="warning_notification_title_roaming">Roaming Minutes Limit is reached</string>
+    <string name="warning_notification_title_isd">ISD Minutes limit is reached</string>
+    <string name="warning_notification_msg_std_local">Used %1$s std &amp; local mins out of %2$s minutes</string>
+    <string name="warning_notification_msg_local">Used %1$s local minutes out of %2$s minutes</string>
+    <string name="warning_notification_msg_std">Used %1$s std minutes out of %2$s minutes</string>
+    <string name="warning_notification_msg_roaming">Used %1$s roaming minutes out of %2$s minutes</string>
+    <string name="warning_notification_msg_isd">Used %1$s isd minutes out of %2$s minutes</string>
 
 </resources>

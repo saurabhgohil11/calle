@@ -40,6 +40,7 @@ public class CallStateReceiver extends BroadcastReceiver {
     SharedPreferences.Editor ve;
     static DataBaseHelper dbHelper;
     static MissingLogsWorker missingLogsWorker;
+    static WarningCrossNotifier mWarningCrossNotifier;
 
     private static Handler mHandler = new Handler() {
         @Override
@@ -56,17 +57,13 @@ public class CallStateReceiver extends BroadcastReceiver {
                         dbHelper.addToLogsHistory(lastCallDetails, true);
                         if (AppGlobals.showLogs)
                             Log.d(AppGlobals.LOG_TAG, TAG2 + "lastCallDetail is " + lastCallDetails);
-                        if (AppGlobals.isEnableToast(mContext)) {
-                            String minStr;
-                            if (AppGlobals.isMinuteMode) {
-                                minStr = DateTimeUtils.timeToRoundedString(lastCallDetails.getDuration());
-                            } else {
-                                minStr = DateTimeUtils.timeToString(lastCallDetails.getDuration());
-                            }
-                            if (lastCallDetails.getCallType() != CallType.MISSED && lastCallDetails.duration > 0) {
-                                String toastMsg = String.format(mContext.getResources().getString(R.string.added_toast), minStr) + " " + lastCallDetails.getCostAndCallTypeString();
-                                Toast.makeText(mContext, toastMsg, Toast.LENGTH_LONG).show();
-                            }
+                        showToast(mContext, lastCallDetails);
+
+                        if (isOutgoing && AppGlobals.isEnableLimitCrossWarning(mContext)) {
+                            CostType lastCallCostType = lastCallDetails.getCostType();
+                            if (lastCallDetails.isRoaming())
+                                lastCallCostType = CostType.ROAMING;
+                            mWarningCrossNotifier.checkAndShowNotification(lastCallCostType);
                         }
                     }
                     break;
@@ -80,23 +77,33 @@ public class CallStateReceiver extends BroadcastReceiver {
                         dbHelper.addToLogsHistory(lastCallDetails2, true);
                         if (AppGlobals.showLogs)
                             Log.d(AppGlobals.LOG_TAG, TAG2 + "lastCallDetail is try 2 " + lastCallDetails2);
-                        if (AppGlobals.isEnableToast(mContext)) {
-                            String minStr;
-                            if (AppGlobals.isMinuteMode) {
-                                minStr = DateTimeUtils.timeToRoundedString(lastCallDetails2.getDuration());
-                            } else {
-                                minStr = DateTimeUtils.timeToString(lastCallDetails2.getDuration());
-                            }
-                            if (lastCallDetails2.getCallType() != CallType.MISSED && lastCallDetails2.duration > 0) {
-                                String toastMsg = String.format(mContext.getResources().getString(R.string.added_toast), minStr) + " " + lastCallDetails2.getCostAndCallTypeString();
-                                Toast.makeText(mContext, toastMsg, Toast.LENGTH_LONG).show();
-                            }
+                        showToast(mContext, lastCallDetails2);
+                        if (isOutgoing && AppGlobals.isEnableLimitCrossWarning(mContext)) {
+                            CostType lastCallCostType = lastCallDetails2.getCostType();
+                            if (lastCallDetails2.isRoaming())
+                                lastCallCostType = CostType.ROAMING;
+                            mWarningCrossNotifier.checkAndShowNotification(lastCallCostType);
                         }
                     }
                     break;
             }
         }
     };
+
+    private static void showToast(Context mContext, CallDetails lastCallDetails) {
+        if (AppGlobals.isEnableToast(mContext)) {
+            String minStr;
+            if (AppGlobals.isMinuteMode) {
+                minStr = DateTimeUtils.timeToRoundedString(lastCallDetails.getDuration());
+            } else {
+                minStr = DateTimeUtils.timeToString(lastCallDetails.getDuration());
+            }
+            if (lastCallDetails.getCallType() != CallType.MISSED && lastCallDetails.duration > 0) {
+                String toastMsg = String.format(mContext.getResources().getString(R.string.added_toast), minStr) + " " + lastCallDetails.getCostAndCallTypeString();
+                Toast.makeText(mContext, toastMsg, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
     public CallStateReceiver() {
     }
@@ -121,6 +128,8 @@ public class CallStateReceiver extends BroadcastReceiver {
         if (missingLogsWorker.getStatus() == AsyncTask.Status.FINISHED)
             missingLogsWorker = new MissingLogsWorker(context, false);
 
+        mWarningCrossNotifier = new WarningCrossNotifier(mContext);
+
         if (intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
             isOutgoing = true;
             if (missingLogsWorker.getStatus() != AsyncTask.Status.RUNNING) {
@@ -128,6 +137,20 @@ public class CallStateReceiver extends BroadcastReceiver {
             }
             if (AppGlobals.showLogs)
                 AppGlobals.log(this, "isOGtrue");
+
+            //show limit cross notification if required for dialing number type
+            String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
+            try {
+                PhoneNumber n = new PhoneNumber(mContext, AppGlobals.getDataBaseHelper(mContext), phoneNumber);
+                TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+                if (manager.isNetworkRoaming())
+                    n.costType = CostType.ROAMING;
+                mWarningCrossNotifier.checkAndShowNotification(n.getCostType());
+            } catch (NumberParseException e) {
+                AppGlobals.log(mContext, "NumberParseException was thrown: " + phoneNumber + e.toString());
+                e.printStackTrace();
+            }
+
         } else {
             curState = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
             if (curState.equals(TelephonyManager.EXTRA_STATE_RINGING)) {

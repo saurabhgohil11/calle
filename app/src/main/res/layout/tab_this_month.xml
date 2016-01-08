@@ -224,7 +224,7 @@
                     android:textColor="#777"
                     android:background="?android:attr/selectableItemBackground"
                     android:text="@string/more_info"
-                    android:drawableLeft="@drawable/ic_next_arrow"
+                    android:drawableLeft="@drawable/ic_arrow_forward"
                     android:onClick="onMoreInfoMostContactedClicked"/>
             </LinearLayout>
 

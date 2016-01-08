@@ -3,10 +3,14 @@ package com.evadroid.calle;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -47,10 +51,13 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
 
     private TextView mFreeMinsNoteAdded;
 
+    private Button mWarningLimitsButton;
+
     private Context mContext;
     private CallType mCallType;
     private Date cycleDates[];
 
+    int totalSeconds, localSeconds, stdSeconds, roamingSeconds, isdSeconds, unknownSeconds, freeSeconds;
 
     public CallMinutesCardView(Context context) {
         this(context, null);
@@ -100,6 +107,8 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
 
         mFreeMinsNoteAdded = (TextView) rootView.findViewById(R.id.free_mins_not_added_text);
 
+        mWarningLimitsButton = (Button) rootView.findViewById(R.id.warning_limits_button);
+
         mTitleLayout.setOnClickListener(this);
         mLocalLayout.setOnClickListener(this);
         mStdLayout.setOnClickListener(this);
@@ -107,6 +116,16 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
         mISDLayout.setOnClickListener(this);
         mFreeLayout.setOnClickListener(this);
         mUnknownLayout.setOnClickListener(this);
+        mWarningLimitsButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSetWarningLimitsDialog();
+            }
+        });
+    }
+
+    private void showSetWarningLimitsDialog() {
+        mContext.startActivity(new Intent(mContext, WarningLimitsActivity.class));
     }
 
     public void updateCallMinutesCard() {
@@ -116,12 +135,12 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
         }
         if (mCallType == CallType.OUTGOING) {
             mTitleLabel.setText(R.string.outgoing);
-            mTitleLabel.setTextColor(getResources().getColor(R.color.funky_green));
-            mTitleMins.setTextColor(getResources().getColor(R.color.funky_green));
+            mTitleLabel.setTextColor(ContextCompat.getColor(mContext, R.color.funky_green));
+            mTitleMins.setTextColor(ContextCompat.getColor(mContext, R.color.funky_green));
         } else {
             mTitleLabel.setText(R.string.incoming);
-            mTitleLabel.setTextColor(getResources().getColor(R.color.funky_orange));
-            mTitleMins.setTextColor(getResources().getColor(R.color.funky_orange));
+            mTitleLabel.setTextColor(ContextCompat.getColor(mContext, R.color.funky_orange));
+            mTitleMins.setTextColor(ContextCompat.getColor(mContext, R.color.funky_orange));
         }
 
         DataBaseHelper dbHelper = AppGlobals.getDataBaseHelper(getContext());
@@ -129,74 +148,68 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
             AppGlobals.log(this, "returning from updateCallMinutesCard due to null dbHelper");
             return;
         }
-        int seconds;
+
+        int tempSeconds;
 
         //total seconds
-        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, null);
-        //mTitleMins.setText(seconds + " " + minsStr);
-        setText(mTitleMins, seconds);
+        totalSeconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, null);
+        setText(mTitleMins, totalSeconds);
 
         //local Minutes
-        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL);
-        setVisibleAndSetText(mLocalLayout, mLocalMins, seconds);
+        localSeconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL);
+        setVisibleAndSetText(mLocalLayout, mLocalMins, localSeconds);
 
-        if (seconds > 0 && mCallType == CallType.OUTGOING) {
+        if (localSeconds > 0 && mCallType == CallType.OUTGOING) {
             mLocalSubMinutesLayout.setVisibility(View.VISIBLE);
         } else {
             mLocalSubMinutesLayout.setVisibility(View.GONE);
         }
 
-        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL, PhoneNumberUtil.PhoneNumberType.MOBILE);
-        //mLocalMobileMins.setText(seconds + " " + minsStr);
-        setText(mLocalMobileMins, seconds);
+        tempSeconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL, PhoneNumberUtil.PhoneNumberType.MOBILE);
+        setText(mLocalMobileMins, tempSeconds);
 
-        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL, PhoneNumberUtil.PhoneNumberType.FIXED_LINE);
-        //mLocalFixedLineMins.setText(seconds + " " + minsStr);
-        setText(mLocalFixedLineMins, seconds);
+        tempSeconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL, PhoneNumberUtil.PhoneNumberType.FIXED_LINE);
+        setText(mLocalFixedLineMins, tempSeconds);
 
-        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL, null);
-        //mLocalOtherMins.setText(seconds + " " + minsStr);
-        setText(mLocalOtherMins, seconds);
+        tempSeconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.LOCAL, null);
+        setText(mLocalOtherMins, tempSeconds);
 
         //std seconds
-        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD);
-        setVisibleAndSetText(mStdLayout, mStdMins, seconds);
+        stdSeconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD);
+        setVisibleAndSetText(mStdLayout, mStdMins, stdSeconds);
 
-        if (seconds > 0 && mCallType == CallType.OUTGOING) {
+        if (stdSeconds > 0 && mCallType == CallType.OUTGOING) {
             mSTDSubMinutesLayout.setVisibility(View.VISIBLE);
         } else {
             mSTDSubMinutesLayout.setVisibility(View.GONE);
         }
 
-        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD, PhoneNumberUtil.PhoneNumberType.MOBILE);
-        //mSTDMobileMins.setText(seconds + " " + minsStr);
-        setText(mSTDMobileMins, seconds);
+        tempSeconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD, PhoneNumberUtil.PhoneNumberType.MOBILE);
+        setText(mSTDMobileMins, tempSeconds);
 
-        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD, PhoneNumberUtil.PhoneNumberType.FIXED_LINE);
-        //mSTDFixedLineMins.setText(seconds + " " + minsStr);
-        setText(mSTDFixedLineMins, seconds);
+        tempSeconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD, PhoneNumberUtil.PhoneNumberType.FIXED_LINE);
+        setText(mSTDFixedLineMins, tempSeconds);
 
-        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD, null);
-        //mSTDOtherMins.setText(seconds + " " + minsStr);
-        setText(mSTDOtherMins, seconds);
+        tempSeconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.STD, null);
+        setText(mSTDOtherMins, tempSeconds);
 
         //isd seconds
-        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.ISD);
-        setVisibleAndSetText(mISDLayout, mISDMins, seconds);
+        isdSeconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.ISD);
+        setVisibleAndSetText(mISDLayout, mISDMins, isdSeconds);
 
         //Unknown seconds
-        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.UNKNOWN);
-        setVisibleAndSetText(mUnknownLayout, mUnknownMins, seconds);
+        unknownSeconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.UNKNOWN);
+        setVisibleAndSetText(mUnknownLayout, mUnknownMins, unknownSeconds);
 
         //Roaming seconds
-        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.ROAMING);
-        setVisibleAndSetText(mRoamingLayout, mRoamingMins, seconds);
+        roamingSeconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.ROAMING);
+        setVisibleAndSetText(mRoamingLayout, mRoamingMins, roamingSeconds);
 
         //free seconds
-        seconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.FREE);
-        setVisibleAndSetText(mFreeLayout, mFreeMins, seconds);
+        freeSeconds = dbHelper.getTotalSeconds(cycleDates[0].getTime(), cycleDates[1].getTime(), mCallType, CostType.FREE);
+        setVisibleAndSetText(mFreeLayout, mFreeMins, freeSeconds);
 
-        if (seconds > 0 && mCallType == CallType.OUTGOING) {
+        if (freeSeconds > 0 && mCallType == CallType.OUTGOING) {
             mFreeMinsNoteAdded.setVisibility(View.VISIBLE);
             mFreeMins.setTextColor(Color.GRAY);
         } else {
@@ -222,6 +235,50 @@ public class CallMinutesCardView extends LinearLayout implements View.OnClickLis
             minuteView.setText(DateTimeUtils.timeToRoundedString(seconds));
         else
             minuteView.setText(DateTimeUtils.timeToString(seconds));
+
+    }
+
+    public void showSetWarningLimitButton(boolean show) {
+        if (show) {
+            mWarningLimitsButton.setVisibility(VISIBLE);
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+            boolean isSetLimit = sp.contains(AppGlobals.PKEY_STD_LIMIT) ||
+                    sp.contains(AppGlobals.PKEY_LOCAL_LIMIT) ||
+                    sp.contains(AppGlobals.PKEY_STD_LOCAL_LIMIT) ||
+                    sp.contains(AppGlobals.PKEY_ROAMING_LIMIT) ||
+                    sp.contains(AppGlobals.PKEY_ISD_LIMIT);
+            if (isSetLimit)
+                mWarningLimitsButton.setText(mContext.getResources().getString(R.string.modify_warning_limits));
+            else
+                mWarningLimitsButton.setText(mContext.getResources().getString(R.string.set_warning_limits));
+        } else {
+            mWarningLimitsButton.setVisibility(GONE);
+        }
+    }
+
+    public void checkForLimitCross() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+        int allowedStd = sp.getInt(AppGlobals.PKEY_STD_LIMIT, -1) * 60;
+        int allowedLocal = sp.getInt(AppGlobals.PKEY_LOCAL_LIMIT, -1) * 60;
+        int allowedLocalStd = sp.getInt(AppGlobals.PKEY_STD_LOCAL_LIMIT, -1) * 60;
+        int allowedRoaming = sp.getInt(AppGlobals.PKEY_ROAMING_LIMIT, -1) * 60;
+        int allowedIsd = sp.getInt(AppGlobals.PKEY_ROAMING_LIMIT, -1) * 60;
+
+        boolean localCrossed = WarningCrossNotifier.compareSeconds(allowedLocal, localSeconds) ||
+                WarningCrossNotifier.compareSeconds(allowedLocalStd, localSeconds + stdSeconds);
+        setWarningColor(mLocalMins, localCrossed);
+        boolean stdCrossed = WarningCrossNotifier.compareSeconds(allowedStd, stdSeconds) ||
+                WarningCrossNotifier.compareSeconds(allowedLocalStd, localSeconds + stdSeconds);
+        setWarningColor(mStdMins, stdCrossed);
+        setWarningColor(mRoamingMins, WarningCrossNotifier.compareSeconds(allowedRoaming, roamingSeconds));
+        setWarningColor(mISDMins, WarningCrossNotifier.compareSeconds(allowedIsd, isdSeconds));
+    }
+
+    private void setWarningColor(TextView minuteView, boolean isLimitCrossed) {
+        if (isLimitCrossed)
+            minuteView.setTextColor(ContextCompat.getColor(mContext, R.color.warning_red));
+        else
+            minuteView.setTextColor(ContextCompat.getColor(mContext, android.R.color.primary_text_light));
     }
 
     public void onClick(View v) {

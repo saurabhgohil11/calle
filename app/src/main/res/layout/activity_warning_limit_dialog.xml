@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="16dp"
+    android:layout_marginLeft="24dp"
+    android:layout_marginRight="24dp"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <EditText
+            android:id="@+id/std_local_limit_edit_text"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/std_local_hint"
+            android:inputType="number"
+            android:maxLength="10"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <EditText
+            android:id="@+id/std_limit_edit_text"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/std_hint"
+            android:inputType="number"
+            android:maxLength="10"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <EditText
+            android:id="@+id/local_limit_edit_text"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/local_hint"
+            android:inputType="number"
+            android:maxLength="10"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <EditText
+            android:id="@+id/roaming_limit_edit_text"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/roaming_hint"
+            android:inputType="number"
+            android:maxLength="10"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <EditText
+            android:id="@+id/isd_limit_edit_text"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/isd_hint"
+            android:inputType="number"
+            android:maxLength="10"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/set_button"
+            style="@style/MaterialDialogButton"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:onClick="onSetClick"
+            android:text="@string/set" />
+
+        <Button
+            android:id="@+id/cancel_button"
+            style="@style/MaterialDialogButton"
+            android:layout_toLeftOf="@+id/set_button"
+            android:layout_toStartOf="@+id/set_button"
+            android:onClick="onCancelClick"
+
+            android:text="@string/cancel" />
+    </RelativeLayout>
+
+</LinearLayout>

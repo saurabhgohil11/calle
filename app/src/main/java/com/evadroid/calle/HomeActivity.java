@@ -562,9 +562,12 @@ public class HomeActivity extends AppCompatActivity {
     private void updateCallCards() {
         Date cycleDates[] = AppGlobals.getCurrentBillCycleDates();
         mIncomingCard.setCycleAndType(cycleDates, CallType.INCOMING);
-        mOutgoingCard.setCycleAndType(cycleDates, CallType.OUTGOING);
         mIncomingCard.updateCallMinutesCard();
+
+        mOutgoingCard.setCycleAndType(cycleDates, CallType.OUTGOING);
         mOutgoingCard.updateCallMinutesCard();
+        mOutgoingCard.showSetWarningLimitButton(true);
+        mOutgoingCard.checkForLimitCross();
     }
 
     public static ArrayList<SummarizedCallDetail> getTopTenContacts() {

@@ -275,6 +275,19 @@
             android:text="@string/free_mins_not_added"
             android:visibility="visible"/>
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#c6c6c6" />
+    <Button
+        android:id="@+id/warning_limits_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:textColor="#777"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/set_warning_limits"
+        android:drawableLeft="@drawable/ic_arrow_forward"
+        android:visibility="gone"/>
 
 </LinearLayout>

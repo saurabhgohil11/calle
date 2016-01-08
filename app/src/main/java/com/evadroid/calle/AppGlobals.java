@@ -48,6 +48,11 @@ public class AppGlobals {
     public static final String PKEY_CUG_DIALOG_SHOWN = "cug_dialog_shown";
     public static final String PKEY_COUNTRY_CODE_NUMBER = "country_code_number";
     public static final String PKEY_COUNTRY_CODE = "country_code";
+    public static final String PKEY_STD_LOCAL_LIMIT = "std_local_limit";
+    public static final String PKEY_STD_LIMIT = "std_limit";
+    public static final String PKEY_LOCAL_LIMIT = "local_limit";
+    public static final String PKEY_ROAMING_LIMIT = "roaming_limit";
+    public static final String PKEY_ISD_LIMIT = "isd_limit";
     public static final String MODE_MINUTES = "5000";
     public static final String MODE_SECONDS = "5001";
 
@@ -345,6 +350,18 @@ public class AppGlobals {
         }
         if (mContext != null) {
             return PreferenceManager.getDefaultSharedPreferences(mContext).getBoolean("enable_mins_toast", false);
+        } else {
+            Log.d(LOG_TAG, "AppGlobals : mContext null in isEnableToast");
+            return false;
+        }
+    }
+
+    public static boolean isEnableLimitCrossWarning(Context c) {
+        if (mContext == null) {
+            mContext = c;
+        }
+        if (mContext != null) {
+            return PreferenceManager.getDefaultSharedPreferences(mContext).getBoolean("enable_limit_cross_warning", false);
         } else {
             Log.d(LOG_TAG, "AppGlobals : mContext null in isEnableToast");
             return false;

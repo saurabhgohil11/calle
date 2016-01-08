@@ -93,6 +93,10 @@
         <activity
             android:name=".MostContactedListActivity"
             android:label="@string/most_talked_contacts"></activity>
+        <activity
+            android:name=".WarningLimitsActivity"
+            android:theme="@style/NoTitleDialog"
+            android:label="@string/set_warning_limits"></activity>
     </application>
 
 </manifest>
