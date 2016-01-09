@@ -139,18 +139,19 @@ public class CallStateReceiver extends BroadcastReceiver {
                 AppGlobals.log(this, "isOGtrue");
 
             //show limit cross notification if required for dialing number type
-            String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
-            try {
-                PhoneNumber n = new PhoneNumber(mContext, AppGlobals.getDataBaseHelper(mContext), phoneNumber);
-                TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-                if (manager.isNetworkRoaming())
-                    n.costType = CostType.ROAMING;
-                mWarningCrossNotifier.checkAndShowNotification(n.getCostType());
-            } catch (NumberParseException e) {
-                AppGlobals.log(mContext, "NumberParseException was thrown: " + phoneNumber + e.toString());
-                e.printStackTrace();
+            if (AppGlobals.isEnableLimitCrossWarning(mContext)) {
+                String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
+                try {
+                    PhoneNumber n = new PhoneNumber(mContext, AppGlobals.getDataBaseHelper(mContext), phoneNumber);
+                    TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+                    if (manager.isNetworkRoaming())
+                        n.costType = CostType.ROAMING;
+                    mWarningCrossNotifier.checkAndShowNotification(n.getCostType());
+                } catch (NumberParseException e) {
+                    AppGlobals.log(mContext, "NumberParseException was thrown: " + phoneNumber + e.toString());
+                    e.printStackTrace();
+                }
             }
-
         } else {
             curState = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
             if (curState.equals(TelephonyManager.EXTRA_STATE_RINGING)) {

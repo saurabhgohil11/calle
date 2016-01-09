@@ -363,7 +363,7 @@ public class AppGlobals {
         if (mContext != null) {
             return PreferenceManager.getDefaultSharedPreferences(mContext).getBoolean("enable_limit_cross_warning", false);
         } else {
-            Log.d(LOG_TAG, "AppGlobals : mContext null in isEnableToast");
+            Log.d(LOG_TAG, "AppGlobals : mContext null in isEnableLimitCrossWarning");
             return false;
         }
     }
