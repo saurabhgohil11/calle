@@ -166,6 +166,8 @@ public class CallDetails implements Parcelable {
     }
 
     public void setDuration(int duration) {
+        if (duration < 0)
+            duration = 0;
         this.duration = duration;
     }
 

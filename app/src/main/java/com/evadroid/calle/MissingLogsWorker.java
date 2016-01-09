@@ -67,32 +67,32 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
 
         while (managedCursor.moveToNext()) {
             int duration = managedCursor.getInt(durationid);
-            /*if (duration <= 0) {
-                Log.e(AppGlobals.LOG_TAG, "duration is null don't add to log");
+            /*if (duration < 0) {
+                Log.e(AppGlobals.LOG_TAG, "MissingLogsWorker : duration is null don't add to log");
                 continue;
             }*/
-            callDetails.duration = duration;
-            callDetails.cachedContactName = managedCursor.getString(cachedNameid);
-            callDetails.phoneNumber = managedCursor.getString(numberid);
-            callDetails.date = managedCursor.getLong(date);
+            callDetails.setDuration(duration);
+            callDetails.setCachedContactName(managedCursor.getString(cachedNameid));
+            callDetails.setPhoneNumber(managedCursor.getString(numberid));
+            callDetails.setDate(managedCursor.getLong(date));
 
             String callType = managedCursor.getString(typeid);
             int dircode = Integer.parseInt(callType);
             switch (dircode) {
                 case CallLog.Calls.OUTGOING_TYPE:
-                    callDetails.callType = CallType.OUTGOING;
+                    callDetails.setCallType(CallType.OUTGOING);
                     break;
 
                 case CallLog.Calls.INCOMING_TYPE:
-                    callDetails.callType = CallType.INCOMING;
+                    callDetails.setCallType(CallType.INCOMING);
                     break;
 
                 case CallLog.Calls.MISSED_TYPE:
-                    callDetails.callType = CallType.MISSED;
+                    callDetails.setCallType(CallType.MISSED);
                     break;
 
                 default:  //calltype5 in samsung when reject incoming call
-                    callDetails.callType = CallType.MISSED;
+                    callDetails.setCallType(CallType.MISSED);
                     break;
             }
             PhoneNumber n = null;
@@ -103,17 +103,17 @@ public class MissingLogsWorker extends AsyncTask<Void, Integer, Void> {
                 e.printStackTrace();
                 continue;
             }
-            callDetails.costType = n.getCostType();
-            callDetails.nationalNumber = n.getNationalNumber();
-            callDetails.phoneNumberType = n.getPhoneNumberType();
-            callDetails.numberLocation = n.getPhoneNumberLocation();
-            callDetails.isHidden = false;
+            callDetails.setCostType(n.getCostType());
+            callDetails.setNationalNumber(n.getNationalNumber());
+            callDetails.setPhoneNumberType(n.getPhoneNumberType());
+            callDetails.setNumberLocation(n.getPhoneNumberLocation());
+            callDetails.setHidden(false);
             /*currently assuming the next call user recives/dials is in very short time
             like lesser time than he moves into / out from roaming area so adding missing logs accordingly
             remember this missing logs are found very rarely*/
             if (!isResyncTask) {
                 TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-                callDetails.isRoaming = manager.isNetworkRoaming();
+                callDetails.setRoaming(manager.isNetworkRoaming());
             }
             dbHelper.addToLogsHistory(callDetails, true);
         }

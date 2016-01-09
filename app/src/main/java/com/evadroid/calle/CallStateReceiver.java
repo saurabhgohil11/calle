@@ -218,15 +218,14 @@ public class CallStateReceiver extends BroadcastReceiver {
         if (managedCursor.moveToFirst()) {
             //do {
             int duration = managedCursor.getInt(durationid);
-            //int duration = Integer.parseInt(callDuration);
-                /*if (duration <= 0) {  // to avoid unchargable numbers
-                    Log.e(AppGlobals.LOG_TAG, TAG2 + "duration is null");
-                    return null;
-                }*/
-            callDetails.duration = duration;
-            callDetails.cachedContactName = managedCursor.getString(cachedNameid);
-            callDetails.phoneNumber = managedCursor.getString(numberid);
-            callDetails.date = managedCursor.getLong(date);
+            /*if (duration < 0) {
+                Log.e(AppGlobals.LOG_TAG, TAG2 + "duration is null");
+                return null;
+            }*/
+            callDetails.setDuration(duration);
+            callDetails.setCachedContactName(managedCursor.getString(cachedNameid));
+            callDetails.setPhoneNumber(managedCursor.getString(numberid));
+            callDetails.setDate(managedCursor.getLong(date));
 
             String callType = managedCursor.getString(typeid);
             int dircode = Integer.parseInt(callType);
@@ -234,24 +233,24 @@ public class CallStateReceiver extends BroadcastReceiver {
                 AppGlobals.log(AppGlobals.LOG_TAG, TAG2 + "retrieveCallSummary(): dircode" + dircode);
             switch (dircode) {
                 case CallLog.Calls.OUTGOING_TYPE:
-                    callDetails.callType = CallType.OUTGOING;
+                    callDetails.setCallType(CallType.OUTGOING);
                     break;
 
                 case CallLog.Calls.INCOMING_TYPE:
-                    callDetails.callType = CallType.INCOMING;
+                    callDetails.setCallType(CallType.INCOMING);
                     break;
 
                 case CallLog.Calls.MISSED_TYPE:
-                    callDetails.callType = CallType.MISSED;
+                    callDetails.setCallType(CallType.MISSED);
                     break;
 
                 default:  //calltype5 in samsung when reject incoming call
-                    callDetails.callType = CallType.MISSED;
+                    callDetails.setCallType(CallType.MISSED);
                     break;
             }
 
             TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-            callDetails.isRoaming = manager.isNetworkRoaming();
+            callDetails.setRoaming(manager.isNetworkRoaming());
 
             PhoneNumber n = null;
             try {
@@ -261,11 +260,11 @@ public class CallStateReceiver extends BroadcastReceiver {
                 e.printStackTrace();
                 return null;
             }
-            callDetails.costType = n.getCostType();
-            callDetails.nationalNumber = n.getNationalNumber();
-            callDetails.phoneNumberType = n.getPhoneNumberType();
-            callDetails.numberLocation = n.getPhoneNumberLocation();
-            callDetails.isHidden = false;
+            callDetails.setCostType(n.getCostType());
+            callDetails.setNationalNumber(n.getNationalNumber());
+            callDetails.setPhoneNumberType(n.getPhoneNumberType());
+            callDetails.setNumberLocation(n.getPhoneNumberLocation());
+            callDetails.setHidden(false);
             //callCount --;
             //managedCursor.moveToNext();
             //} while (callCount>0);
