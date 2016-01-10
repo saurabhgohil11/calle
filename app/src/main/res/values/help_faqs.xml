@@ -3,6 +3,7 @@
     <string-array name="help_questions">
         <item>What is a Free Number?</item>
         <item>What is purpose of STD and Local Numbers?</item>
+        <item>What is Warning Limit?</item>
         <item>What is Mode of Calculation?</item>
         <item>How to Delete a Log Entry?</item>
         <item>What does Re-Sync Logs option do?</item>
@@ -15,11 +16,12 @@
     <string-array name="help_answers">
         <item>A Free Number is not chargeable by your operator. i.e. if you have activated a number to whom you can call for free should be added in to free numbers. One more example is Closed User Group (CUG). Customer Care Numbers are also needs to be added in Free Numbers.\nOne more thing Free Minutes are not summed up in total Outgoing Minutes.</item>
         <item>If app wrongly detects a number as Local or STD you can manually add these numbers to the right place with one of these method.\nTo add a number in Local Category:\nMethod 1: Open Settings -> Local numbers -> Add a Number\nMethod 2: Open particular Log Detail -> Option Menu -> Add to Local Numbers</item>
+        <item>If you set Warning limits, Whenever you make a call and if limit is exceeded for current bill cycle, a notification is shown and in app it will be shown in red color. You can disable notification from app settings.</item>
         <item>Mode of Calculation is used to calculate the sum of the Call minutes.\nMinute Mode: Here if a call duration is 1 Min 34 Sec, it is rounded off to 2 Min When summing up total minutes. Like mostly post-paid operators charges on per minute basis.\nSeconds Mode: Here total minutes are summed with actual seconds. Like some pre-paid operator charges on per second basis.</item>
         <item>Click on a Call Log. Go to Option menu. Select Delete.\nThis will remove it from log also the minutes used by this log entry is also not summed up in total minutes.</item>
         <item>It re-inserts call logs previously deleted. This app automatically adds all call logs without running any background RAM eating process. But if at any change you think any log is missing or you have accidentally deleted a log, this feature helps to re-sync call logs.</item>
         <item>Go to Settings -> Reset Application -> click OK.\nThis will delete all your log entries, preferences and resets the app back to beginning like you have freshly installed it.</item>
-        <item>Download and install trueCaller. Keep auto search on in trueCaller settings.\nOpen any call log from Call-E app -> Option Menu -> Copy Number. True Caller will find caller name and will show popup automatically.</item>
+        <item>Download and install trueCaller. Keep auto search on in trueCaller settings.\nOpen any call log from CallE app -> Option Menu -> Copy Number. True Caller will find caller name and will show popup automatically.</item>
         <item>No. We don’t collect any of your personal information. This is the safest Call Logger and Timer app that you can trust.</item>
         <item>It is pretty much accurate than any other app in the market. As recently interstate mobile Number portability has started so for those type of numbers it may be wrongly detected. But you can always fix this by moving a number to correct category as suggested in FAQ no. 2.</item>
     </string-array>

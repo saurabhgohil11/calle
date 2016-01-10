@@ -38,7 +38,7 @@ public class AppGlobals {
 
     public static final int MY_PERMISSIONS_REQUEST = 51;
 
-    public static final String LOG_TAG = "Call-E";
+    public static final String LOG_TAG = "CallE";
 
     public static final String PKEY_BILL_CYCLE = "bill_cycle";
     public static final String PKEY_USER_CIRCLE = "user_circle";

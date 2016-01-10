@@ -11,7 +11,7 @@ import android.support.v7.app.AlertDialog;
 import com.evadroid.calle.R;
 
 public class AppRater {
-    private final static String APP_TITLE = "Call-E";
+    private final static String APP_TITLE = "CallE";
     public final static String APP_PNAME = "com.evadroid.calle";
 
     private final static int DAYS_UNTIL_PROMPT = 3;//Min number of days
@@ -64,7 +64,7 @@ public class AppRater {
             }
         });
 
-        dialog.setButton(AlertDialog.BUTTON_NEUTRAL, noThanks, new DialogInterface.OnClickListener() {
+        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, noThanks, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if (editor != null) {
                     editor.putBoolean("dontshowagain", true);
@@ -74,7 +74,7 @@ public class AppRater {
             }
         });
 
-        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, remindMeLater, new DialogInterface.OnClickListener() {
+        dialog.setButton(AlertDialog.BUTTON_NEUTRAL, remindMeLater, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if (editor != null) {
                     editor.putLong("launch_count", 2);

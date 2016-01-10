@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Call-E</string>
+    <string name="app_name">CallE</string>
 
     <string name="action_settings">Settings</string>
     <string name="action_resync">Re-Sync Logs</string>
     <string name="action_rate_app">Rate Us</string>
     <string name="action_share_app">Share This App</string>
     <string name="share_via">Share via</string>
-    <string name="share_text_msg">Save and Manage Post-paid Bills!!\n
-            Manage your STD, Local, Roaming Minutes automatically with this amazing Call Timer designed only for Indian users.\n
-            Download "Call-E Smart Call Timer" - \n
+    <string name="share_text_msg">Save Your Phone Bills!!\n
+            Manage STD, Local, Roaming Minutes automatically with this amazing Call Timer designed only for Indian users.\n
+            Download "CallE Indian Call Timer" - \n
             http://play.google.com/store/apps/details?id=com.evadroid.calle</string>
     <string name="title_activity_unknown_numbers">Categorize Unknown Numbers</string>
     <string name="action_modify_list">Modify List</string>
@@ -38,7 +38,7 @@
     <string name="mode_of_calculation_msg">Select how your operator costs you</string>
     <string name="accept_tnc"><div>I Accept <a href="com.evadroid.calle.terms://">Terms &amp; Conditions</a></div></string>
     <string name="terms_and_conditions">Terms &amp; Conditions</string>
-    <string name="tnc_details">By downloading or using the app, these terms will automatically apply to you – you should make sure therefore that you read them carefully before using the app. We are offering you this app to use for your own personal use without cost, but you should be aware that you cannot send it on to anyone else, and you’re not allowed to copy, or modify the app, any part of the app, or our trademarks in any way. You’re not allowed to attempt to extract the source code of the app, and you also should not try to translate the app into other languages, or make derivative versions. The app itself, and all the trade marks, copyright, database rights and other intellectual property rights related to it, still belong to 3vaDroidInc.\n\nCall-E is committed to ensuring that the app is as useful and efficient as possible. For that reason, we reserve the right to make changes to the app or to charge for its services, at any time and for any reason. We will never charge you for the app or its services without making it very clear to you exactly what you’re paying for.\n\nCall-E cannot take responsibility for the app not working at full functionality such as wrong minute counting or, if you have modified the app data or the system Call Logs or You have turned off the phone immediately after call or other malfunction happens in OS.  Call-E does not anonymously takes or sends personal data to anywhere. Call-E just read call Logs to get minutes information and stores it in its personal local database. If your Call Log details are misused by some hacker, or third party Call-E does not take any responsibilities for that.\n\nAt some point we may wish to update the app. The app is currently available on Android and you’ll need to download the updates if you want to keep using the app. Call-E does not promise that it will always update the app so that it is relevant to you and/or works with the Android version that you have installed on your device. However, you promise to always accept updates to the application when offered to you, We may also wish to stop providing the app, and may terminate use of it at any time without giving notice of termination to you. Unless we tell you otherwise, upon any termination, (a) the rights and licenses granted to you in these terms will end; (b) you must stop using the app, and (if needed) delete it from your device.</string>
+    <string name="tnc_details">By downloading or using the app, these terms will automatically apply to you – you should make sure therefore that you read them carefully before using the app. We are offering you this app to use for your own personal use without cost, but you should be aware that you cannot send it on to anyone else, and you’re not allowed to copy, or modify the app, any part of the app, or our trademarks in any way. You’re not allowed to attempt to extract the source code of the app, and you also should not try to translate the app into other languages, or make derivative versions. The app itself, and all the trade marks, copyright, database rights and other intellectual property rights related to it, still belong to 3vaDroidInc.\n\nCallE is committed to ensuring that the app is as useful and efficient as possible. For that reason, we reserve the right to make changes to the app or to charge for its services, at any time and for any reason. We will never charge you for the app or its services without making it very clear to you exactly what you’re paying for.\n\nCallE cannot take responsibility for the app not working at full functionality such as wrong minute counting or, if you have modified the app data or the system Call Logs or You have turned off the phone immediately after call or other malfunction happens in OS.  CallE does not anonymously takes or sends personal data to anywhere. CallE just read call Logs to get minutes information and stores it in its personal local database. If your Call Log details are misused by some hacker, or third party CallE does not take any responsibilities for that.\n\nAt some point we may wish to update the app. The app is currently available on Android and you’ll need to download the updates if you want to keep using the app. CallE does not promise that it will always update the app so that it is relevant to you and/or works with the Android version that you have installed on your device. However, you promise to always accept updates to the application when offered to you, We may also wish to stop providing the app, and may terminate use of it at any time without giving notice of termination to you. Unless we tell you otherwise, upon any termination, (a) the rights and licenses granted to you in these terms will end; (b) you must stop using the app, and (if needed) delete it from your device.</string>
     <string name="please_accept_tnc">Please read &amp; accept Terms and Conditions</string>
     <string name="minutes_info">Minutes (e.g. 50p/1min)</string>
     <string name="seconds_info">Seconds (e.g. 1p/1sec)</string>
@@ -67,7 +67,7 @@
     <string name="summary_notification_toast">Shows toast after calls of how many minutes are used.</string>
 
     <string name="title_notification_limit_cross">Show Limit Cross Warning</string>
-    <string name="summary_notification_limit_cross">Shows notification after calls if warning limits are crossed for outgoing calls.</string>
+    <string name="summary_notification_limit_cross">Shows notification if warning limits are crossed for outgoing calls.</string>
 
     <string name="title_mode_of_use">Mode of Use (Min/Sec)</string>
     <string name="summary_mode_of_use">Select whether to calculate call in Minutes or in Seconds</string>
@@ -205,8 +205,8 @@
     <string name="add_now">ADD NOW</string>
     <string name="add_later">ADD LATER</string>
     <string name="quetion_mark"><div><a href=""> (?) </a></div></string>
-    <string name="permission_error">One or More Permissions are required to Call-E app</string>
-    <string name="permission_notification_title">Call-E Permission is required</string>
+    <string name="permission_error">One or More Permissions are required to CallE app</string>
+    <string name="permission_notification_title">CallE Permission is required</string>
     <string name="permission_notification_msg">Tap Here to go to Permissions</string>
 
     <!-- Warning notifier -->

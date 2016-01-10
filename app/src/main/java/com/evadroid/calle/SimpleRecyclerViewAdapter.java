@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -417,6 +418,7 @@ public class SimpleRecyclerViewAdapter extends
                         }
                     }
                 });
+                popup.setGravity(Gravity.RIGHT);
                 popup.show();
             }
         });
