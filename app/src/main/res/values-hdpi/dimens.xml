@@ -12,6 +12,7 @@
     <dimen name="scroll_view_padding">12dp</dimen>
     <dimen name="log_list_subtitle_text_size">18dp</dimen>
     <dimen name="most_contacted_max_width">85dp</dimen>
+    <dimen name="warning_limit_input_text_bw_margin">7dp</dimen>
 
     <!-- Call info card -->
     <dimen name="call_info_card_small_text_size">14dp</dimen>
@@ -19,4 +20,5 @@
     <dimen name="setup_screen_between_margin">18dp</dimen>
     <dimen name="sim_circle_max_width">150dp</dimen>
     <dimen name="log_item_name_max_width">170dp</dimen>
+
 </resources>

@@ -10,7 +10,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="@dimen/warning_limit_input_text_bw_margin">
 
         <EditText
             android:id="@+id/std_local_limit_edit_text"
@@ -25,7 +25,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="@dimen/warning_limit_input_text_bw_margin">
 
         <EditText
             android:id="@+id/std_limit_edit_text"
@@ -40,7 +40,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="@dimen/warning_limit_input_text_bw_margin">
 
         <EditText
             android:id="@+id/local_limit_edit_text"
@@ -55,7 +55,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="@dimen/warning_limit_input_text_bw_margin">
 
         <EditText
             android:id="@+id/roaming_limit_edit_text"
@@ -70,7 +70,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="@dimen/warning_limit_input_text_bw_margin">
 
         <EditText
             android:id="@+id/isd_limit_edit_text"
@@ -85,7 +85,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="@dimen/warning_limit_input_text_bw_margin">
 
         <Button
             android:id="@+id/set_button"
