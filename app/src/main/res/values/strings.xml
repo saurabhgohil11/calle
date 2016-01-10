@@ -59,8 +59,8 @@
     <string name="summary_help">FAQs and help to use the app</string>
 
     <string name="title_about">About</string>
-    <string name="summary_about">About App version 1.5</string>
-    <string name="about_text_1">Advance Call Timer and Logger\nVersion 1.5\nApp Developed By 3vaDroidInc\nCopyright 2014-2015.</string>
+    <string name="summary_about">About App version 1.6</string>
+    <string name="about_text_1">Advance Call Timer and Logger\nVersion 1.6\nApp Developed By 3vaDroidInc\nCopyright 2014-2016.</string>
     <string name="about_text_credits">Other Credits\n<div>Some of In App Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a>, <a href="http://www.flaticon.com/authors/appzgear" title="Appzgear">Appzgear</a>, <a href="http://www.flaticon.com/authors/linh-pham" title="Linh Pham">Linh Pham</a>, <a href="http://www.flaticon.com/authors/zurb" title="Zurb">Zurb</a>, <a href="http://www.flaticon.com/authors/sergiu-bagrin" title="Sergiu Bagrin">Sergiu Bagrin</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div></string>
 
     <string name="title_notification_toast">Enable Minutes Toast</string>
