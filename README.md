@@ -1,5 +1,5 @@
 # Call-E Indian Call Timer
-A Light weight Android call timer and logger Application to manage your Local, STD, Roaming, ISD and Free call minutes automatically. 
+A Light weight yet Powerful Android call timer and logger Application to manage your Local, STD, Roaming, ISD and Free call minutes automatically. 
 Designed & developed for Indian users.
 
 Features:
