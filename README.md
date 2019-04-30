@@ -2,6 +2,8 @@
 A Light weight yet Powerful Android call timer and logger Application to manage your Local, STD, Roaming, ISD and Free call minutes automatically. 
 Designed & developed for Indian users.
 
+link to apk: https://apk.support/app/com.evadroid.calle
+
 Features:
 
 •	No Internet Connection is required
