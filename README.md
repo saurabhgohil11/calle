@@ -20,4 +20,4 @@ Features:
 
 •	User can modify call type as per required and can add manual CUG/free numbers for automatic detection
 
-![alt text](https://image.winudf.com/v2/image/Y29tLmV2YWRyb2lkLmNhbGxlX3NjcmVlbnNob3RzXzBfYmE1OGFlMGY/screen-0.jpg)
+![alt text](https://image.winudf.com/v2/image/Y29tLmV2YWRyb2lkLmNhbGxlX3NjcmVlbnNob3RzXzBfYmE1OGFlMGY/screen-0.jpg?h=800&fakeurl=1)![alt text](https://image.winudf.com/v2/image/Y29tLmV2YWRyb2lkLmNhbGxlX3NjcmVlbnNob3RzXzFfM2M2ZjMxZGY/screen-1.jpg?h=800&fakeurl=1)
